@@ -12,8 +12,10 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const googleStrategy = require("passport-google-oauth20").Strategy;
 const facebookStrategy = require("passport-facebook").Strategy;
+const localStrategy = require("passport-local").Strategy;
 const keys = require("../config/keys");
 const Customer = mongoose.model("customers");
+const User = mongoose.model("users");
 
 passport.use(
   new googleStrategy(
@@ -56,7 +58,9 @@ passport.use(
       profileFields: ["id", "displayName", "email"]
     },
     (accessToken, refreshToken, { id, displayName, emails }, done) => {
-      Customer.findOne({ facebookId: id }).then(existingCustomer => {
+      Customer.findOne({
+        facebookId: id
+      }).then(existingCustomer => {
         if (existingCustomer) {
           return done(null, existingCustomer);
         } else {
@@ -73,17 +77,46 @@ passport.use(
   )
 );
 
+passport.use(
+  new localStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+      passReqToCallback: true,
+      session: false
+    },
+    (req, username, password, done) => {
+      const newUser = new User();
+      newUser.username = username;
+      newUser.password = newUser.generateHash(password);
+      newUser.save().then(() => done(null, newUser));
+    }
+  )
+);
+
 //PP
 //first arg to serializeUser is the type model I want to serialize to.
 //the second argument to done is the piece of information that identifies the customer in the upcoming requests
 //is the mongo ID
 //why mongoID? Because different users can login with different oauth providers
 //_id:{_oid} --> id --> id === _id._oid -> shortuct!
+//used for Customers and Users
 passport.serializeUser((customer, done) => {
+  console.log("serializing user...");
   console.log(customer);
   done(null, customer.id);
 });
 
 passport.deserializeUser((id, done) => {
-  Customer.findById(id).then(customer => done(null, customer));
+  console.log("deserializing user...");
+  Customer.findById(id).then(customer => {
+    if (customer) {
+      console.log("found a customer");
+      return done(null, customer);
+    }
+    User.findById(id).then(user => {
+      console.log("found a user");
+      return done(null, user);
+    });
+  });
 });

@@ -57,13 +57,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/welcomeGoogle", (req, res) => {
-  console.log(req.session);
-  res.send(`Welcome from GOOGLE ${req.user.name}!`);
+  res.send(`Welcome from GOOGLE!`);
 });
 
 app.get("/welcomeFacebook", (req, res) => {
-  console.log(req.session);
-  res.send(`Welcome from FACEBOOK ${req.user.name}!`);
+  res.send(`Welcome from FACEBOOK!`);
 });
 
 app.listen(PORT, () => {

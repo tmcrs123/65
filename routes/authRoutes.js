@@ -1,11 +1,13 @@
 const passport = require("passport");
 const path = require("path");
+const isAdmin = require("../middlewares/isAdmin.js");
 
 module.exports = app => {
   app.get(
     "/auth/google",
     passport.authenticate("google", {
-      scope: ["profile", "email"]
+      scope: ["profile", "email"],
+      session: false
     })
   );
 
@@ -19,7 +21,10 @@ module.exports = app => {
 
   app.get(
     "/auth/facebook",
-    passport.authenticate("facebook", { scope: ["public_profile"] })
+    passport.authenticate("facebook", {
+      scope: ["public_profile"],
+      session: false
+    })
   );
 
   app.get(
@@ -30,8 +35,6 @@ module.exports = app => {
     }
   );
 
-  //PP passport also adds other helper functions to handle auth to the req object
-  //kills the cookie and destroys req.user!
   app.get("/api/logout", (req, res) => {
     req.logout();
     res.send(`You are now logged out!`);
@@ -41,7 +44,7 @@ module.exports = app => {
     let usr;
 
     if (Boolean(req.user)) {
-      usr = req.usr;
+      usr = req.user;
     } else {
       usr = null;
     }
@@ -51,7 +54,7 @@ module.exports = app => {
 
   app.get("/api/whoami", (req, res) => {
     if (req.user) {
-      res.send(req.user.name);
+      res.send(req.user);
     } else {
       res.send("A boy has no name...");
     }
@@ -65,9 +68,13 @@ module.exports = app => {
     res.sendFile(path.join(__dirname, "../static/addUserForm.html"));
   });
 
-  app.post("/admin/create", passport.authenticate("local"), (req, res) => {
-    res.send("here");
-  });
+  app.post(
+    "/admin/create",
+    passport.authenticate("local-signup"),
+    (req, res) => {
+      res.send("here");
+    }
+  );
 
   app.get("/admin/login", (req, res) => {
     res.sendFile(path.join(__dirname, "../static/loginUserForm.html"));
@@ -75,24 +82,13 @@ module.exports = app => {
 
   app.post(
     "/admin/login",
-    passport.authenticate("local", {
+    passport.authenticate("local-login", {
       successRedirect: "/admin/dashboard",
       failureRedirect: "/"
     })
   );
 
-  app.get("/admin/dashboard", (req, res) => {
-    if (req.isAuthenticated()) {
-      return res.send("Only admins should see this");
-    }
-    res.send("Not an admin");
-  });
-
-  app.get("/test", (req, res) => {
-    if (req.user && req.user.admin === true) {
-      res.send("busted");
-    } else {
-      res.send("shit happened");
-    }
+  app.get("/admin/dashboard", isAdmin, (req, res) => {
+    res.send("admin endpoint");
   });
 };

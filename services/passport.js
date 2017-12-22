@@ -1,12 +1,6 @@
 /**
  * Passport js Config.
  *
- * PP
- * Passport is what set the cookie in the request!
- *
- * PP
- *
- * Passport is what sets the user in req.user
  */
 const passport = require("passport");
 const mongoose = require("mongoose");
@@ -22,20 +16,14 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/redirect"
+      callbackURL: "/auth/google/redirect",
+      session: false
     },
-
-    //PP8 accessToken - If i do subsequent request to the api I need to give them my access token.
-    //If i want to keep using the access token I have to refresh it to prevent it from expiring, hence refresh token
-    //profile - what I asked for
-    //the done callback passes on the data defined in the second argument
     (accessToken, refreshToken, { id, displayName, emails }, done) => {
       Customer.findOne({ googleId: id }).then(existingCustomer => {
         if (existingCustomer) {
-          console.log("Existing customer");
           return done(null, existingCustomer);
         } else {
-          console.log("New customer");
           const newCustomer = new Customer({
             name: displayName,
             email: emails[0].value,
@@ -55,7 +43,8 @@ passport.use(
       clientID: keys.facebookAppID,
       clientSecret: keys.facebookAppSecret,
       callbackURL: "/auth/facebook/redirect",
-      profileFields: ["id", "displayName", "email"]
+      profileFields: ["id", "displayName", "email"],
+      session: false
     },
     (accessToken, refreshToken, { id, displayName, emails }, done) => {
       Customer.findOne({
@@ -78,51 +67,65 @@ passport.use(
 );
 
 passport.use(
+  "local-signup",
   new localStrategy(
     {
       usernameField: "email",
       passwordField: "password",
-      passReqToCallback: true,
       session: false
     },
-    (req, email, password, done) => {
+    (email, password, done) => {
       User.findOne({ email: email }).then(user => {
-        if (!user) {
+        if (user) {
+          //compare passwords here!
+          done(null, user);
+        } else {
           const newUser = new User();
           newUser.email = email;
           newUser.password = newUser.generateHash(password);
           newUser.save().then(() => done(null, newUser));
         }
+      });
+    }
+  )
+);
 
+passport.use(
+  "local-login",
+  new localStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+      session: false
+    },
+    (email, password, done) => {
+      User.findOne({ email }).then(user => {
+        if (!user) {
+          console.log("No user found");
+          return done(null, false);
+        }
+
+        if (!user.validPassword(password, user.password)) {
+          console.log("User password is invalid");
+          return done(null, false);
+        }
+        console.log("Valid user!");
         return done(null, user);
       });
     }
   )
 );
 
-//PP
-//first arg to serializeUser is the type model I want to serialize to.
-//the second argument to done is the piece of information that identifies the customer in the upcoming requests
-//is the mongo ID
-//why mongoID? Because different users can login with different oauth providers
-//_id:{_oid} --> id --> id === _id._oid -> shortuct!
-//used for Customers and Users
-passport.serializeUser((customer, done) => {
-  console.log("serializing user...");
-  console.log(typeof customer);
-  console.log(customer);
-  return done(null, customer.id);
+passport.serializeUser((customerOrUser, done) => {
+  done(null, customerOrUser.id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log("deserializing user...");
   Customer.findById(id).then(customer => {
     if (customer) {
-      console.log("found a customer");
       return done(null, customer);
     }
     User.findById(id).then(user => {
-      console.log("found a user");
       return done(null, user);
     });
   });

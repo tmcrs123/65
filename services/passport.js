@@ -85,11 +85,17 @@ passport.use(
       passReqToCallback: true,
       session: false
     },
-    (req, username, password, done) => {
-      const newUser = new User();
-      newUser.username = username;
-      newUser.password = newUser.generateHash(password);
-      newUser.save().then(() => done(null, newUser));
+    (req, email, password, done) => {
+      User.findOne({ email: email }).then(user => {
+        if (!user) {
+          const newUser = new User();
+          newUser.email = email;
+          newUser.password = newUser.generateHash(password);
+          newUser.save().then(() => done(null, newUser));
+        }
+
+        return done(null, user);
+      });
     }
   )
 );
@@ -103,8 +109,9 @@ passport.use(
 //used for Customers and Users
 passport.serializeUser((customer, done) => {
   console.log("serializing user...");
+  console.log(typeof customer);
   console.log(customer);
-  done(null, customer.id);
+  return done(null, customer.id);
 });
 
 passport.deserializeUser((id, done) => {

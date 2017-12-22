@@ -61,11 +61,38 @@ module.exports = app => {
    * User creating
    */
 
-  app.get("/admin/login", (req, res) => {
+  app.get("/admin/create", (req, res) => {
     res.sendFile(path.join(__dirname, "../static/addUserForm.html"));
   });
 
-  app.post("/admin/login", passport.authenticate("local"), (req, res) => {
+  app.post("/admin/create", passport.authenticate("local"), (req, res) => {
     res.send("here");
+  });
+
+  app.get("/admin/login", (req, res) => {
+    res.sendFile(path.join(__dirname, "../static/loginUserForm.html"));
+  });
+
+  app.post(
+    "/admin/login",
+    passport.authenticate("local", {
+      successRedirect: "/admin/dashboard",
+      failureRedirect: "/"
+    })
+  );
+
+  app.get("/admin/dashboard", (req, res) => {
+    if (req.isAuthenticated()) {
+      return res.send("Only admins should see this");
+    }
+    res.send("Not an admin");
+  });
+
+  app.get("/test", (req, res) => {
+    if (req.user && req.user.admin === true) {
+      res.send("busted");
+    } else {
+      res.send("shit happened");
+    }
   });
 };

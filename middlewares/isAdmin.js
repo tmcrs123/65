@@ -7,11 +7,11 @@ module.exports = (req, res, next) => {
     return;
   }
   User.findById(req.user.id).then(user => {
-    console.log("Found a user in admin auth", user);
     if (user) {
       next();
     } else {
       res.status(401).send("You must be an admin to do that.");
+      return;
     }
   });
 };

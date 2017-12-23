@@ -6,7 +6,9 @@
   "scripts": {
     "test": "NODE_ENV=test nodemon --exec 'mocha --recursive'",
     "test2": "mocha --recursive",
-    "start": "nodemon index.js"
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "author": "",
   "license": "ISC",
@@ -24,5 +26,8 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
     "supertest": "^3.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }

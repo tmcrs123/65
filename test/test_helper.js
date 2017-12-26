@@ -16,3 +16,17 @@ before(done => {
     })
     .on("error", error => console.warn("Error!", error));
 });
+
+beforeEach(done => {
+  const { customers } = mongoose.connection.collections;
+  customers
+    .drop()
+    .then(() => {
+      console.log("dropped customers collection");
+      done();
+    })
+    .catch(err => {
+      console.log(err);
+      done();
+    });
+});

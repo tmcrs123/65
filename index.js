@@ -7,10 +7,12 @@ const PORT = process.env.PORT || 8080;
 const keys = require("./config/keys");
 const mongoose = require("mongoose");
 const path = require("path");
+const morgan = require("morgan");
 
 // //register schemas with mongoose - Remember this needs to come before requiring passport
 require("./models/Customer");
 require("./models/User");
+require("./models/Reservation");
 
 //load all passaport strategies
 require("./services/passport");
@@ -28,6 +30,7 @@ if (process.env.NODE_ENV != "test") {
 }
 
 // //middleware - PP explain this!
+app.use(morgan("tiny"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); //dafuq is this?
 
@@ -51,6 +54,7 @@ app.use(passport.session());
 
 //routes
 require("./routes/authRoutes")(app);
+require("./routes/customerRoutes.js")(app);
 
 app.get("/", (req, res) => {
   res.send("hi there");

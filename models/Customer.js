@@ -5,7 +5,13 @@ const customerSchema = new Schema({
   name: String,
   email: String,
   googleId: String,
-  facebookId: String
+  facebookId: String,
+  phone: String,
+  notes: {
+    type: String,
+    maxlength: 1000
+  },
+  blacklisted: Boolean
 });
 
 mongoose.model("customers", customerSchema);

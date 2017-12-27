@@ -18,15 +18,11 @@ before(done => {
 });
 
 beforeEach(done => {
-  const { customers } = mongoose.connection.collections;
-  customers
-    .drop()
-    .then(() => {
-      console.log("dropped customers collection");
-      done();
-    })
-    .catch(err => {
-      console.log(err);
+  const { customers, reservations } = mongoose.connection.collections;
+
+  customers.drop(() => {
+    reservations.drop(() => {
       done();
     });
+  });
 });

@@ -13,6 +13,10 @@ const testCustomerBody = {
   blacklisted: false
 };
 
+/**
+ * Association test - get customer reservations
+ */
+
 describe("Customer controller methods", () => {
   it("POST to /api/customers creates a new customer", done => {
     Customer.count().then(count => {

@@ -2,14 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema({
-  customer: { type: Schema.Types.ObjectId, ref: "customers" },
+  customer: {
+    type: Schema.Types.ObjectId,
+    ref: "customers",
+    required: "A reservation must have a customer."
+  },
   startDate: {
     type: Date,
-    required: true
+    required: "A reservation must have a starting date."
   },
   endDate: {
     type: Date,
-    required: true
+    required: "A reservation must have a ending date."
   },
   reservationValueTotal: {
     type: Number,

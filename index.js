@@ -55,6 +55,7 @@ app.use(passport.session());
 //routes
 require("./routes/authRoutes")(app);
 require("./routes/customerRoutes.js")(app);
+require("./routes/reservationRoutes.js")(app);
 
 app.get("/", (req, res) => {
   res.send("hi there");

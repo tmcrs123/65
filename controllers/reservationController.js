@@ -3,7 +3,14 @@ const Reservation = mongoose.model("reservations");
 
 module.exports = {
   getAllReservations(req, res, next) {
-    res.send("hi there");
+    Reservation.find().then(reservations => res.send(reservations));
+  },
+
+  getReservation(req, res, next) {
+    const reservationId = req.params.id;
+    Reservation.findById({ _id: reservationId }).then(reservation =>
+      res.send(reservation)
+    );
   },
 
   create(req, res, next) {

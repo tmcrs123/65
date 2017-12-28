@@ -2,6 +2,7 @@ const reservationController = require("../controllers/reservationController.js")
 
 module.exports = app => {
   app.get("/api/reservations", reservationController.getAllReservations);
+  app.get("/api/reservations/:id", reservationController.getReservation);
   app.post(
     "/api/reservations",
     reservationController.availableDates,

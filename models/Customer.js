@@ -11,7 +11,13 @@ const customerSchema = new Schema({
     type: String,
     maxlength: 1000
   },
-  blacklisted: Boolean
+  blacklisted: Boolean,
+  reservations: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "reservations"
+    }
+  ]
 });
 
 mongoose.model("customers", customerSchema);

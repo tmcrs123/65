@@ -48,6 +48,7 @@ module.exports = {
 
   getCustomer(req, res, next) {
     Customer.findById(req.params.id)
+      .populate("reservations")
       .then(customer => res.send(customer))
       .catch(err => {
         console.log(err);

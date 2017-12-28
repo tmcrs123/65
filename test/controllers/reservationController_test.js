@@ -21,7 +21,7 @@ describe("Reservation Controller", () => {
       facebookId: "123345"
     });
     testReservation = new Reservation({
-      customer: testCustomer.id,
+      customerId: testCustomer.id,
       startDate: new Date().setHours(0, 0, 0, 0),
       endDate: new Date().addDays(3).setHours(0, 0, 0, 0),
       totalPayment: true
@@ -35,7 +35,7 @@ describe("Reservation Controller", () => {
   describe("Create,Read, Update and Delete reservations", () => {
     it("POST to api/reservations creates a new reservation", done => {
       const testReservation2 = new Reservation({
-        customer: testCustomer.id,
+        customerId: testCustomer.id,
         startDate: new Date().setHours(0, 0, 0, 0),
         endDate: new Date().setHours(0, 0, 0, 0),
         totalPayment: false
@@ -84,11 +84,11 @@ describe("Reservation Controller", () => {
     function datesValidationTest(
       startDaysToAdd,
       endDaysToAdd,
-      assertionTest,
+      desiredAssertionTestResult,
       done
     ) {
       const reservation = Reservation.create({
-        customer: testCustomer.id,
+        customerId: testCustomer.id,
         startDate: new Date().addDays(startDaysToAdd).setHours(0, 0, 0, 0),
         endDate: new Date().addDays(endDaysToAdd).setHours(0, 0, 0, 0),
         totalPayment: false
@@ -100,8 +100,7 @@ describe("Reservation Controller", () => {
             endDate: reservation.endDate
           })
           .end((err, res) => {
-            console.log(res.body);
-            assert(res.body.availableDates === assertionTest);
+            assert(res.body.availableDates === desiredAssertionTestResult);
             done();
           });
       });
@@ -129,7 +128,7 @@ describe("Reservation Controller", () => {
 
     it("Blocks when updating a existing reservation to a date which is not available", done => {
       Reservation.create({
-        customer: testCustomer.id,
+        customerId: testCustomer.id,
         startDate: new Date().addDays(10).setHours(0, 0, 0, 0),
         endDate: new Date().addDays(20).setHours(0, 0, 0, 0),
         totalPayment: true
@@ -149,7 +148,7 @@ describe("Reservation Controller", () => {
 
     it("Allows changing a reservation to an available date", done => {
       Reservation.create({
-        customer: testCustomer.id,
+        customerId: testCustomer.id,
         startDate: new Date().addDays(10).setHours(0, 0, 0, 0),
         endDate: new Date().addDays(20).setHours(0, 0, 0, 0),
         totalPayment: true
@@ -172,22 +171,3 @@ describe("Reservation Controller", () => {
     });
   });
 });
-
-/**
- * test:
- * Create a reservation without a customer
- * association with customer id
- * dates checking
- * 
- */
-
-// customer - required
-// startDate - required
-// endDate - required
-// reservationValueTotal
-// reservationValuePaid
-// observations: String,
-// totalPayment
-// numberAdults
-// numberChildrens
-// reservationSchema.virtual("reservationLeftToPay")

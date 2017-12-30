@@ -8,9 +8,13 @@
     },
     "auth/facebook": {
       "target": "http://localhost:8080"
+    },
+    "api/*": {
+      "target": "http://localhost:8080"
     }
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "material-ui": "^0.20.0",
     "materialize-css": "^0.100.2",
     "react": "^16.2.0",

@@ -23,14 +23,24 @@ const renderTextField = ({ input, type, label, meta: { touched, error } }) => {
 };
 
 class AdminLogin extends Component {
+  handleFormSubmit(loginInfo, dispatchFunction, formProps) {
+    this.props.authUser(loginInfo, formProps.history);
+  }
+
   render() {
-    console.log(this.props.authError);
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      history,
+      values
+    } = this.props;
 
     return (
       <div className="container">
         <h3>Admin login</h3>
-        <form onSubmit={this.props.handleSubmit(this.props.authUser)}>
+        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field
             name="email"
             label="Email"

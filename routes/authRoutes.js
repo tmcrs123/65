@@ -1,6 +1,6 @@
 const passport = require("passport");
 const path = require("path");
-const isAdmin = require("../middlewares/isAdmin.js");
+const { isAdmin, isCustomer } = require("../middlewares/isAdmin.js");
 
 module.exports = app => {
   app.get(
@@ -15,7 +15,7 @@ module.exports = app => {
     "/auth/google/redirect",
     passport.authenticate("google"),
     (req, res) => {
-      res.redirect("/welcomeGoogle");
+      res.redirect("/");
     }
   );
 
@@ -31,13 +31,13 @@ module.exports = app => {
     "/auth/facebook/redirect",
     passport.authenticate("facebook"),
     (req, res) => {
-      res.redirect("/welcomeFacebook");
+      res.redirect("/");
     }
   );
 
   app.get("/api/logout", (req, res) => {
     req.logout();
-    res.send(`You are now logged out!`);
+    res.redirect("/");
   });
 
   app.get("/api/session", (req, res) => {
@@ -50,14 +50,6 @@ module.exports = app => {
     }
 
     res.json(Object.assign({}, req.session, usr, req.cookies));
-  });
-
-  app.get("/api/whoami", (req, res) => {
-    if (req.user) {
-      res.send(req.user);
-    } else {
-      res.send("A boy has no name...");
-    }
   });
 
   /**
@@ -81,14 +73,26 @@ module.exports = app => {
   });
 
   app.post(
-    "/admin/login",
-    passport.authenticate("local-login", {
-      successRedirect: "/admin/dashboard",
-      failureRedirect: "/"
-    })
+    "/api/admin/login",
+    passport.authenticate("local-login"),
+    (req, res) => {
+      res.send({ userId: req.user._id, isAdmin: req.user.isAdmin });
+    }
   );
 
   app.get("/admin/dashboard", isAdmin, (req, res) => {
     res.send("admin endpoint");
+  });
+
+  app.get("/customer/dashboard", isCustomer, (req, res) => {
+    res.send("customer endpoint");
+  });
+
+  app.get("/api/current_user", (req, res) => {
+    if (!req.user) {
+      res.send({});
+    } else {
+      res.send({ userId: req.user._id, isAdmin: req.user.isAdmin });
+    }
   });
 };

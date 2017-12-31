@@ -21,7 +21,9 @@ class Header extends Component {
       case true:
         return (
           <div>
-            <FlatButton label="Admin Dashboard" />
+            <Link to="/adminDashboard">
+              <FlatButton label="Admin Dashboard" />
+            </Link>
             <FlatButton href="/api/logout" label="Logout" />
           </div>
         );

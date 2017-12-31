@@ -12,14 +12,14 @@ export const fetchCustomer = () => dispatch => {
   });
 };
 
-export const authUser = loginInfo => dispatch => {
+export const authUser = (loginInfo, history) => dispatch => {
   axios
     .post("/api/admin/login", loginInfo)
     .then(res => {
+      history.push("/");
       dispatch({ type: AUTH_USER, payload: res.data });
     })
     .catch(err => {
-      console.log(err);
       dispatch({
         type: AUTH_ERROR_USER,
         payload: { authError: "Wrong Email or Password" }

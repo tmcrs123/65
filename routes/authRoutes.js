@@ -1,6 +1,9 @@
 const passport = require("passport");
 const path = require("path");
-const { isAdmin, isCustomer } = require("../middlewares/isAdmin.js");
+const { currentAdmin } = require("../middlewares/currentAdmin.js");
+const { currentCustomer } = require("../middlewares/currentCustomer.js");
+const { isCustomer } = require("../middlewares/isCustomer.js");
+const { isAdmin } = require("../middlewares/isAdmin.js");
 
 module.exports = app => {
   app.get(
@@ -15,7 +18,7 @@ module.exports = app => {
     "/auth/google/redirect",
     passport.authenticate("google"),
     (req, res) => {
-      res.redirect("/");
+      res.redirect("/customerDashboard");
     }
   );
 
@@ -31,7 +34,7 @@ module.exports = app => {
     "/auth/facebook/redirect",
     passport.authenticate("facebook"),
     (req, res) => {
-      res.redirect("/");
+      res.redirect("/customerDashboard");
     }
   );
 
@@ -80,19 +83,15 @@ module.exports = app => {
     }
   );
 
-  app.get("/admin/dashboard", isAdmin, (req, res) => {
-    res.send("admin endpoint");
+  app.get("/admin/dashboard", currentAdmin, (req, res) => {
+    res.send("admin enpoint");
   });
 
   app.get("/customer/dashboard", isCustomer, (req, res) => {
     res.send("customer endpoint");
   });
 
-  app.get("/api/current_user", (req, res) => {
-    if (!req.user) {
-      res.send({});
-    } else {
-      res.send({ userId: req.user._id, isAdmin: req.user.isAdmin });
-    }
-  });
+  app.get("/api/current_customer", currentCustomer);
+
+  app.get("/api/current_admin", currentAdmin);
 };

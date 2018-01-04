@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
-const userSchema = new Schema(
+const adminSchema = new Schema(
   {
     email: String,
     password: String
@@ -13,17 +13,17 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.methods.generateHash = password => {
+adminSchema.methods.generateHash = password => {
   const salt = bcrypt.genSaltSync(10);
   return bcrypt.hashSync(password, salt);
 };
 
-userSchema.methods.validPassword = (inputedPassword, dbSavedPassword) => {
+adminSchema.methods.validPassword = (inputedPassword, dbSavedPassword) => {
   return bcrypt.compareSync(inputedPassword, dbSavedPassword);
 };
 
-userSchema.virtual("isAdmin").get(function() {
+adminSchema.virtual("isAdmin").get(function() {
   return true;
 });
 
-mongoose.model("users", userSchema);
+mongoose.model("admins", adminSchema);

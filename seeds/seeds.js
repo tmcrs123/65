@@ -26,8 +26,13 @@ const TiagoRodrigues = Customer.findOne({
     customerId: tr.id,
     startDate: new Date().setHours(0, 0, 0, 0),
     endDate: new Date().setHours(0, 0, 0, 0),
-    totalPayment: false
+    observations:
+      "Bacon ipsum dolor amet pig biltong picanha meatball flank chuck ground round bacon. ",
+    totalPayment: true
   });
+
+  seedReservation.startDate.addDays(100);
+  seedReservation.endDate.addDays(200);
 
   tr.reservations.push(seedReservation);
 

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Customer = mongoose.model("customers");
+const Reservation = mongoose.model("reservations");
 
 module.exports = {
   create(req, res, next) {
@@ -38,6 +39,7 @@ module.exports = {
   },
 
   getAllCustomers(req, res, next) {
+    console.log("this logs?");
     Customer.find()
       .then(customers => res.send(customers))
       .catch(err => {
@@ -49,11 +51,20 @@ module.exports = {
   getCustomer(req, res, next) {
     Customer.findById(req.params.id)
       .populate("reservations")
-      .populate("isAdmin")
-      .then(customer => res.send(customer))
+      .then(customer => {
+        res.send(customer);
+      })
       .catch(err => {
         console.log(err);
         next;
       });
+  },
+
+  getCustomerReservations(req, res, next) {
+    console.log("in get customer reservations");
+    Reservation.find({ customerId: req.user }).then(reservations => {
+      console.log("reservations: ", reservations);
+      res.send(reservations);
+    });
   }
 };

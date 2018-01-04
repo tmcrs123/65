@@ -11,7 +11,7 @@ const morgan = require("morgan");
 
 // //register schemas with mongoose - Remember this needs to come before requiring passport
 require("./models/Customer");
-require("./models/User");
+require("./models/Admin");
 require("./models/Reservation");
 
 //load all passaport strategies
@@ -59,14 +59,6 @@ require("./routes/reservationRoutes.js")(app);
 
 app.get("/", (req, res) => {
   res.send("hi there");
-});
-
-app.get("/welcomeGoogle", (req, res) => {
-  res.send(`Welcome from GOOGLE!`);
-});
-
-app.get("/welcomeFacebook", (req, res) => {
-  res.send(`Welcome from FACEBOOK!`);
 });
 
 app.listen(PORT, () => {

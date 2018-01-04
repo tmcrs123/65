@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import TextField from "material-ui/TextField";
 import formFields from "./adminLoginFormFields.js";
-import * as actions from "../../actions/actions_index.js";
+import * as actions from "../../actions/admin_actions.js";
 import { connect } from "react-redux";
 
 const renderTextField = ({ input, type, label, meta: { touched, error } }) => {
@@ -24,7 +24,13 @@ const renderTextField = ({ input, type, label, meta: { touched, error } }) => {
 
 class AdminLogin extends Component {
   handleFormSubmit(loginInfo, dispatchFunction, formProps) {
-    this.props.authUser(loginInfo, formProps.history);
+    this.props.authAdmin(loginInfo, formProps.history);
+  }
+
+  handleFormClear(reset) {
+    console.log("here");
+    reset();
+    this.props.resetAuthError();
   }
 
   render() {
@@ -59,12 +65,16 @@ class AdminLogin extends Component {
           <button
             type="button"
             disabled={pristine || submitting}
-            onClick={reset}
+            onClick={() => this.handleFormClear(reset)}
           >
             Clear Values
           </button>
         </form>
-        <div>{this.props.authError}</div>
+        <div>
+          {this.props.adminAuth.authError
+            ? "Invalid email/password combination"
+            : ""}
+        </div>
       </div>
     );
   }
@@ -88,7 +98,7 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  return { authError: state.auth.authError };
+  return { adminAuth: state.adminAuth };
 }
 
 AdminLogin = connect(mapStateToProps, actions)(AdminLogin);

@@ -9,7 +9,7 @@ const facebookStrategy = require("passport-facebook").Strategy;
 const localStrategy = require("passport-local").Strategy;
 const keys = require("../config/keys");
 const Customer = mongoose.model("customers");
-const User = mongoose.model("users");
+const Admin = mongoose.model("admins");
 
 passport.use(
   new googleStrategy(
@@ -75,12 +75,11 @@ passport.use(
       session: false
     },
     (email, password, done) => {
-      User.findOne({ email: email }).then(user => {
+      Admin.findOne({ email: email }).then(user => {
         if (user) {
-          //compare passwords here!
           done(null, user);
         } else {
-          const newUser = new User();
+          const newUser = new Admin();
           newUser.email = email;
           newUser.password = newUser.generateHash(password);
           newUser.save().then(() => done(null, newUser));
@@ -99,17 +98,17 @@ passport.use(
       session: false
     },
     (email, password, done) => {
-      User.findOne({ email }).then(user => {
+      Admin.findOne({ email }).then(user => {
         if (!user) {
           console.log("No user found");
           return done(null, false);
         }
 
         if (!user.validPassword(password, user.password)) {
-          console.log("User password is invalid");
+          console.log("Admin password is invalid");
           return done(null, false);
         }
-        console.log("Valid user!");
+        console.log("Valid admin!");
         return done(null, user);
       });
     }
@@ -125,7 +124,7 @@ passport.deserializeUser((id, done) => {
     if (customer) {
       return done(null, customer);
     }
-    User.findById(id).then(user => {
+    Admin.findById(id).then(user => {
       return done(null, user);
     });
   });

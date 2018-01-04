@@ -16,13 +16,13 @@ const reservationSchema = new Schema(
       type: Date,
       required: "A reservation must have a ending date."
     },
-    TotalValue: {
+    totalValue: {
       type: Number,
       min: 0,
       default: 0,
       required: "You must supply a price for the reservation."
     },
-    ValuePaid: {
+    valuePaid: {
       type: Number,
       min: 0,
       default: 0
@@ -44,14 +44,23 @@ const reservationSchema = new Schema(
     },
     status: {
       type: String,
-      default: "inactive"
-    }
+      default: "pending"
+    },
+    reservationNumber: Number
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
 );
+
+reservationSchema.pre("save", function(next) {
+  Reservation.collection.count().then(count => {
+    console.log("count", count);
+    this.reservationNumber = count + 1;
+    next();
+  });
+});
 
 reservationSchema.virtual("ValueLeftToPay").get(function() {
   return this.TotalValue - this.ValuePaid;

@@ -18,7 +18,6 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    console.log("Calling action in header CDM");
     this.props.fetchCustomer();
     this.props.fetchAdmin();
   }
@@ -92,7 +91,6 @@ class Header extends Component {
       }
     };
 
-    console.log("start rendering HEADER");
     return (
       <div>
         <AppBar
@@ -117,12 +115,10 @@ class Header extends Component {
         </Drawer>
       </div>
     );
-    console.log("finish rendering HEADER");
   }
 }
 
 function mapStateToProps(state) {
-  console.log("mstp header", state);
   return { adminAuth: state.adminAuth, customerAuth: state.customerAuth };
 }
 

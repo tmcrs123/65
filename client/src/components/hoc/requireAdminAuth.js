@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 export default function(ComposedComponent) {
   class AdminAuthentication extends Component {
     componentWillMount() {
-      console.log("cwm", this.props.authenticated);
       if (!this.props.authenticated.isAdmin) {
         this.props.history.push("/");
       }
@@ -17,7 +16,6 @@ export default function(ComposedComponent) {
   }
 
   function mapStateToProps(state) {
-    console.log("state in require admin", state);
     return { authenticated: state.auth };
   }
 

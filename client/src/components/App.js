@@ -19,7 +19,6 @@ const composedActions = { ...adminActions, ...customerActions };
 
 class App extends Component {
   render() {
-    console.log("start rendering APP");
     return (
       <div>
         <MuiThemeProvider>
@@ -49,7 +48,6 @@ class App extends Component {
         </MuiThemeProvider>
       </div>
     );
-    console.log("finish rendering APP");
   }
 }
 

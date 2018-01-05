@@ -6,8 +6,10 @@ import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
 import {
   renderTextField,
-  renderDatePicker
+  renderDatePicker,
+  renderSelectField
 } from "../../helpers/customerFormsHelper.js";
+import { validateCustomerCreateReservationForm } from "../../helpers/customerFormsHelper.js";
 
 class CustomerCreateReservationForm extends Component {
   constructor(props) {
@@ -16,8 +18,9 @@ class CustomerCreateReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("in customer create reservation from submit");
-    console.log(formData);
+    console.log("HERRE");
+    const validationErrors = validateCustomerCreateReservationForm(formData);
+    console.log("Errors", validationErrors);
   }
 
   handleAdultChange = (event, index, value) =>
@@ -27,60 +30,58 @@ class CustomerCreateReservationForm extends Component {
     this.setState({ ChildrenValue: value });
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, error } = this.props;
 
     return (
       <div className="container">
         <h3>Create a reservation</h3>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field
-            name="Start-Date"
+            name="startDate"
             label="Start-Date"
             component={renderDatePicker}
           />
           <br />
-          <Field
-            name="End-Date"
-            label="End-Date"
-            component={renderDatePicker}
-          />
+          <Field name="endDate" label="End-Date" component={renderDatePicker} />
           <br />
-          <SelectField
-            floatingLabelText="Adults"
-            value={this.state.AdultValue}
-            onChange={this.handleAdultChange}
+          <Field
+            name="numberAdults"
+            label="Number of Adults"
+            component={renderSelectField}
           >
             <MenuItem value={1} primaryText="1" />
             <MenuItem value={2} primaryText="2" />
             <MenuItem value={3} primaryText="3" />
             <MenuItem value={4} primaryText="4" />
-          </SelectField>
+          </Field>
           <br />
-          <SelectField
-            floatingLabelText="Children"
-            value={this.state.ChildrenValue}
-            onChange={this.handleChildrenChange}
+          <Field
+            name="numberChildrens"
+            label="Number of childrens"
+            component={renderSelectField}
           >
             <MenuItem value={0} primaryText="0" />
             <MenuItem value={1} primaryText="1" />
             <MenuItem value={2} primaryText="2" />
             <MenuItem value={3} primaryText="3" />
             <MenuItem value={4} primaryText="4" />
-          </SelectField>
+          </Field>
           <br />
           <Field
-            name="Observations"
+            name="observations"
             label="Observations"
             component={renderTextField}
             type="text"
           />
           <button type="submit">Submit</button>
         </form>
+        {error && <strong>{error}</strong>}
       </div>
     );
   }
 }
 
-export default reduxForm({ form: "customerCreateReservationForm" })(
-  CustomerCreateReservationForm
-);
+export default reduxForm({
+  form: "customerCreateReservationForm",
+  asyncBlurFields: ["startDate", "endDate"]
+})(CustomerCreateReservationForm);

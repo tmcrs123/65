@@ -8,7 +8,6 @@ export default function(state = [], action) {
     case FETCH_CUSTOMER_RESERVATIONS:
       return action.payload;
     case FETCH_CUSTOMER_RESERVATIONS_ERROR:
-      console.log("FETCH_CUSTOMER_RESERVATIONS_ERROR");
       return [];
     default:
       return state;

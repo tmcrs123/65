@@ -21,11 +21,9 @@ export const fetchCustomerReservations = () => dispatch => {
   axios
     .get(`/api/customerReservations`)
     .then(res => {
-      console.log("res", res);
       dispatch({ type: FETCH_CUSTOMER_RESERVATIONS, payload: res.data });
     })
     .catch(err => {
-      console.log("ERRO", err);
       dispatch({ type: FETCH_CUSTOMER_RESERVATIONS_ERROR });
     });
 };

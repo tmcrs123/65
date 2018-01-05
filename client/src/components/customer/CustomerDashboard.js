@@ -10,7 +10,6 @@ import _ from "lodash";
 
 class CustomerDashboard extends Component {
   componentDidMount() {
-    console.log("in customerDashboard cdm");
     this.props.fetchCustomerReservations();
   }
 
@@ -78,7 +77,6 @@ class CustomerDashboard extends Component {
   }
 
   render() {
-    console.log("start customer dashboard render");
     return (
       <div className="container">
         <h1>Customer Dashboard</h1>
@@ -90,7 +88,6 @@ class CustomerDashboard extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("mstp in customer dashboard", state);
   return { reservations: state.customerReservations };
 }
 

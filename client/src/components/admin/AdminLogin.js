@@ -28,7 +28,6 @@ class AdminLogin extends Component {
   }
 
   handleFormClear(reset) {
-    console.log("here");
     reset();
     this.props.resetAuthError();
   }

@@ -11,10 +11,11 @@ export function renderTextField(formProps) {
       hintText={formProps.label}
       floatingLabelText={formProps.label}
       type={formProps.type}
-      {...formProps.input}
+      defaultValue={formProps.defaultValue}
+      disabled={formProps.disabled}
       errorText={formProps.meta.touched && formProps.meta.error}
       multiLine={true}
-      fullWidth={true}
+      fullWidth={formProps.fullWidth}
       rows={2}
       rowsMax={4}
     />
@@ -32,6 +33,7 @@ export function renderDatePicker(props) {
       name={props.label}
       shouldDisableDate={disableWeekends}
       autoOk={true}
+      onChange={props.onChange}
       hintText={props.label}
       errorText={props.meta.touched && props.meta.error}
       {...props}
@@ -60,8 +62,6 @@ export function validateCustomerCreateReservationForm(values) {
   const { startDate, endDate, numberAdults, numberChildrens } = values;
 
   const totalPersons = numberAdults + numberChildrens;
-
-  console.log(values);
 
   customerCreateReservationFormFields.forEach(field => {
     if (field.required && !values[field.name]) {

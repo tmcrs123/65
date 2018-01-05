@@ -4,6 +4,8 @@ import DatePicker from "material-ui/DatePicker";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
+import RaisedButton from "material-ui/RaisedButton";
+import axios from "axios";
 import {
   renderTextField,
   renderDatePicker,
@@ -11,10 +13,34 @@ import {
 } from "../../helpers/customerFormsHelper.js";
 import { validateCustomerCreateReservationForm } from "../../helpers/customerFormsHelper.js";
 
+const style = {
+  margin: 12
+};
+
 class CustomerCreateReservationForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { AdultValue: 1, ChildrenValue: 0 };
+    this.state = {
+      AdultValue: 1,
+      ChildrenValue: 0,
+      startDate: undefined,
+      endDate: undefined,
+      price: 0
+    };
+  }
+
+  componentDidUpdate() {
+    console.log("component update!");
+    if (this.state.startDate && this.state.endDate) {
+      alert("all dates have a value");
+      axios.get("/api/price").then(price => {
+        alert("Got a price of ", price);
+      });
+    }
+  }
+
+  handleDateChange(event, newValue, caller) {
+    this.setState({ [caller]: newValue });
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -31,6 +57,7 @@ class CustomerCreateReservationForm extends Component {
 
   render() {
     const { handleSubmit, error } = this.props;
+    const price = this.state.price;
 
     return (
       <div className="container">
@@ -40,9 +67,27 @@ class CustomerCreateReservationForm extends Component {
             name="startDate"
             label="Start-Date"
             component={renderDatePicker}
+            onChange={(event, newValue) =>
+              this.handleDateChange(event, newValue, "startDate")}
           />
           <br />
-          <Field name="endDate" label="End-Date" component={renderDatePicker} />
+
+          <Field
+            name="endDate"
+            label="End-Date"
+            component={renderDatePicker}
+            onChange={(event, newValue) =>
+              this.handleDateChange(event, newValue, "endDate")}
+          />
+          <br />
+          <Field
+            name="reservationPrice"
+            disabled={true}
+            fullWidth={false}
+            label="Price"
+            component={renderTextField}
+            defaultValue={`${this.state.price}€`}
+          />
           <br />
           <Field
             name="numberAdults"
@@ -73,7 +118,14 @@ class CustomerCreateReservationForm extends Component {
             component={renderTextField}
             type="text"
           />
-          <button type="submit">Submit</button>
+          <br />
+          <RaisedButton
+            type="submit"
+            label="Submit"
+            primary={true}
+            style={style}
+            fullWidth={false}
+          />
         </form>
         {error && <strong>{error}</strong>}
       </div>

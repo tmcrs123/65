@@ -1,17 +1,21 @@
+/**
+ * Remove imports I dont need
+ * merge handlechange adulsts and children
+ * shorten render form method to use form fields
+ * organize helpers
+ */
+
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
-import DatePicker from "material-ui/DatePicker";
-import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import axios from "axios";
-import {
-  renderTextField,
-  renderDatePicker,
-  renderSelectField
-} from "../../helpers/customerFormsHelper.js";
-import { validateCustomerCreateReservationForm } from "../../helpers/customerFormsHelper.js";
+
+import { renderTextField } from "../../helpers/formComponents/textFields.js";
+import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
+import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
+
+import { validateCustomerCreateReservationForm } from "../../helpers/formHelpers/customerForms/customerCreateReservationHelper.js";
 
 const style = {
   margin: 12
@@ -52,7 +56,6 @@ class CustomerCreateReservationForm extends Component {
 
   render() {
     const { handleSubmit, error } = this.props;
-    const price = this.state.price;
 
     return (
       <div className="container">

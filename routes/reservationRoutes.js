@@ -19,5 +19,5 @@ module.exports = app => {
     reservationController.availableDates
   );
 
-  app.get("/api/price", (req, res) => res.send(100));
+  app.get("/api/price", (req, res) => res.send({ price: 100 }));
 };

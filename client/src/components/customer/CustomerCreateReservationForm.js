@@ -29,18 +29,13 @@ class CustomerCreateReservationForm extends Component {
     };
   }
 
-  componentDidUpdate() {
-    console.log("component update!");
-    if (this.state.startDate && this.state.endDate) {
-      alert("all dates have a value");
-      axios.get("/api/price").then(price => {
-        alert("Got a price of ", price);
-      });
-    }
-  }
-
   handleDateChange(event, newValue, caller) {
     this.setState({ [caller]: newValue });
+    if (this.state.startDate && this.state.endDate) {
+      axios.get("/api/price").then(res => {
+        this.setState({ price: res.data.price });
+      });
+    }
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -85,8 +80,8 @@ class CustomerCreateReservationForm extends Component {
             disabled={true}
             fullWidth={false}
             label="Price"
+            reservationPrice={this.state.price}
             component={renderTextField}
-            defaultValue={`${this.state.price}€`}
           />
           <br />
           <Field

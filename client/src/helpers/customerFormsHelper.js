@@ -11,7 +11,7 @@ export function renderTextField(formProps) {
       hintText={formProps.label}
       floatingLabelText={formProps.label}
       type={formProps.type}
-      defaultValue={formProps.defaultValue}
+      value={`${formProps.reservationPrice} €`}
       disabled={formProps.disabled}
       errorText={formProps.meta.touched && formProps.meta.error}
       multiLine={true}

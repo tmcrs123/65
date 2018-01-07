@@ -7,6 +7,10 @@ export const LOGOUT_CUSTOMER = "logout_customer";
 export const FETCH_CUSTOMER_RESERVATIONS = "fetch_customer_reservations";
 export const FETCH_CUSTOMER_RESERVATIONS_ERROR =
   "fetch_customer_reservations_error";
+export const SUBMIT_CUSTOMER_CREATE_RESERVATION_FORM_SUCCESS =
+  "submit_customer_create_reservation_form";
+export const SUBMIT_CUSTOMER_CREATE_RESERVATION_FORM_ERROR =
+  "submit_customer_create_reservation_form";
 
 //Admin
 export const FETCH_ADMIN = "fetch_admin";

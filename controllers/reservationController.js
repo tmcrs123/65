@@ -15,6 +15,7 @@ module.exports = {
 
   create(req, res, next) {
     const availableDates = res.locals.availableDates;
+    console.log("Got info for reservation", req.body);
     Reservation.create(req.body)
       .then(reservation =>
         res.status(201).send({ reservation, availableDates })

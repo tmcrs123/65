@@ -7,16 +7,17 @@
 
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
+import { connect } from "react-redux";
 import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
-import FlatButton from "material-ui/FlatButton";
-import Dialog from "material-ui/Dialog";
 import axios from "axios";
+import * as actions from "../../actions/customer_actions.js";
 
 import { renderTextField } from "../../helpers/formComponents/textFields.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
+import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
 import { validateCustomerCreateReservationForm } from "../../helpers/formHelpers/customerForms/customerCreateReservationHelper.js";
 import { formFields } from "../../helpers/formFields/customerForms/customerCreateReservationFormFields.js";
 
@@ -24,21 +25,17 @@ class CustomerCreateReservationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dialog: false,
       AdultValue: 1,
       ChildrenValue: 0,
       startDate: undefined,
       endDate: undefined,
-      price: 0
+      price: 0,
+      totalPayment: false
     };
   }
 
-  handleOpen() {
-    this.setState({ dialog: true });
-  }
-
-  handleClose() {
-    this.setState({ dialog: false });
+  handleCheckboxChange() {
+    this.setState({ totalPayment: !this.state.totalPayment });
   }
 
   handleFormClear(reset) {
@@ -58,9 +55,13 @@ class CustomerCreateReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("form props on submit", formProps);
+    console.log(formData);
     const validationErrors = validateCustomerCreateReservationForm(formData);
-    console.log("Errors", validationErrors);
+    console.log("Submitting form to DB");
+    this.props.submitCustomerReservationForm({
+      ...formData,
+      reservationPrice: this.state.price
+    });
   }
 
   renderMenuItems(startValue, endValue) {
@@ -75,20 +76,6 @@ class CustomerCreateReservationForm extends Component {
   render() {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
 
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={() => this.handleClose()}
-      />,
-      <FlatButton
-        type="submit"
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={() => this.handleClose()}
-      />
-    ];
     const style = {
       margin: 12
     };
@@ -97,28 +84,49 @@ class CustomerCreateReservationForm extends Component {
       <div className="container">
         <h3>Create a reservation</h3>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Field
-            name="startDate"
-            label="Start-Date"
-            component={renderDatePicker}
-            date={this.state.startDate}
-            onChange={(event, newValue) =>
-              this.handleDateChange(event, newValue, "startDate")}
-          />
-          <br />
-          <Field
-            name="endDate"
-            label="End-Date"
-            component={renderDatePicker}
-            date={this.state.endDate}
-            onChange={(event, newValue) =>
-              this.handleDateChange(event, newValue, "endDate")}
-          />
-          <br />
+          <div className="form-group" style={{ display: "block" }}>
+            <Field
+              name="startDate"
+              label="Start-Date"
+              component={renderDatePicker}
+              date={this.state.startDate}
+              onChange={(event, newValue) =>
+                this.handleDateChange(event, newValue, "startDate")}
+            />
+            <br />
+            <Field
+              name="endDate"
+              label="End-Date"
+              component={renderDatePicker}
+              date={this.state.endDate}
+              onChange={(event, newValue) =>
+                this.handleDateChange(event, newValue, "endDate")}
+            />
+            <br />
+          </div>
           <Field
             name="reservationPrice"
             label="Price"
-            reservationPrice={this.state.price}
+            price={this.state.price}
+            component={renderPriceField}
+          />
+          <br />
+          <br />
+          <Field
+            name="totalPayment"
+            label="Pay reservation total now?"
+            component={renderCheckbox}
+            onChange={() => this.handleCheckboxChange()}
+          />
+          <br />
+          <Field
+            name="payNow"
+            label="Pay Now"
+            price={
+              this.state.totalPayment
+                ? this.state.price
+                : this.state.price * 0.1
+            }
             component={renderPriceField}
           />
           <br />
@@ -149,25 +157,13 @@ class CustomerCreateReservationForm extends Component {
           />
           <br />
           <RaisedButton
-            type="button"
+            type="Submit"
             label="Submit"
-            onClick={() => this.handleOpen()}
             disabled={pristine || submitting}
             primary={true}
             style={style}
             fullWidth={false}
-          >
-            <Dialog
-              title="Dialog With Actions"
-              actions={actions}
-              modal={false}
-              open={this.state.dialog}
-              onRequestClose={() => this.handleClose()}
-            >
-              The actions in this window were passed in as an array of React
-              objects.
-            </Dialog>
-          </RaisedButton>
+          />
           <RaisedButton
             type="button"
             label="Clear Value"
@@ -183,6 +179,14 @@ class CustomerCreateReservationForm extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { submitCustomerReservationForm: state.customerSubmitReservationForm };
+}
+
+CustomerCreateReservationForm = connect(mapStateToProps, actions)(
+  CustomerCreateReservationForm
+);
 
 export default reduxForm({
   form: "customerCreateReservationForm",

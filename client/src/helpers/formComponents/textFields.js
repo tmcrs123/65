@@ -2,11 +2,12 @@ import React from "react";
 import TextField from "material-ui/TextField";
 
 export function renderPriceField(formProps) {
+  console.log("price field props", formProps);
   return (
     <TextField
       hintText={formProps.label}
       floatingLabelText={formProps.label}
-      value={`${formProps.reservationPrice} €`}
+      value={`${formProps.price} €`}
       disabled={true}
       errorText={formProps.meta.touched && formProps.meta.error}
     />

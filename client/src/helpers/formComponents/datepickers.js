@@ -10,6 +10,7 @@ export function renderDatePicker(props) {
       autoOk={true}
       onChange={props.onChange}
       hintText={props.label}
+      value={props.date}
       errorText={props.meta.touched && props.meta.error}
       {...props}
       onChange={(event, value, index) => {

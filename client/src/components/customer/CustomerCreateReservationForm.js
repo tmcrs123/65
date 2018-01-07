@@ -9,28 +9,42 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
+import FlatButton from "material-ui/FlatButton";
+import Dialog from "material-ui/Dialog";
 import axios from "axios";
 
 import { renderTextField } from "../../helpers/formComponents/textFields.js";
+import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
-
 import { validateCustomerCreateReservationForm } from "../../helpers/formHelpers/customerForms/customerCreateReservationHelper.js";
-
-const style = {
-  margin: 12
-};
+import { formFields } from "../../helpers/formFields/customerForms/customerCreateReservationFormFields.js";
 
 class CustomerCreateReservationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      dialog: false,
       AdultValue: 1,
       ChildrenValue: 0,
       startDate: undefined,
       endDate: undefined,
       price: 0
     };
+  }
+
+  handleOpen() {
+    this.setState({ dialog: true });
+  }
+
+  handleClose() {
+    this.setState({ dialog: false });
+  }
+
+  handleFormClear(reset) {
+    reset();
+    this.setState({ startDate: undefined });
+    this.setState({ endDate: undefined });
   }
 
   handleDateChange(event, newValue, caller) {
@@ -40,22 +54,44 @@ class CustomerCreateReservationForm extends Component {
         this.setState({ price: res.data.price });
       });
     }
+    if (this.props.error) this.props.clearSubmitErrors();
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("HERRE");
+    console.log("form props on submit", formProps);
     const validationErrors = validateCustomerCreateReservationForm(formData);
     console.log("Errors", validationErrors);
   }
 
-  handleAdultChange = (event, index, value) =>
-    this.setState({ AdultValue: value });
-
-  handleChildrenChange = (event, index, value) =>
-    this.setState({ ChildrenValue: value });
+  renderMenuItems(startValue, endValue) {
+    let menuItems = [];
+    for (let i = startValue; i <= endValue; i++) {
+      let item = <MenuItem key={i} value={i} primaryText={`${i}`} />;
+      menuItems.push(item);
+    }
+    return menuItems;
+  }
 
   render() {
-    const { handleSubmit, error } = this.props;
+    const { handleSubmit, error, reset, pristine, submitting } = this.props;
+
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={() => this.handleClose()}
+      />,
+      <FlatButton
+        type="submit"
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onClick={() => this.handleClose()}
+      />
+    ];
+    const style = {
+      margin: 12
+    };
 
     return (
       <div className="container">
@@ -65,64 +101,81 @@ class CustomerCreateReservationForm extends Component {
             name="startDate"
             label="Start-Date"
             component={renderDatePicker}
+            date={this.state.startDate}
             onChange={(event, newValue) =>
               this.handleDateChange(event, newValue, "startDate")}
           />
           <br />
-
           <Field
             name="endDate"
             label="End-Date"
             component={renderDatePicker}
+            date={this.state.endDate}
             onChange={(event, newValue) =>
               this.handleDateChange(event, newValue, "endDate")}
           />
           <br />
           <Field
             name="reservationPrice"
-            disabled={true}
-            fullWidth={false}
             label="Price"
             reservationPrice={this.state.price}
-            component={renderTextField}
+            component={renderPriceField}
           />
           <br />
           <Field
             name="numberAdults"
             label="Number of Adults"
             component={renderSelectField}
+            clearErrors={this.props.clearSubmitErrors}
           >
-            <MenuItem value={1} primaryText="1" />
-            <MenuItem value={2} primaryText="2" />
-            <MenuItem value={3} primaryText="3" />
-            <MenuItem value={4} primaryText="4" />
+            {this.renderMenuItems(1, 4)}
           </Field>
           <br />
           <Field
             name="numberChildrens"
             label="Number of childrens"
             component={renderSelectField}
+            clearErrors={this.props.clearSubmitErrors}
           >
-            <MenuItem value={0} primaryText="0" />
-            <MenuItem value={1} primaryText="1" />
-            <MenuItem value={2} primaryText="2" />
-            <MenuItem value={3} primaryText="3" />
-            <MenuItem value={4} primaryText="4" />
+            {this.renderMenuItems(0, 3)}
           </Field>
           <br />
           <Field
             name="observations"
             label="Observations"
             component={renderTextField}
-            type="text"
+            multiline={true}
+            onChange={() => this.props.clearSubmitErrors()}
           />
           <br />
           <RaisedButton
-            type="submit"
+            type="button"
             label="Submit"
+            onClick={() => this.handleOpen()}
+            disabled={pristine || submitting}
             primary={true}
             style={style}
             fullWidth={false}
+          >
+            <Dialog
+              title="Dialog With Actions"
+              actions={actions}
+              modal={false}
+              open={this.state.dialog}
+              onRequestClose={() => this.handleClose()}
+            >
+              The actions in this window were passed in as an array of React
+              objects.
+            </Dialog>
+          </RaisedButton>
+          <RaisedButton
+            type="button"
+            label="Clear Value"
+            disabled={pristine || submitting}
+            primary={true}
+            style={style}
+            fullWidth={false}
+            onClick={() => this.handleFormClear(reset)}
           />
         </form>
         {error && <strong>{error}</strong>}

@@ -8,7 +8,10 @@ export function renderSelectField(formProps) {
       errorText={formProps.meta.touched && formProps.meta.error}
       {...formProps.input}
       children={formProps.children}
-      onChange={(event, index, value) => formProps.input.onChange(value)}
+      onChange={(event, index, value) => {
+        formProps.clearErrors();
+        formProps.input.onChange(value);
+      }}
     />
   );
 }

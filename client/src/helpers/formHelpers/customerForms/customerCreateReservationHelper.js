@@ -1,5 +1,5 @@
 import { SubmissionError } from "redux-form";
-import customerCreateReservationFormFields from "../../formFields/customerForms/customerCreateReservationFormFields.js";
+import { formFields } from "../../formFields/customerForms/customerCreateReservationFormFields.js";
 
 export function disableWeekends(date) {
   if (date.getTime() < Date.now()) return true;
@@ -13,12 +13,11 @@ export function validateCustomerCreateReservationForm(values) {
 
   const totalPersons = numberAdults + numberChildrens;
 
-  customerCreateReservationFormFields.forEach(field => {
-    if (field.required && !values[field.name]) {
+  formFields.forEach(field => {
+    if (field.required && values[field.name] === undefined) {
       const fieldName = field.name;
       throw new SubmissionError({
-        [fieldName]: `Plase insert a ${field.label}`,
-        _error: "Reservation NOT created!"
+        [fieldName]: `Plase insert a ${field.label}`
       });
     }
   });

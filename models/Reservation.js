@@ -27,7 +27,10 @@ const reservationSchema = new Schema(
       min: 0,
       default: 0
     },
-    observations: String,
+    observations: {
+      type: String,
+      default: ""
+    },
     totalPayment: {
       type: Boolean,
       required: "You must select a payment type"
@@ -46,7 +49,11 @@ const reservationSchema = new Schema(
       type: String,
       default: "pending"
     },
-    reservationNumber: Number
+    reservationNumber: Number,
+    createdByCustomer: {
+      type: Boolean,
+      required: "Customer Created field must be supplied"
+    }
   },
   {
     toJSON: { virtuals: true },

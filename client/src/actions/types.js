@@ -7,10 +7,14 @@ export const LOGOUT_CUSTOMER = "logout_customer";
 export const FETCH_CUSTOMER_RESERVATIONS = "fetch_customer_reservations";
 export const FETCH_CUSTOMER_RESERVATIONS_ERROR =
   "fetch_customer_reservations_error";
-export const SUBMIT_CUSTOMER_CREATE_RESERVATION_FORM_SUCCESS =
+export const CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS =
   "submit_customer_create_reservation_form";
-export const SUBMIT_CUSTOMER_CREATE_RESERVATION_FORM_ERROR =
+export const CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES =
+  "submit_customer_create_unavailable_dates";
+export const CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR =
   "submit_customer_create_reservation_form";
+export const CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE =
+  "customer_create_reservation_form_clear_message";
 
 //Admin
 export const FETCH_ADMIN = "fetch_admin";

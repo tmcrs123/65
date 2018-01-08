@@ -15,8 +15,19 @@ module.exports = {
 
   create(req, res, next) {
     const availableDates = res.locals.availableDates;
-    console.log("Got info for reservation", req.body);
-    Reservation.create(req.body)
+    let customerId;
+    let reservationData;
+    let formData = { ...req.body };
+
+    if (req.body.createdByCustomer) {
+      customerId = req.user.id;
+    } else {
+      customerId = req.body.customerId;
+    }
+
+    reservationData = { ...formData, customerId };
+
+    Reservation.create(reservationData)
       .then(reservation =>
         res.status(201).send({ reservation, availableDates })
       )

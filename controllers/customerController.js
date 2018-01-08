@@ -39,7 +39,6 @@ module.exports = {
   },
 
   getAllCustomers(req, res, next) {
-    console.log("this logs?");
     Customer.find()
       .then(customers => res.send(customers))
       .catch(err => {
@@ -61,9 +60,7 @@ module.exports = {
   },
 
   getCustomerReservations(req, res, next) {
-    console.log("in get customer reservations");
     Reservation.find({ customerId: req.user }).then(reservations => {
-      console.log("reservations: ", reservations);
       res.send(reservations);
     });
   }

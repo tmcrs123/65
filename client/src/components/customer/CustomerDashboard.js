@@ -2,23 +2,72 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/customer_actions.js";
 import { Card, CardActions, CardTitle, CardText } from "material-ui/Card";
-import Divider from "material-ui/Divider";
 import Chip from "material-ui/Chip";
+import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import { red500, green500, yellow500 } from "material-ui/styles/colors";
 import _ from "lodash";
+import axios from "axios";
 
 class CustomerDashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { deleteReservationDialogOpen: false };
+  }
+
+  deleteReservation(reservationId) {
+    axios.delete(`/api/reservations/${reservationId}`);
+  }
+
+  handleDeleteReservationDialogOpen = () => {
+    this.setState({ deleteReservationDialogOpen: true });
+  };
+
+  handleDeleteReservationDialogClose = () => {
+    this.setState({ deleteReservationDialogOpen: false });
+  };
+
   componentDidMount() {
     this.props.fetchCustomerReservations();
   }
 
   renderActionButtons(reservation) {
+    const actions = [
+      <FlatButton
+        label="Back"
+        primary={true}
+        onClick={this.handleDeleteReservationDialogClose}
+      />,
+      <FlatButton
+        label="Delete Reservation"
+        primary={true}
+        keyboardFocused={true}
+        onClick={() => {
+          this.deleteReservation(reservation.id);
+          this.handleDeleteReservationDialogClose();
+        }}
+      />
+    ];
+
     if (reservation.status != "rejected")
       return (
         <CardActions>
           <FlatButton label="Edit" />
-          <FlatButton label="Cancel" />
+
+          <FlatButton
+            label="Delete Reservation"
+            onClick={this.handleDeleteReservationDialogOpen}
+          >
+            <Dialog
+              title="Delete reservation"
+              actions={actions}
+              modal={false}
+              open={this.state.deleteReservationDialogOpen}
+              onRequestClose={() => this.handleDeleteReservationDialogClose()}
+            >
+              Are you sure you want to delete this reservation?
+            </Dialog>
+          </FlatButton>
         </CardActions>
       );
   }
@@ -50,9 +99,7 @@ class CustomerDashboard extends Component {
         <div key={reservation.reservationNumber}>
           <br />
           <Card>
-            <CardTitle
-              title={`Reservation Number ${reservation.reservationNumber}`}
-            />
+            <CardTitle title={`# ${reservation.reservationNumber}`} />
             <CardText>
               <p>
                 {`Period: From ${new Date(

@@ -42,6 +42,9 @@ class CustomerCreateReservationForm extends Component {
     reset();
     this.setState({ startDate: undefined });
     this.setState({ endDate: undefined });
+    this.setState({ price: 0 });
+    this.setState({ totalPayment: false });
+    this.props.clearCustomerReservationFormMessage();
   }
 
   handleDateChange(event, newValue, caller) {
@@ -55,12 +58,13 @@ class CustomerCreateReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log(formData);
+    this.props.clearCustomerReservationFormMessage();
     const validationErrors = validateCustomerCreateReservationForm(formData);
-    console.log("Submitting form to DB");
     this.props.submitCustomerReservationForm({
       ...formData,
-      reservationPrice: this.state.price
+      totalValue: this.state.price,
+      totalPayment: this.state.totalPayment,
+      createdByCustomer: true
     });
   }
 
@@ -115,6 +119,7 @@ class CustomerCreateReservationForm extends Component {
           <Field
             name="totalPayment"
             label="Pay reservation total now?"
+            checked={this.state.totalPayment}
             component={renderCheckbox}
             onChange={() => this.handleCheckboxChange()}
           />
@@ -175,13 +180,14 @@ class CustomerCreateReservationForm extends Component {
           />
         </form>
         {error && <strong>{error}</strong>}
+        {this.props.message}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { submitCustomerReservationForm: state.customerSubmitReservationForm };
+  return { message: state.customerSubmitReservationForm.message };
 }
 
 CustomerCreateReservationForm = connect(mapStateToProps, actions)(

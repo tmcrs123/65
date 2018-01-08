@@ -5,6 +5,7 @@ import { Card, CardActions, CardTitle, CardText } from "material-ui/Card";
 import Chip from "material-ui/Chip";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
+import Snackbar from "material-ui/Snackbar";
 import { red500, green500, yellow500 } from "material-ui/styles/colors";
 import _ from "lodash";
 import axios from "axios";
@@ -12,11 +13,33 @@ import axios from "axios";
 class CustomerDashboard extends Component {
   constructor(props) {
     super(props);
-    this.state = { deleteReservationDialogOpen: false };
+    this.state = {
+      deleteReservationDialogOpen: false,
+      showDeleteReservationMessage: false
+    };
+  }
+
+  handleRequestClose() {
+    console.log("setting state to false");
+    this.props.clearCustomerReservationFormMessage();
+  }
+
+  componentDidMount() {
+    this.props.fetchCustomer();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("nextProps", nextProps);
+    if (nextProps.deleteReservationMessage != "") {
+      console.log("setting state to true");
+      this.setState({ showDeleteReservationMessage: true });
+    } else {
+      this.setState({ showDeleteReservationMessage: false });
+    }
   }
 
   deleteReservation(reservationId) {
-    axios.delete(`/api/reservations/${reservationId}`);
+    this.props.deleteCustomerReservation(reservationId);
   }
 
   handleDeleteReservationDialogOpen = () => {
@@ -26,10 +49,6 @@ class CustomerDashboard extends Component {
   handleDeleteReservationDialogClose = () => {
     this.setState({ deleteReservationDialogOpen: false });
   };
-
-  componentDidMount() {
-    this.props.fetchCustomerReservations();
-  }
 
   renderActionButtons(reservation) {
     const actions = [
@@ -127,15 +146,23 @@ class CustomerDashboard extends Component {
     return (
       <div className="container">
         <h1>Customer Dashboard</h1>
-        {/* {!_.isEmpty(this.props.customer) ? this.renderReservations() : ""} */}
-        {this.renderReservations()}
+        {this.props.reservations ? this.renderReservations() : ""}
+        <Snackbar
+          open={this.state.showDeleteReservationMessage}
+          message={this.props.deleteReservationMessage}
+          autoHideDuration={4000}
+          onRequestClose={() => this.handleRequestClose()}
+        />
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { reservations: state.customerReservations };
+  return {
+    reservations: state.customerInfo.reservations,
+    deleteReservationMessage: state.customerSubmitReservationForm.message
+  };
 }
 
 export default connect(mapStateToProps, actions)(CustomerDashboard);

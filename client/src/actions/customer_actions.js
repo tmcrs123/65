@@ -11,10 +11,12 @@ import {
   CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS,
   CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR,
   CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE,
-  CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES
+  CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES,
+  DELETE_RESERVATION_CUSTOMER
 } from "./types.js";
 
 export const fetchCustomer = () => dispatch => {
+  console.log("FETCHING CUSTOMER...");
   axios.get("/api/current_customer").then(res => {
     dispatch({ type: FETCH_CUSTOMER, payload: res.data });
   });
@@ -31,12 +33,16 @@ export const fetchCustomerReservations = () => dispatch => {
     });
 };
 
+export const deleteCustomerReservation = reservationId => dispatch => {
+  axios.delete(`/api/reservations/${reservationId}`).then(() => {
+    dispatch({ type: DELETE_RESERVATION_CUSTOMER, payload: reservationId });
+  });
+};
+
 export const submitCustomerReservationForm = formData => dispatch => {
   axios
     .post("/api/reservations", formData)
     .then(res => {
-      console.log("res", res);
-      console.log("availableDates", res.data.availableDates);
       if (res.data.availableDates) {
         dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS });
       } else {

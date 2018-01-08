@@ -58,7 +58,7 @@ class Header extends Component {
           <FlatButton href="/api/logout" label="Logout" />
         </div>
       );
-    } else if (!_.isEmpty(this.props.customerAuth)) {
+    } else if (!_.isEmpty(this.props.customerInfo)) {
       return (
         <div>
           <Link to="/customerDashboard">
@@ -98,7 +98,7 @@ class Header extends Component {
           onTitleClick={this.rootRedirect}
           onLeftIconButtonClick={this.handleToggle}
           showMenuIconButton={
-            !_.isEmpty(this.props.customerAuth) ||
+            !_.isEmpty(this.props.customerInfo) ||
             (!_.isEmpty(this.props.adminAuth) &&
               !this.props.adminAuth.authError)
               ? true
@@ -119,7 +119,7 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
-  return { adminAuth: state.adminAuth, customerAuth: state.customerAuth };
+  return { adminAuth: state.adminAuth, customerInfo: state.customerInfo };
 }
 
 export default connect(mapStateToProps, composedActions)(Header);

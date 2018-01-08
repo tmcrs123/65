@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Reservation = mongoose.model("reservations");
+const Customer = mongoose.model("customers");
+const _ = require("lodash");
 
 module.exports = {
   getAllReservations(req, res, next) {
@@ -24,14 +26,21 @@ module.exports = {
     } else {
       customerId = req.body.customerId;
     }
-
     reservationData = { ...formData, customerId };
 
-    Reservation.create(reservationData)
-      .then(reservation =>
-        res.status(201).send({ reservation, availableDates })
-      )
-      .catch(err => console.log(err));
+    const reservation = new Reservation(reservationData);
+
+    Customer.findById(customerId).then(customer => {
+      customer.reservations.push(reservation.id);
+      reservation
+        .save()
+        .then(() => {
+          customer.save().then(() => {
+            res.status(201).send({ availableDates });
+          });
+        })
+        .catch(err => console.log(err));
+    });
   },
 
   edit(req, res, next) {
@@ -48,11 +57,16 @@ module.exports = {
   },
 
   delete(req, res, next) {
+    const reservationId = req.params.id;
     Reservation.findByIdAndRemove(req.params.id)
       .then(reservation => {
-        res.status(204).send(reservation);
-        next;
+        return Customer.findById(reservation.customerId);
       })
+      .then(customer => {
+        customer.reservations.pull(reservationId);
+        return customer.save();
+      })
+      .then(() => res.status(204).send(""))
       .catch(err => {
         console.log(err);
         next;

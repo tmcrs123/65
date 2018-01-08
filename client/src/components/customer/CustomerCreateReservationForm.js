@@ -10,6 +10,7 @@ import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
+import Snackbar from "material-ui/Snackbar";
 import axios from "axios";
 import * as actions from "../../actions/customer_actions.js";
 
@@ -30,8 +31,24 @@ class CustomerCreateReservationForm extends Component {
       startDate: undefined,
       endDate: undefined,
       price: 0,
-      totalPayment: false
+      totalPayment: false,
+      showDeleteReservationMessage: false
     };
+  }
+
+  handleRequestClose() {
+    console.log("setting state to false");
+    this.props.clearCustomerReservationFormMessage();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("nextProps", nextProps);
+    if (nextProps.message != "") {
+      console.log("setting state to true");
+      this.setState({ showDeleteReservationMessage: true });
+    } else {
+      this.setState({ showDeleteReservationMessage: false });
+    }
   }
 
   handleCheckboxChange() {
@@ -181,6 +198,12 @@ class CustomerCreateReservationForm extends Component {
         </form>
         {error && <strong>{error}</strong>}
         {this.props.message}
+        <Snackbar
+          open={this.state.showDeleteReservationMessage}
+          message={this.props.message}
+          autoHideDuration={4000}
+          onRequestClose={() => this.handleRequestClose()}
+        />
       </div>
     );
   }

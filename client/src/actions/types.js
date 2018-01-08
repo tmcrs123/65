@@ -1,7 +1,8 @@
-//Customer Auth
+//Customer Info
 export const FETCH_CUSTOMER = "fetch_customer";
 export const LOGIN_CUSTOMER = "login_customer";
 export const LOGOUT_CUSTOMER = "logout_customer";
+export const DELETE_RESERVATION_CUSTOMER = "delete_reservation_customer";
 
 //Customer reservations
 export const FETCH_CUSTOMER_RESERVATIONS = "fetch_customer_reservations";

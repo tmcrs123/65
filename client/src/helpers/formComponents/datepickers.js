@@ -10,18 +10,16 @@ import {
 export function renderDatePicker(props) {
   return (
     <DatePicker
-      name={props.label}
+      name={props.name}
+      floatingLabelText={props.label}
       shouldDisableDate={disableWeekends}
       autoOk={true}
-      onChange={props.onChange}
-      floatingLabelText={props.label}
-      hintText={props.label}
-      value={props.date}
-      errorText={props.meta.touched && props.meta.error}
-      {...props}
+      value={props.input.value ? props.input.value : {}}
       onChange={(event, value, index) => {
         props.input.onChange(value);
       }}
+      hintText={props.label}
+      errorText={props.meta.touched && props.meta.error}
     />
   );
 }

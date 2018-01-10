@@ -1,56 +1,56 @@
 import React from "react";
 import TextField from "material-ui/TextField";
 
-export function renderPriceField(formProps) {
+export function renderPriceField(props) {
   return (
     <TextField
-      hintText={formProps.label}
-      floatingLabelText={formProps.label}
-      value={`${formProps.price} €`}
+      hintText={props.label}
+      floatingLabelText={props.label}
+      value={props.input.value ? `${props.input.value}€` : `${0}€`}
       disabled={true}
-      errorText={formProps.meta.touched && formProps.meta.error}
+      errorText={props.meta.touched && props.meta.error}
     />
   );
 }
 
-export function renderSimplePriceField(formProps) {
+export function renderSimplePriceField(props) {
   return (
     <TextField
-      name={formProps.name}
-      hintText={formProps.label}
-      floatingLabelText={formProps.label}
-      value={formProps.input.value}
+      name={props.name}
+      hintText={props.label}
+      floatingLabelText={props.label}
+      value={props.input.value}
       disabled={true}
-      errorText={formProps.meta.touched && formProps.meta.error}
+      errorText={props.meta.touched && props.meta.error}
     />
   );
 }
 
-export function renderTextField(formProps) {
+export function renderTextField(props) {
   return (
     <TextField
-      hintText={formProps.label}
-      floatingLabelText={formProps.label}
-      value={formProps.input.value}
-      errorText={formProps.meta.touched && formProps.meta.error}
-      {...formProps.input}
-      multiLine={formProps.multiLine}
-      fullWidth={formProps.fullWidth}
+      hintText={props.label}
+      floatingLabelText={props.label}
+      value={props.input.value}
+      errorText={props.meta.touched && props.meta.error}
+      {...props.input}
+      multiLine={props.multiLine}
+      fullWidth={props.fullWidth}
       rows={2}
       rowsMax={4}
     />
   );
 }
 
-export function renderTextFieldControlled(formProps) {
+export function renderTextFieldControlled(props) {
   return (
     <TextField
-      floatingLabelText={formProps.label}
-      errorText={formProps.meta.touched && formProps.meta.error}
-      multiLine={formProps.multiLine}
-      fullWidth={formProps.fullWidth}
-      value={formProps.text}
-      onChange={formProps.input.onChange}
+      floatingLabelText={props.label}
+      errorText={props.meta.touched && props.meta.error}
+      multiLine={props.multiLine}
+      fullWidth={props.fullWidth}
+      value={props.text}
+      onChange={props.input.onChange}
       rows={2}
       rowsMax={4}
     />

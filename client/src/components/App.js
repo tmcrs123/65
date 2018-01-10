@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import darkBaseTheme from "material-ui/styles/baseThemes/darkBaseTheme";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import * as adminActions from "../actions/admin_actions.js";

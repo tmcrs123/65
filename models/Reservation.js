@@ -16,13 +16,13 @@ const reservationSchema = new Schema(
       type: Date,
       required: "A reservation must have a ending date."
     },
-    totalValue: {
+    price: {
       type: Number,
       min: 0,
       default: 0,
       required: "You must supply a price for the reservation."
     },
-    valuePaid: {
+    price_paid: {
       type: Number,
       min: 0,
       default: 0
@@ -31,7 +31,7 @@ const reservationSchema = new Schema(
       type: String,
       default: ""
     },
-    totalPayment: {
+    upfrontPayment: {
       type: Boolean,
       required: "You must select a payment type"
     },
@@ -49,7 +49,6 @@ const reservationSchema = new Schema(
       type: String,
       default: "pending"
     },
-    reservationNumber: Number,
     createdByCustomer: {
       type: Boolean,
       required: "Customer Created field must be supplied"
@@ -61,16 +60,8 @@ const reservationSchema = new Schema(
   }
 );
 
-reservationSchema.pre("save", function(next) {
-  Reservation.collection.count().then(count => {
-    console.log("count", count);
-    this.reservationNumber = count + 1;
-    next();
-  });
-});
-
-reservationSchema.virtual("ValueLeftToPay").get(function() {
-  return this.TotalValue - this.ValuePaid;
+reservationSchema.virtual("price_toPay").get(function() {
+  return this.price - this.price_paid;
 });
 
 const Reservation = mongoose.model("reservations", reservationSchema);

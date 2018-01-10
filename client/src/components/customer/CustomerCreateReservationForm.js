@@ -6,9 +6,8 @@
  */
 
 import React, { Component } from "react";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import axios from "axios";
@@ -19,19 +18,16 @@ import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
 import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
-import { validateCustomerCreateReservationForm } from "../../helpers/formHelpers/customerForms/customerCreateReservationHelper.js";
-import { formFields } from "../../helpers/formFields/customerForms/customerCreateReservationFormFields.js";
+import {
+  validateCustomerCreateReservationForm,
+  style
+} from "../../helpers/formHelpers/customerForms/customerCreateReservationHelper.js";
+import { renderMenuItems } from "../../helpers/formHelpers/customerForms/customerEditReservationFormHelper.js";
 
 class CustomerCreateReservationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      AdultValue: 1,
-      ChildrenValue: 0,
-      startDate: undefined,
-      endDate: undefined,
-      price: 0,
-      totalPayment: false,
       showDeleteReservationMessage: false
     };
   }
@@ -41,130 +37,93 @@ class CustomerCreateReservationForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.message != "") {
+    if (nextProps.message !== "") {
       this.setState({ showDeleteReservationMessage: true });
     } else {
       this.setState({ showDeleteReservationMessage: false });
     }
   }
 
-  handleCheckboxChange() {
-    this.setState({ totalPayment: !this.state.totalPayment });
+  handleDateChange() {
+    /**
+     * Explain why set timeout
+     */
+    setTimeout(() => {
+      if (this.props.startDate && this.props.endDate) {
+        axios.get("/api/price").then(res => {
+          this.props.change("price", res.data.price);
+          this.handleCheckboxChange(null, this.props.upfrontPayment);
+        });
+      }
+    }, 500);
   }
 
-  handleFormClear(reset) {
-    reset();
-    this.setState({ startDate: undefined });
-    this.setState({ endDate: undefined });
-    this.setState({ price: 0 });
-    this.setState({ totalPayment: false });
-    this.props.clearCustomerReservationFormMessage();
-  }
-
-  handleDateChange(event, newValue, caller) {
-    this.setState({ [caller]: newValue });
-    if (this.state.startDate && this.state.endDate) {
-      axios.get("/api/price").then(res => {
-        this.setState({ price: res.data.price });
-      });
-    }
-    if (this.props.error) this.props.clearSubmitErrors();
+  handleCheckboxChange(value) {
+    value
+      ? this.props.change("payNow", this.props.price)
+      : this.props.change("payNow", this.props.price * 0.1);
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    this.props.clearCustomerReservationFormMessage();
-    const validationErrors = validateCustomerCreateReservationForm(formData);
-    this.props.submitCustomerReservationForm({
-      ...formData,
-      totalValue: this.state.price,
-      totalPayment: this.state.totalPayment,
-      createdByCustomer: true
-    });
-  }
-
-  renderMenuItems(startValue, endValue) {
-    let menuItems = [];
-    for (let i = startValue; i <= endValue; i++) {
-      let item = <MenuItem key={i} value={i} primaryText={`${i}`} />;
-      menuItems.push(item);
-    }
-    return menuItems;
+    console.log("got form data", formData);
+    validateCustomerCreateReservationForm(formData);
+    this.props.submitCustomerReservationForm(
+      {
+        ...formData,
+        createdByCustomer: true
+      },
+      this.props.reset
+    );
   }
 
   render() {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
 
-    const style = {
-      margin: 12
-    };
-
     return (
       <div className="container">
         <h3>Create a reservation</h3>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <div className="form-group" style={{ display: "block" }}>
+          <div className="form-group">
             <Field
               name="startDate"
               label="Start-Date"
               component={renderDatePicker}
-              date={this.state.startDate}
-              onChange={(event, newValue) =>
-                this.handleDateChange(event, newValue, "startDate")}
+              onChange={() => this.handleDateChange()}
             />
             <br />
             <Field
               name="endDate"
               label="End-Date"
               component={renderDatePicker}
-              date={this.state.endDate}
-              onChange={(event, newValue) =>
-                this.handleDateChange(event, newValue, "endDate")}
+              onChange={() => this.handleDateChange()}
             />
             <br />
           </div>
-          <Field
-            name="reservationPrice"
-            label="Price"
-            price={this.state.price}
-            component={renderPriceField}
-          />
-          <br />
+          <Field name="price" label="Price" component={renderPriceField} />
           <br />
           <Field
-            name="totalPayment"
+            name="upfrontPayment"
             label="Pay reservation total now?"
-            checked={this.state.totalPayment}
             component={renderCheckbox}
-            onChange={() => this.handleCheckboxChange()}
+            onChange={(event, value) => this.handleCheckboxChange(value)}
           />
           <br />
-          <Field
-            name="payNow"
-            label="Pay Now"
-            price={
-              this.state.totalPayment
-                ? this.state.price
-                : this.state.price * 0.1
-            }
-            component={renderPriceField}
-          />
+          <Field name="payNow" label="Pay Now" component={renderPriceField} />
           <br />
           <Field
             name="numberAdults"
             label="Number of Adults"
             component={renderSelectField}
-            clearErrors={this.props.clearSubmitErrors}
           >
-            {this.renderMenuItems(1, 4)}
+            {renderMenuItems(1, 4)}
           </Field>
           <br />
           <Field
             name="numberChildrens"
             label="Number of childrens"
             component={renderSelectField}
-            clearErrors={this.props.clearSubmitErrors}
           >
-            {this.renderMenuItems(0, 3)}
+            {renderMenuItems(0, 3)}
           </Field>
           <br />
           <Field
@@ -172,7 +131,6 @@ class CustomerCreateReservationForm extends Component {
             label="Observations"
             component={renderTextField}
             multiline={true}
-            onChange={() => this.props.clearSubmitErrors()}
           />
           <br />
           <RaisedButton
@@ -190,15 +148,13 @@ class CustomerCreateReservationForm extends Component {
             primary={true}
             style={style}
             fullWidth={false}
-            onClick={() => this.handleFormClear(reset)}
+            onClick={reset}
           />
         </form>
-        {error && <strong>{error}</strong>}
-        {this.props.message}
         <Snackbar
           open={this.state.showDeleteReservationMessage}
           message={this.props.message}
-          autoHideDuration={4000}
+          autoHideDuration={3000}
           onRequestClose={() => this.handleRequestClose()}
         />
       </div>
@@ -206,14 +162,33 @@ class CustomerCreateReservationForm extends Component {
   }
 }
 
+const selector = formValueSelector("customerCreateReservationForm");
+
 function mapStateToProps(state) {
-  return { message: state.customerMessages.message };
+  const upfrontPayment = selector(state, "upfrontPayment");
+  const price = selector(state, "price");
+  const startDate = selector(state, "startDate");
+  const endDate = selector(state, "endDate");
+  const payNow = selector(state, "payNow");
+
+  return {
+    message: state.customerMessages.message,
+    upfrontPayment,
+    price,
+    startDate,
+    endDate,
+    payNow
+  };
 }
+
+CustomerCreateReservationForm = reduxForm({
+  form: "customerCreateReservationForm",
+  enableReinitialize: true,
+  initialValues: { upfrontPayment: false }
+})(CustomerCreateReservationForm);
 
 CustomerCreateReservationForm = connect(mapStateToProps, actions)(
   CustomerCreateReservationForm
 );
 
-export default reduxForm({
-  form: "customerCreateReservationForm"
-})(CustomerCreateReservationForm);
+export default CustomerCreateReservationForm;

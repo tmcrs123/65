@@ -26,12 +26,16 @@ export const deleteCustomerReservation = reservationId => dispatch => {
   });
 };
 
-export const submitCustomerReservationForm = formData => dispatch => {
+export const submitCustomerReservationForm = (
+  formData,
+  resetForm
+) => dispatch => {
   axios
     .post("/api/reservations", formData)
     .then(res => {
       if (res.data.availableDates) {
         dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS });
+        resetForm();
       } else {
         dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES });
       }

@@ -6,6 +6,10 @@ export function disableWeekends(date) {
   return false;
 }
 
+export const style = {
+  margin: 12
+};
+
 export function validateCustomerCreateReservationForm(values) {
   const validationErrors = false;
 

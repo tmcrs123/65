@@ -14,6 +14,10 @@ export const CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR =
   "submit_customer_create_reservation_form";
 export const CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE =
   "customer_create_reservation_form_clear_message";
+export const CUSTOMER_EDIT_RESERVATION_SUCCESS__MESSAGE =
+  "customer_edit_reservation_success_message";
+export const CUSTOMER_CREATE_RESERVATION_INVALID_DATES_MESSAGE =
+  "customer_edit_reservation_success_message";
 
 //Admin
 export const FETCH_ADMIN = "fetch_admin";

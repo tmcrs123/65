@@ -21,11 +21,6 @@ import Header from "./Header.js";
 const composedActions = { ...adminActions, ...customerActions };
 
 class App extends Component {
-  componentDidMount() {
-    this.props.fetchCustomer();
-    this.props.fetchAdmin();
-  }
-
   render() {
     return (
       <div>

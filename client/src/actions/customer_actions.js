@@ -11,7 +11,9 @@ import {
   CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE,
   CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES,
   CUSTOMER_DELETE_RESERVATION,
-  CUSTOMER_SELECTED_RESERVATION
+  CUSTOMER_SELECTED_RESERVATION,
+  CUSTOMER_EDIT_RESERVATION_SUCCESS__MESSAGE,
+  CUSTOMER_CREATE_RESERVATION_INVALID_DATES_MESSAGE
 } from "./types.js";
 
 export const fetchCustomer = () => dispatch => {
@@ -50,9 +52,30 @@ export const clearCustomerReservationFormMessage = () => {
   return { type: CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE };
 };
 
-export const selectedReservation = selectedReservationId => {
-  return {
-    type: CUSTOMER_SELECTED_RESERVATION,
-    payload: selectedReservationId
-  };
+export const selectedReservation = selectedReservationId => dispatch => {
+  axios.get(`/api/reservations/${selectedReservationId}`).then(res => {
+    dispatch({
+      type: CUSTOMER_SELECTED_RESERVATION,
+      payload: res.data
+    });
+  });
+};
+
+export const updateReservation = (
+  reservationId,
+  reservationData,
+  history
+) => dispatch => {
+  axios.put(`/api/reservations/${reservationId}`, reservationData).then(res => {
+    if (res.data.availableDates) {
+      dispatch({ type: CUSTOMER_EDIT_RESERVATION_SUCCESS__MESSAGE });
+      history.push("/customerDashboard");
+    } else {
+      dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES });
+    }
+  });
+};
+
+export const sendInvalidDatesMessage = () => {
+  return { type: CUSTOMER_CREATE_RESERVATION_INVALID_DATES_MESSAGE };
 };

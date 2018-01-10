@@ -2,7 +2,6 @@ import React from "react";
 import Checkbox from "material-ui/Checkbox";
 
 export const renderCheckbox = props => {
-  console.log("checkbox.js props", props);
   return (
     <Checkbox
       label={props.label}

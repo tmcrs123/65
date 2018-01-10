@@ -132,7 +132,7 @@ class CustomerDashboard extends Component {
               <p>
                 {`Adults/Children: ${reservation.numberAdults} / ${reservation.numberChildrens}`}
               </p>
-              <p>{`Price: ${reservation.totalValue}`}</p>
+              <p>{`Price: ${reservation.price}`}</p>
               {this.renderStatusChip(reservation)}
             </CardText>
             {this.renderActionButtons(reservation)}

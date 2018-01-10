@@ -52,7 +52,7 @@ class CustomerCreateReservationForm extends Component {
       if (this.props.startDate && this.props.endDate) {
         axios.get("/api/price").then(res => {
           this.props.change("price", res.data.price);
-          this.handleCheckboxChange(null, this.props.upfrontPayment);
+          this.handleCheckboxChange(this.props.upfrontPayment);
         });
       }
     }, 500);
@@ -66,7 +66,10 @@ class CustomerCreateReservationForm extends Component {
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
     console.log("got form data", formData);
-    validateCustomerCreateReservationForm(formData);
+    validateCustomerCreateReservationForm(
+      formData,
+      this.props.sendInvalidDatesMessage
+    );
     this.props.submitCustomerReservationForm(
       {
         ...formData,

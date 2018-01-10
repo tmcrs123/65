@@ -10,7 +10,10 @@ export const style = {
   margin: 12
 };
 
-export function validateCustomerCreateReservationForm(values) {
+export function validateCustomerCreateReservationForm(
+  values,
+  sendInvalidaDatesMessage
+) {
   const validationErrors = false;
 
   const { startDate, endDate, numberAdults, numberChildrens } = values;
@@ -27,6 +30,7 @@ export function validateCustomerCreateReservationForm(values) {
   });
 
   if (startDate > endDate) {
+    sendInvalidaDatesMessage();
     throw new SubmissionError({
       _error: "Start date cannot be a date after the end date!"
     });

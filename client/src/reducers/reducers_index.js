@@ -5,13 +5,14 @@
 import { combineReducers } from "redux";
 import adminAuthReducer from "./admin/adminAuthReducer.js";
 import customerInfoReducer from "./customer/customerInfoReducer.js";
-
 import customerMessagesReducer from "./customer/customerMessagesReducer.js";
+import customerSelectedReservationReducer from "./customer/customerSelectedReservationReducer.js";
 import { reducer as reduxForm } from "redux-form";
 
 export default combineReducers({
   adminAuth: adminAuthReducer,
   customerInfo: customerInfoReducer,
   customerMessages: customerMessagesReducer,
+  customerSelectedReservation: customerSelectedReservationReducer,
   form: reduxForm
 });

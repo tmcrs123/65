@@ -36,7 +36,7 @@ module.exports = {
         .save()
         .then(() => {
           customer.save().then(() => {
-            res.status(201).send({ availableDates });
+            res.status(201).send(availableDates);
           });
         })
         .catch(err => console.log(err));
@@ -44,6 +44,8 @@ module.exports = {
   },
 
   edit(req, res, next) {
+    const availableDates = res.locals.availableDates;
+    console.log("got info that dates are", availableDates);
     const reservationId = req.params.id;
     const reservationProps = req.body;
     Reservation.findByIdAndUpdate(
@@ -51,7 +53,7 @@ module.exports = {
       reservationProps
     ).then(reservation => {
       Reservation.findById({ _id: reservation.id }).then(reservation => {
-        res.send(reservation);
+        res.send(availableDates);
       });
     });
   },
@@ -77,7 +79,12 @@ module.exports = {
     let availableDates = { availableDates: true };
     const startDate = req.body.startDate;
     const endDate = req.body.endDate;
-    let reservationId = req.body.reservationId ? req.body.reservationId : null;
+    let reservationId = req.params.id ? req.params.id : null;
+
+    console.log(
+      "in available dates the id of the reservation I sent is ",
+      reservationId
+    );
 
     Reservation.find({
       $or: [
@@ -108,6 +115,10 @@ module.exports = {
         dbReservations.length === 1 &&
         dbReservations[0].id === reservationId
       ) {
+        console.log(
+          "The id of the reservation I found is",
+          dbReservations[0].id
+        );
         res.locals.availableDates = availableDates;
         next();
         return;

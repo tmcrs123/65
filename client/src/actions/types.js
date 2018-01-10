@@ -2,12 +2,10 @@
 export const FETCH_CUSTOMER = "fetch_customer";
 export const LOGIN_CUSTOMER = "login_customer";
 export const LOGOUT_CUSTOMER = "logout_customer";
-export const DELETE_RESERVATION_CUSTOMER = "delete_reservation_customer";
+export const CUSTOMER_DELETE_RESERVATION = "delete_reservation_customer";
+export const CUSTOMER_SELECTED_RESERVATION = "selected_reservation";
 
 //Customer reservations
-export const FETCH_CUSTOMER_RESERVATIONS = "fetch_customer_reservations";
-export const FETCH_CUSTOMER_RESERVATIONS_ERROR =
-  "fetch_customer_reservations_error";
 export const CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS =
   "submit_customer_create_reservation_form";
 export const CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES =

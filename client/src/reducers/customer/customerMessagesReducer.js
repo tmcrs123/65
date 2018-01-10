@@ -7,7 +7,7 @@ import {
   CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR,
   CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE,
   CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES,
-  DELETE_RESERVATION_CUSTOMER
+  CUSTOMER_DELETE_RESERVATION
 } from "../../actions/types.js";
 
 export default function(state = { message: "" }, action) {
@@ -20,8 +20,7 @@ export default function(state = { message: "" }, action) {
       return { message: "Oops! Error happened" };
     case CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE:
       return { message: "" };
-    case DELETE_RESERVATION_CUSTOMER:
-      console.log("delete reservation reducer");
+    case CUSTOMER_DELETE_RESERVATION:
       return { message: "Your reservation was successfully deleted." };
     default:
       return state;

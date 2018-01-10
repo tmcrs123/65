@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import * as actions from "../../actions/customer_actions.js";
 import { Card, CardActions, CardTitle, CardText } from "material-ui/Card";
 import Chip from "material-ui/Chip";
@@ -20,7 +21,6 @@ class CustomerDashboard extends Component {
   }
 
   handleRequestClose() {
-    console.log("setting state to false");
     this.props.clearCustomerReservationFormMessage();
   }
 
@@ -29,9 +29,7 @@ class CustomerDashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
     if (nextProps.deleteReservationMessage != "") {
-      console.log("setting state to true");
       this.setState({ showDeleteReservationMessage: true });
     } else {
       this.setState({ showDeleteReservationMessage: false });
@@ -71,7 +69,9 @@ class CustomerDashboard extends Component {
     if (reservation.status != "rejected")
       return (
         <CardActions>
-          <FlatButton label="Edit" />
+          <Link to={`/customer/editReservation/${reservation.id}`}>
+            <FlatButton label="Edit" />
+          </Link>
 
           <FlatButton
             label="Delete Reservation"
@@ -115,7 +115,7 @@ class CustomerDashboard extends Component {
   renderReservations() {
     return this.props.reservations.map(reservation => {
       return (
-        <div key={reservation.reservationNumber}>
+        <div key={reservation.id}>
           <br />
           <Card>
             <CardTitle title={`# ${reservation.reservationNumber}`} />
@@ -161,7 +161,7 @@ class CustomerDashboard extends Component {
 function mapStateToProps(state) {
   return {
     reservations: state.customerInfo.reservations,
-    deleteReservationMessage: state.customerSubmitReservationForm.message
+    deleteReservationMessage: state.customerMessages.message
   };
 }
 

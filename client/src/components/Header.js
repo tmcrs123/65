@@ -17,11 +17,6 @@ class Header extends Component {
     this.state = { open: false };
   }
 
-  componentDidMount() {
-    this.props.fetchCustomer();
-    this.props.fetchAdmin();
-  }
-
   rootRedirect = () => this.props.history.push("/");
 
   renderDrawerMenuItems() {

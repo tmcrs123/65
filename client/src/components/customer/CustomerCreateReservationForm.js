@@ -37,14 +37,11 @@ class CustomerCreateReservationForm extends Component {
   }
 
   handleRequestClose() {
-    console.log("setting state to false");
     this.props.clearCustomerReservationFormMessage();
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
     if (nextProps.message != "") {
-      console.log("setting state to true");
       this.setState({ showDeleteReservationMessage: true });
     } else {
       this.setState({ showDeleteReservationMessage: false });
@@ -210,7 +207,7 @@ class CustomerCreateReservationForm extends Component {
 }
 
 function mapStateToProps(state) {
-  return { message: state.customerSubmitReservationForm.message };
+  return { message: state.customerMessages.message };
 }
 
 CustomerCreateReservationForm = connect(mapStateToProps, actions)(
@@ -218,6 +215,5 @@ CustomerCreateReservationForm = connect(mapStateToProps, actions)(
 );
 
 export default reduxForm({
-  form: "customerCreateReservationForm",
-  asyncBlurFields: ["startDate", "endDate"]
+  form: "customerCreateReservationForm"
 })(CustomerCreateReservationForm);

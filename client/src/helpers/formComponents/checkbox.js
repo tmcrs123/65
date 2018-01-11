@@ -5,7 +5,7 @@ export const renderCheckbox = props => {
   return (
     <Checkbox
       label={props.label}
-      checked={props.input.value}
+      checked={props.input.value ? props.input.value : false}
       value={props.input.value}
       onCheck={(event, value) => {
         props.input.onChange(event, value);

@@ -4,6 +4,7 @@ import _ from "lodash";
 import axios from "axios";
 import { reduxForm, Field, formValueSelector } from "redux-form";
 import * as actions from "../../actions/customer_actions.js";
+import { green100, green500, green700 } from "material-ui/styles/colors";
 
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import {
@@ -39,6 +40,14 @@ class CustomerEditReservationForm extends Component {
     } else {
       this.setState({ showDeleteReservationMessage: false });
     }
+
+    if (
+      nextProps.initialValues.upfrontPayment !==
+        this.props.initialValues.upfrontPayment &&
+      !nextProps.initialValues.upfrontPayment
+    ) {
+      nextProps.change("price_toPay", nextProps.price * 0.1);
+    }
   }
 
   handleRequestClose() {
@@ -65,10 +74,10 @@ class CustomerEditReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("got form data", formData);
-    const validationErrors = validateCustomerEditReservationForm(
+    validateCustomerEditReservationForm(
       formData,
-      this.props.sendInvalidDatesMessage
+      this.props.sendInvalidDatesMessage,
+      this.props.sendInvalidPersonsMessage
     );
     this.props.updateReservation(
       this.props.match.params.id,
@@ -78,6 +87,7 @@ class CustomerEditReservationForm extends Component {
   }
 
   render() {
+    console.log("state in render", this);
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <div className="container">
@@ -151,6 +161,7 @@ class CustomerEditReservationForm extends Component {
           message={this.props.message}
           autoHideDuration={3000}
           onRequestClose={() => this.handleRequestClose()}
+          style={{ background: green500 }}
         />
       </div>
     );
@@ -178,7 +189,7 @@ function mapStateToProps(state) {
 }
 /**
  * A Ordem interessa!
- * 
+ *
  */
 
 CustomerEditReservationForm = reduxForm({

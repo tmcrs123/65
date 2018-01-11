@@ -12,7 +12,8 @@ export const style = {
 
 export function validateCustomerCreateReservationForm(
   values,
-  sendInvalidaDatesMessage
+  sendInvalidDatesMessage,
+  sendInvalidPersonsMessage
 ) {
   const validationErrors = false;
 
@@ -30,13 +31,14 @@ export function validateCustomerCreateReservationForm(
   });
 
   if (startDate > endDate) {
-    sendInvalidaDatesMessage();
+    sendInvalidDatesMessage();
     throw new SubmissionError({
       _error: "Start date cannot be a date after the end date!"
     });
   }
 
   if (totalPersons > 4) {
+    sendInvalidPersonsMessage();
     throw new SubmissionError({
       _error: "The maximum number of persons allowed is 4"
     });

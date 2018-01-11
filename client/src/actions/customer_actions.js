@@ -8,12 +8,13 @@ import {
   FETCH_CUSTOMER,
   CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS,
   CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR,
-  CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE,
+  CUSTOMER_FORM_CLEAR_MESSAGE,
   CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES,
   CUSTOMER_DELETE_RESERVATION,
   CUSTOMER_SELECTED_RESERVATION,
-  CUSTOMER_EDIT_RESERVATION_SUCCESS__MESSAGE,
-  CUSTOMER_CREATE_RESERVATION_INVALID_DATES_MESSAGE
+  CUSTOMER_EDIT_RESERVATION_SUCCESS_MESSAGE,
+  CUSTOMER_INVALID_DATES_MESSAGE,
+  CUSTOMER_INVALID_PERSONS_MESSAGE
 } from "./types.js";
 
 export const fetchCustomer = () => dispatch => {
@@ -36,10 +37,14 @@ export const submitCustomerReservationForm = (
     .post("/api/reservations", formData)
     .then(res => {
       if (res.data.availableDates) {
-        dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS });
+        dispatch({
+          type: CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS
+        });
         resetForm();
       } else {
-        dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES });
+        dispatch({
+          type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES
+        });
       }
     })
     .catch(err => {
@@ -49,7 +54,7 @@ export const submitCustomerReservationForm = (
 };
 
 export const clearCustomerReservationFormMessage = () => {
-  return { type: CUSTOMER_CREATE_RESERVATION_FORM_CLEAR_MESSAGE };
+  return { type: CUSTOMER_FORM_CLEAR_MESSAGE };
 };
 
 export const selectedReservation = selectedReservationId => dispatch => {
@@ -66,16 +71,26 @@ export const updateReservation = (
   reservationData,
   history
 ) => dispatch => {
+  console.log("In update reservation action creator");
   axios.put(`/api/reservations/${reservationId}`, reservationData).then(res => {
     if (res.data.availableDates) {
-      dispatch({ type: CUSTOMER_EDIT_RESERVATION_SUCCESS__MESSAGE });
+      console.log("dispatch edit success message");
+      dispatch({
+        type: CUSTOMER_EDIT_RESERVATION_SUCCESS_MESSAGE,
+        payload: "shit3"
+      });
       history.push("/customerDashboard");
     } else {
+      console.log("dispatch unavailable dates");
       dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES });
     }
   });
 };
 
 export const sendInvalidDatesMessage = () => {
-  return { type: CUSTOMER_CREATE_RESERVATION_INVALID_DATES_MESSAGE };
+  return { type: CUSTOMER_INVALID_DATES_MESSAGE };
+};
+
+export const sendInvalidPersonsMessage = () => {
+  return { type: CUSTOMER_INVALID_PERSONS_MESSAGE };
 };

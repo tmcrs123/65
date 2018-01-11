@@ -68,7 +68,8 @@ class CustomerCreateReservationForm extends Component {
     console.log("got form data", formData);
     validateCustomerCreateReservationForm(
       formData,
-      this.props.sendInvalidDatesMessage
+      this.props.sendInvalidDatesMessage,
+      this.props.sendInvalidPersonsMessage
     );
     this.props.submitCustomerReservationForm(
       {

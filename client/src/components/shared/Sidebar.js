@@ -26,21 +26,29 @@ class Sidebar extends Component {
     if (!_.isEmpty(this.props.adminAuth) && !this.props.adminAuth.authError) {
       return (
         <div className={styles.col} style={styles.css}>
-          <MenuItem style={styles.menuItem}>Admin</MenuItem>
-          <MenuItem style={styles.menuItem}>Admin</MenuItem>
-          <MenuItem style={styles.menuItem}>Admin</MenuItem>
+          <Link to="/admin/dashboard/customers">
+            <MenuItem style={styles.menuItem}>Customers</MenuItem>
+          </Link>
+          <Link to="/admin/dashboard/reservations">
+            <MenuItem style={styles.menuItem}>Reservations</MenuItem>
+          </Link>
+          <Link to="/admin/dashboard/prices">
+            <MenuItem style={styles.menuItem}>Prices</MenuItem>
+          </Link>
         </div>
       );
     } else if (!_.isEmpty(this.props.customerInfo)) {
       return (
         <div className={styles.col} style={styles.css}>
-          <MenuItem onClick={this.handleClose}>
-            <Link to="/customerDashboard">My Reservations</Link>
-          </MenuItem>
-          <MenuItem onClick={this.handleClose}>
-            <Link to="/customer/createReservation">Create Reservations</Link>
-          </MenuItem>
-          <MenuItem onClick={this.handleClose}>Contact Us</MenuItem>
+          <Link to="/customer/dashboard">
+            <MenuItem onClick={this.handleClose}>My Reservations</MenuItem>
+          </Link>
+          <Link to="/customer/createReservation">
+            <MenuItem onClick={this.handleClose}>Create Reservations</MenuItem>
+          </Link>
+          <Link>
+            <MenuItem onClick={this.handleClose}>Contact Us</MenuItem>
+          </Link>
         </div>
       );
     } else {
@@ -49,7 +57,6 @@ class Sidebar extends Component {
   }
 
   render() {
-    console.log("state in sidebar render ", this);
     return this.renderDrawerMenuItems();
   }
 }

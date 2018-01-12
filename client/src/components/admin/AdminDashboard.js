@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/admin_actions";
 import Sidebar from "../shared/Sidebar";
-import { grey300 } from "material-ui/styles/colors";
+import AdminDashboardCustomers from "./AdminDashboardCustomers";
+import AdminDashboardPrices from "./AdminDashboardPrices";
+import { Route } from "react-router-dom";
 
 class AdminDashboard extends Component {
   componentDidMount() {
@@ -23,10 +25,17 @@ class AdminDashboard extends Component {
         <Sidebar />
         <div className="row">
           <div className="col s10" style={styles}>
-            <h2>Admin Dashboard</h2>
-            <div className="container">
-              <h4>More stuff here</h4>
-            </div>
+            <Route
+              exact
+              path="/admin/dashboard/customers"
+              component={AdminDashboardCustomers}
+            />
+
+            <Route
+              exact
+              path="/admin/dashboard/prices"
+              component={AdminDashboardPrices}
+            />
           </div>
         </div>
       </div>

@@ -18,6 +18,8 @@ import CustomerEditReservationForm from "./components/customer/CustomerEditReser
 
 import AdminLogin from "./components/admin/AdminLogin.js";
 import AdminDashboard from "./components/admin/AdminDashboard.js";
+import AdminDashboardCustomers from "./components/admin/AdminDashboardCustomers.js";
+import AdminDashboardPrices from "./components/admin/AdminDashboardPrices.js";
 import RequireAdminAuth from "./components/hoc/requireAdminAuth.js";
 import Landing from "./components/landing.js";
 
@@ -32,7 +34,7 @@ ReactDOM.render(
           <Route exact path="/" component={Landing} />
           <Route
             exact
-            path="/customerDashboard"
+            path="/customer/dashboard"
             component={CustomerDashboard}
           />
           <Route
@@ -45,9 +47,9 @@ ReactDOM.render(
             path="/customer/editReservation/:id"
             component={CustomerEditReservationForm}
           />
-          <Route exact path="/customerlogin" component={CustomerLogin} />
-          <Route exact path="/adminlogin" component={AdminLogin} />
-          <Route exact path="/adminDashboard" component={AdminDashboard} />
+          <Route exact path="/customer/login" component={CustomerLogin} />
+          <Route exact path="/admin/login" component={AdminLogin} />
+          <Route path="/admin/dashboard" component={AdminDashboard} />
         </div>
       </BrowserRouter>
     </MuiThemeProvider>

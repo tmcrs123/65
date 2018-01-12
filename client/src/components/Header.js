@@ -21,7 +21,7 @@ class Header extends Component {
     if (!_.isEmpty(this.props.adminAuth) && !this.props.adminAuth.authError) {
       return (
         <div>
-          <Link to="/adminDashboard">
+          <Link to="/admin/dashboard">
             <FlatButton label="Admin Dashboard" />
           </Link>
           <FlatButton href="/api/logout" label="Logout" />
@@ -30,7 +30,7 @@ class Header extends Component {
     } else if (!_.isEmpty(this.props.customerInfo)) {
       return (
         <div>
-          <Link to="/customerDashboard">
+          <Link to="/customer/dashboard">
             <FlatButton label="Customer Dashboard" />
           </Link>
           <FlatButton href="/api/logout" label="Logout" />
@@ -39,10 +39,10 @@ class Header extends Component {
     } else {
       return (
         <div>
-          <Link to="/customerlogin">
+          <Link to="/customer/login">
             <FlatButton label="Customer Login" />
           </Link>
-          <Link to="/adminlogin">
+          <Link to="/admin/login">
             <FlatButton label="Admin Login" />
           </Link>
         </div>

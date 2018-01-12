@@ -4,8 +4,9 @@ import { withRouter } from "react-router-dom";
 
 export default function(ComposedComponent) {
   class AdminAuthentication extends Component {
-    componentWillMount() {
+    componentDidMount() {
       if (!this.props.authenticated.isAdmin) {
+        console.log("redirecting");
         this.props.history.push("/");
       }
     }
@@ -16,7 +17,8 @@ export default function(ComposedComponent) {
   }
 
   function mapStateToProps(state) {
-    return { authenticated: state.auth };
+    console.log("state in mstp", state);
+    return { authenticated: state.adminAuth };
   }
 
   return connect(mapStateToProps, null)(withRouter(AdminAuthentication));

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import darkBaseTheme from "material-ui/styles/baseThemes/darkBaseTheme";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
+
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import * as adminActions from "../actions/admin_actions.js";
@@ -17,42 +15,15 @@ import AdminDashboard from "./admin/AdminDashboard.js";
 import RequireAdminAuth from "./hoc/requireAdminAuth.js";
 import Landing from "./landing.js";
 import Header from "./Header.js";
+import Sidebar from "./shared/Sidebar";
 
 const composedActions = { ...adminActions, ...customerActions };
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <MuiThemeProvider>
-          <BrowserRouter>
-            <div>
-              <Route path="/" component={Header} />
-              <Route exact path="/" component={Landing} />
-              <Route
-                exact
-                path="/customerDashboard"
-                component={CustomerDashboard}
-              />
-              <Route
-                exact
-                path="/customer/createReservation"
-                component={CustomerCreateReservationForm}
-              />
-              <Route
-                path="/customer/editReservation/:id"
-                component={CustomerEditReservationForm}
-              />
-              <Route exact path="/customerlogin" component={CustomerLogin} />
-              <Route exact path="/adminlogin" component={AdminLogin} />
-              <Route
-                exact
-                path="/adminDashboard"
-                component={RequireAdminAuth(AdminDashboard)}
-              />
-            </div>
-          </BrowserRouter>
-        </MuiThemeProvider>
+      <div className="col s12">
+        <Header />
       </div>
     );
   }

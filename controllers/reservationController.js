@@ -5,7 +5,9 @@ const _ = require("lodash");
 
 module.exports = {
   getAllReservations(req, res, next) {
-    Reservation.find().then(reservations => res.send(reservations));
+    Reservation.find()
+      .populate("customerId", "name")
+      .then(reservations => res.send(reservations));
   },
 
   getReservation(req, res, next) {

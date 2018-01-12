@@ -9,11 +9,13 @@ import {
   FETCH_ADMIN,
   AUTH_ADMIN,
   AUTH_ERROR_ADMIN,
-  RESET_ADMIN_AUTH_ERROR
+  RESET_ADMIN_AUTH_ERROR,
+  GET_RESERVATIONS
 } from "./types.js";
 
 export const fetchAdmin = () => dispatch => {
   axios.get("/api/current_admin").then(res => {
+    console.log("got from db", res.data);
     dispatch({ type: FETCH_ADMIN, payload: res.data });
   });
 };
@@ -35,4 +37,10 @@ export const authAdmin = (loginInfo, history) => dispatch => {
 
 export const resetAuthError = () => {
   return { type: RESET_ADMIN_AUTH_ERROR };
+};
+
+export const getReservations = () => dispatch => {
+  axios.get("/api/reservations").then(res => {
+    dispatch({ type: GET_RESERVATIONS, payload: res.data });
+  });
 };

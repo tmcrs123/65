@@ -26,3 +26,4 @@ export const FETCH_ADMIN = "fetch_admin";
 export const AUTH_ADMIN = "auth_admin";
 export const AUTH_ERROR_ADMIN = "auth_error_admin";
 export const RESET_ADMIN_AUTH_ERROR = "reset_auth_error";
+export const GET_RESERVATIONS = "get_reservations";

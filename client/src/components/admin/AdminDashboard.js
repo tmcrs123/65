@@ -4,6 +4,7 @@ import * as actions from "../../actions/admin_actions";
 import Sidebar from "../shared/Sidebar";
 import AdminDashboardCustomers from "./AdminDashboardCustomers";
 import AdminDashboardPrices from "./AdminDashboardPrices";
+import AdminDashboardLanding from "./AdminDashboardLanding";
 import { Route } from "react-router-dom";
 
 class AdminDashboard extends Component {
@@ -17,7 +18,8 @@ class AdminDashboard extends Component {
 
   render() {
     const styles = {
-      backgroundColor: "#BDBDBD"
+      backgroundColor: "#BDBDBD",
+      height: "100vh"
     };
 
     return (
@@ -25,6 +27,11 @@ class AdminDashboard extends Component {
         <Sidebar />
         <div className="row">
           <div className="col s10" style={styles}>
+            <Route
+              exact
+              path="/admin/dashboard/landing"
+              component={AdminDashboardLanding}
+            />
             <Route
               exact
               path="/admin/dashboard/customers"

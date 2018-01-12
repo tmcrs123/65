@@ -13,8 +13,6 @@ import reducers from "./reducers/reducers_index.js";
 
 import CustomerLogin from "./components/customer/CustomerLogin.js";
 import CustomerDashboard from "./components/customer/CustomerDashboard.js";
-import CustomerCreateReservationForm from "./components/customer/CustomerCreateReservationForm.js";
-import CustomerEditReservationForm from "./components/customer/CustomerEditReservationForm.js";
 
 import AdminLogin from "./components/admin/AdminLogin.js";
 import AdminDashboard from "./components/admin/AdminDashboard.js";
@@ -32,21 +30,8 @@ ReactDOM.render(
         <div>
           <Route path="/" component={App} />
           <Route exact path="/" component={Landing} />
-          <Route
-            exact
-            path="/customer/dashboard"
-            component={CustomerDashboard}
-          />
-          <Route
-            exact
-            path="/customer/createReservation"
-            component={CustomerCreateReservationForm}
-          />
-          <Route
-            exact
-            path="/customer/editReservation/:id"
-            component={CustomerEditReservationForm}
-          />
+          <Route path="/customer/dashboard" component={CustomerDashboard} />
+
           <Route exact path="/customer/login" component={CustomerLogin} />
           <Route exact path="/admin/login" component={AdminLogin} />
           <Route path="/admin/dashboard" component={AdminDashboard} />

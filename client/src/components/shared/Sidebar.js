@@ -40,13 +40,13 @@ class Sidebar extends Component {
     } else if (!_.isEmpty(this.props.customerInfo)) {
       return (
         <div className={styles.col} style={styles.css}>
-          <Link to="/customer/dashboard">
+          <Link to="/customer/dashboard/landing">
             <MenuItem onClick={this.handleClose}>My Reservations</MenuItem>
           </Link>
-          <Link to="/customer/createReservation">
+          <Link to="/customer/dashboard/createReservation">
             <MenuItem onClick={this.handleClose}>Create Reservations</MenuItem>
           </Link>
-          <Link>
+          <Link to="/customer/dashboard/createReservation">
             <MenuItem onClick={this.handleClose}>Contact Us</MenuItem>
           </Link>
         </div>

@@ -2,12 +2,69 @@ const mongoose = require("mongoose");
 const Reservation = mongoose.model("reservations");
 const Customer = mongoose.model("customers");
 const _ = require("lodash");
+const moment = require("moment");
 
 module.exports = {
+  /**Reservations for the next month from the date i'm currently in */
+
+  getNextReservations(req, res, next) {
+    const today = moment(new Date());
+    const oneMonthFromNow = moment(new Date()).add(1, "Month");
+
+    Reservation.find({
+      startDate: {
+        $gte: today,
+        $lte: oneMonthFromNow
+      }
+    })
+      .populate("customer", "name")
+      .then(reservations => {
+        res.send(reservations);
+      });
+  },
+
+  getReservationCount(req, res, next) {
+    const count = Reservation.count().then(count =>
+      res.send({ totalReservations: count })
+    );
+  },
+
+  getMonthReservationCount(req, res, next) {
+    const firstDayMonth = getFirstDayOfMonth()._d;
+
+    const lastDayMonth = getLastDayOfMonth()._d;
+
+    Reservation.find({
+      startDate: {
+        $gte: firstDayMonth,
+        $lte: lastDayMonth
+      }
+    }).then(reservations => {
+      res.send({ count: reservations.length });
+    });
+  },
+
   getAllReservations(req, res, next) {
     Reservation.find()
-      .populate("customerId", "name")
+      .populate("customer", "name")
       .then(reservations => res.send(reservations));
+  },
+
+  getTotalReservationsValue(req, res, next) {
+    Reservation.aggregate(
+      {
+        $group: {
+          _id: "",
+          price: { $sum: "$price" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          price: "$price"
+        }
+      }
+    ).then(sum => res.send({ reservationsTotal: sum[0].price }));
   },
 
   getReservation(req, res, next) {
@@ -26,7 +83,7 @@ module.exports = {
     if (req.body.createdByCustomer) {
       customerId = req.user.id;
     } else {
-      customerId = req.body.customerId;
+      customerId = req.body.customer;
     }
     reservationData = { ...formData, customerId };
 
@@ -64,7 +121,7 @@ module.exports = {
     const reservationId = req.params.id;
     Reservation.findByIdAndRemove(req.params.id)
       .then(reservation => {
-        return Customer.findById(reservation.customerId);
+        return Customer.findById(reservation.customer);
       })
       .then(customer => {
         customer.reservations.pull(reservationId);
@@ -138,3 +195,22 @@ module.exports = {
     });
   }
 };
+
+//helpers
+
+function getFirstDayOfMonth() {
+  const today = moment(new Date());
+  const currentDay = today.date();
+  const firstDayMonth = today
+    .subtract(currentDay - 1, "days")
+    .hour(0)
+    .minute(0)
+    .second(0)
+    .millisecond(0);
+  return firstDayMonth;
+}
+
+function getLastDayOfMonth() {
+  const LastDayMonth = getFirstDayOfMonth().add(1, "Month");
+  return LastDayMonth;
+}

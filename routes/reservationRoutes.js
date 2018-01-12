@@ -20,4 +20,15 @@ module.exports = app => {
   );
 
   app.get("/api/price", (req, res) => res.send({ price: Math.random() * 11 }));
+
+  app.get("/api/nextReservations", reservationController.getNextReservations);
+  app.get("/api/reservationsCount", reservationController.getReservationCount);
+  app.get(
+    "/api/reservationsCountMonth",
+    reservationController.getMonthReservationCount
+  );
+  app.get(
+    "/api/reservationsTotalValue",
+    reservationController.getTotalReservationsValue
+  );
 };

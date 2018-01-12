@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema(
   {
-    customerId: {
+    customer: {
       type: Schema.Types.ObjectId,
       ref: "customers",
       required: "A reservation must have a customer."

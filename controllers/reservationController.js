@@ -67,6 +67,23 @@ module.exports = {
     ).then(sum => res.send({ reservationsTotal: sum[0].price }));
   },
 
+  getTotalReservationsValueByStatus(req, res, next) {
+    Reservation.aggregate([
+      { $match: { status: req.params.status } },
+      {
+        $group: {
+          _id: null,
+          price: { $sum: "$price" }
+        }
+      },
+      {
+        $project: {
+          _id: 0
+        }
+      }
+    ]).then(sum => (res.send({[req.params.status]:sum})));
+  },
+
   getReservation(req, res, next) {
     const reservationId = req.params.id;
     Reservation.findById({ _id: reservationId }).then(reservation =>

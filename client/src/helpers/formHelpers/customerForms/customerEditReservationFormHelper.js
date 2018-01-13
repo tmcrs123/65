@@ -31,7 +31,6 @@ export function validateCustomerEditReservationForm(
   sendInvalidDatesMessage,
   sendInvalidPersonsMessage
 ) {
-  console.log("In validation");
   const validationErrors = false;
 
   const { startDate, endDate, numberAdults, numberChildrens } = values;

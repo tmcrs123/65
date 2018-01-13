@@ -9,7 +9,6 @@ import _ from "lodash";
 export default function(state = {}, action) {
   switch (action.type) {
     case FETCH_ADMIN:
-      console.log(action.payload);
       return action.payload;
     case AUTH_ADMIN:
       return action.payload;

@@ -31,4 +31,8 @@ module.exports = app => {
     "/api/reservationsTotalValue",
     reservationController.getTotalReservationsValue
   );
+  app.get(
+    "/api/reservationsTotalValue/:status",
+    reservationController.getTotalReservationsValueByStatus
+  );
 };

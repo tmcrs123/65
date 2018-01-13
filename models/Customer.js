@@ -26,6 +26,10 @@ const customerSchema = new Schema(
   }
 );
 
+customerSchema.index({ name: "text" });
+
+mongoose.connection.on("index", () => console.log("index created"));
+
 customerSchema.virtual("isAdmin").get(function() {
   return false;
 });

@@ -71,17 +71,14 @@ export const updateReservation = (
   reservationData,
   history
 ) => dispatch => {
-  console.log("In update reservation action creator");
   axios.put(`/api/reservations/${reservationId}`, reservationData).then(res => {
     if (res.data.availableDates) {
-      console.log("dispatch edit success message");
       dispatch({
         type: CUSTOMER_EDIT_RESERVATION_SUCCESS_MESSAGE,
         payload: "shit3"
       });
       history.push("/customerDashboard");
     } else {
-      console.log("dispatch unavailable dates");
       dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES });
     }
   });

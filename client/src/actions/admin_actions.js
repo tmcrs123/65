@@ -10,12 +10,12 @@ import {
   AUTH_ADMIN,
   AUTH_ERROR_ADMIN,
   RESET_ADMIN_AUTH_ERROR,
-  GET_RESERVATIONS
+  GET_RESERVATIONS,
+  GET_CUSTOMER_LIST
 } from "./types.js";
 
 export const fetchAdmin = () => dispatch => {
   axios.get("/api/current_admin").then(res => {
-    console.log("got from db", res.data);
     dispatch({ type: FETCH_ADMIN, payload: res.data });
   });
 };
@@ -42,5 +42,12 @@ export const resetAuthError = () => {
 export const getReservations = () => dispatch => {
   axios.get("/api/reservations").then(res => {
     dispatch({ type: GET_RESERVATIONS, payload: res.data });
+  });
+};
+
+export const getCustomerList = () => dispatch => {
+  console.log("in get customer list action creator");
+  axios.get("/api/customers").then(res => {
+    dispatch({ type: GET_CUSTOMER_LIST, payload: res.data });
   });
 };

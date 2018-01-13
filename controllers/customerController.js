@@ -16,16 +16,14 @@ module.exports = {
     const customerId = req.params.id;
     const customerProps = req.body;
 
-    Customer.findByIdAndUpdate(
-      { _id: customerId },
-      customerProps
-    ).then(customer =>
-      Customer.findById({ _id: customerId })
-        .then(customer => res.send(customer))
-        .catch(err => {
-          console.log(err);
-          next;
-        })
+    Customer.findByIdAndUpdate({ _id: customerId }, customerProps).then(
+      customer =>
+        Customer.findById({ _id: customerId })
+          .then(customer => res.send(customer))
+          .catch(err => {
+            console.log(err);
+            next;
+          })
     );
   },
 
@@ -63,5 +61,21 @@ module.exports = {
     Reservation.find({ customerId: req.user }).then(reservations => {
       res.send(reservations);
     });
+  },
+
+  searchCustomers(req, res, next) {
+    const name = req.query.name;
+
+    const exp = new RegExp(name, "g");
+
+    Customer.find({
+      name: { $regex: exp, $options: "i" }
+    })
+      .sort({ name: 1 })
+      .limit(10)
+      .then(customers => {
+        console.log('got customers ' , customers.length);
+        res.send(customers));
+      }
   }
 };

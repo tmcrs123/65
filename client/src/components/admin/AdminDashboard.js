@@ -12,10 +12,6 @@ class AdminDashboard extends Component {
     this.props.getReservations();
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-  }
-
   render() {
     const styles = {
       backgroundColor: "#BDBDBD",

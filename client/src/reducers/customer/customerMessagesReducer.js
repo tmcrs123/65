@@ -20,8 +20,6 @@ export default function(state = { message: "" }, action) {
     case CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES:
       return { message: "The dates you selected are not available." };
     case CUSTOMER_INVALID_DATES_MESSAGE:
-      console.log("invalid dates reducer");
-      console.log("payload ", action.payload);
       return { message: "Dates are invalid." };
     case CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR:
       return { message: "Oops! Error happened" };

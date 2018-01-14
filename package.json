@@ -21,6 +21,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.2",
     "lodash": "^4.17.4",
+    "material-ui-pagination": "^1.1.6",
     "mocha": "^4.0.1",
     "moment": "^2.20.1",
     "mongoose": "^4.13.7",

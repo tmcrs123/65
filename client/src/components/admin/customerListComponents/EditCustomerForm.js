@@ -5,15 +5,38 @@ import { renderTextField } from "../../../helpers/formComponents/textFields";
 import { renderCheckbox } from "../../../helpers/formComponents/checkbox";
 import * as actions from "../../../actions/admin_actions";
 import RaisedButton from "material-ui/RaisedButton";
+import Snackbar from "material-ui/Snackbar";
+
+import { validateForm } from "../../../helpers/formHelpers/adminForms/adminEditCustomerFormHelper";
 
 class AdminEditReservationForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMessage: false
+    };
+  }
+
   componentDidMount() {
     const customerId = this.props.match.params.id;
     this.props.getCustomer(customerId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.message.text !== "") {
+      this.setState({ showMessage: true });
+    } else {
+      this.setState({ showMessage: false });
+    }
+  }
+
+  handleRequestClose() {
+    this.props.clearAdminMessage();
+  }
+
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("got form data!", formData);
+    validateForm(formData);
+    this.props.submitCustomer(formData);
   }
 
   render() {
@@ -51,6 +74,12 @@ class AdminEditReservationForm extends Component {
             fullWidth={false}
           />
         </form>
+        <Snackbar
+          open={this.state.showMessage}
+          message={this.props.message.text}
+          autoHideDuration={3000}
+          onRequestClose={() => this.handleRequestClose()}
+        />
       </div>
     );
   }
@@ -59,6 +88,7 @@ class AdminEditReservationForm extends Component {
 function mapStateToProps(state) {
   return {
     selectedCustomer: state.adminSelectedCustomer,
+    message: state.adminMessages,
     initialValues: state.adminSelectedCustomer
   };
 }

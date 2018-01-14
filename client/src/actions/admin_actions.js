@@ -14,7 +14,9 @@ import {
   GET_CUSTOMER_LIST,
   SEARCH_CUSTOMER_BY_NAME,
   DELETE_CUSTOMER,
-  ADMIN_SELECTED_CUSTOMER
+  ADMIN_SELECTED_CUSTOMER,
+  ADMIN_EDIT_CUSTOMER_SUBMIT_SUCCESS,
+  CLEAR_ADMIN_MESSAGE
 } from "./types.js";
 
 export const fetchAdmin = () => dispatch => {
@@ -70,4 +72,14 @@ export const getCustomer = customerId => dispatch => {
   axios.get(`/api/customers/${customerId}`).then(res => {
     dispatch({ type: ADMIN_SELECTED_CUSTOMER, payload: res.data });
   });
+};
+
+export const submitCustomer = customerData => dispatch => {
+  axios.put(`/api/customers/${customerData._id}`, customerData).then(() => {
+    dispatch({ type: ADMIN_EDIT_CUSTOMER_SUBMIT_SUCCESS });
+  });
+};
+
+export const clearAdminMessage = () => {
+  return { type: CLEAR_ADMIN_MESSAGE };
 };

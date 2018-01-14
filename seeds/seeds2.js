@@ -12,9 +12,11 @@ require("../models/Customer.js");
 
 const Customer = mongoose.model("customers");
 
+Customer.collection.drop();
+
 let customersSeed = [];
 
-for (i = 0; i < 50; i++) {
+for (i = 0; i < 63; i++) {
   customersSeed.push({
     name: faker.name.findName(),
     email: faker.internet.email(),

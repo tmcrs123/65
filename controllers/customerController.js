@@ -38,6 +38,7 @@ module.exports = {
 
   getAllCustomers(req, res, next) {
     Customer.find()
+      .sort({ name: 1 })
       .then(customers => res.send(customers))
       .catch(err => {
         console.log(err);
@@ -72,10 +73,9 @@ module.exports = {
       name: { $regex: exp, $options: "i" }
     })
       .sort({ name: 1 })
-      .limit(10)
       .then(customers => {
-        console.log('got customers ' , customers.length);
-        res.send(customers));
-      }
+        console.log("got customers ", customers.length);
+        res.send(customers);
+      });
   }
 };

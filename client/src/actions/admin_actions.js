@@ -11,7 +11,9 @@ import {
   AUTH_ERROR_ADMIN,
   RESET_ADMIN_AUTH_ERROR,
   GET_RESERVATIONS,
-  GET_CUSTOMER_LIST
+  GET_CUSTOMER_LIST,
+  SEARCH_CUSTOMER_BY_NAME,
+  DELETE_CUSTOMER
 } from "./types.js";
 
 export const fetchAdmin = () => dispatch => {
@@ -46,8 +48,20 @@ export const getReservations = () => dispatch => {
 };
 
 export const getCustomerList = () => dispatch => {
-  console.log("in get customer list action creator");
   axios.get("/api/customers").then(res => {
     dispatch({ type: GET_CUSTOMER_LIST, payload: res.data });
   });
+};
+
+export const searchCustomerByName = query => dispatch => {
+  axios.get(`/api/search?name=${query}`).then(res => {
+    dispatch({ type: SEARCH_CUSTOMER_BY_NAME, payload: res.data });
+  });
+};
+
+export const deleteCustomer = customerId => dispatch => {
+  console.log("in delete customer action creator");
+  axios
+    .delete(`/api/customers/${customerId}`)
+    .then(() => dispatch({ type: DELETE_CUSTOMER, payload: customerId }));
 };

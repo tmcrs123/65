@@ -4,41 +4,24 @@ import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
 import * as actions from "../../actions/admin_actions";
 import axios from "axios";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn
-} from "material-ui/Table";
 import CustomerTable from "./customerListComponents/customerTable";
 import _ from "lodash";
 
 class AdminDashboardCustomer extends Component {
   constructor(props) {
     super(props);
-    this.state = { filteredCustomers: [] };
   }
 
   componentDidMount() {
-    console.log("cdm");
     this.props.getCustomerList();
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("cwrp", nextProps);
-    this.setState({ filteredCustomers: nextProps.customers });
-  }
-
   componentWillUnmount() {
-    console.log("unmount");
+    console.log("unmounting admin dashboard");
   }
 
-  handleSearchChange(event, value) {
-    axios.get(`/api/search?name=${value}`).then(res => {
-      this.setState({ filteredCustomers: res.data });
-    });
+  handleSearchChange(event, query) {
+    this.props.searchCustomerByName(query);
   }
 
   render() {
@@ -48,7 +31,7 @@ class AdminDashboardCustomer extends Component {
     };
 
     const searchNames = _.debounce(
-      (event, value) => this.handleSearchChange(event, value),
+      (event, query) => this.handleSearchChange(event, query),
       500
     );
 
@@ -59,7 +42,7 @@ class AdminDashboardCustomer extends Component {
             <Paper style={styles}>
               <p>Customers List</p>
               <TextField floatingLabelText="Search" onChange={searchNames} />
-              <CustomerTable customers={this.state.filteredCustomers} />
+              <CustomerTable customers={this.props.customers} />
             </Paper>
           </div>
         </div>

@@ -17,6 +17,7 @@
     "axios": "^0.17.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.20.0",
+    "material-ui-pagination": "^1.1.6",
     "materialize-css": "^0.100.2",
     "moment": "^2.20.1",
     "react": "^16.2.0",

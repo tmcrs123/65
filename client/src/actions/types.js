@@ -30,3 +30,4 @@ export const GET_RESERVATIONS = "get_reservations";
 export const GET_CUSTOMER_LIST = "get_customer_list";
 export const SEARCH_CUSTOMER_BY_NAME = "search_customer_by_name";
 export const DELETE_CUSTOMER = "delete_customer";
+export const ADMIN_SELECTED_CUSTOMER = "admin_selected_customer";

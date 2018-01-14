@@ -4,6 +4,7 @@ import * as actions from "../../../actions/admin_actions";
 import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
 import TextField from "material-ui/TextField";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -23,9 +24,21 @@ class CustomerTable extends Component {
     this.state = { currentPage: 1, observationsDialogOpen: false };
   }
 
+  /**
+   * Actions
+   */
+
   deleteCustomer(event, customerId) {
     console.log("in delete customer handler");
     this.props.deleteCustomer(customerId);
+  }
+
+  /**
+   * Handlers
+   */
+
+  handlePageChange(value) {
+    this.setState({ currentPage: value });
   }
 
   renderTableHeader() {
@@ -59,23 +72,18 @@ class CustomerTable extends Component {
 
     const pagedCustomers = customers.slice(firstIndex, lastIndex);
 
-    const rowStyle = {
-      maxWidth: "100%",
-      whiteSpace: "nowrap"
-    };
-
     return pagedCustomers.map(customer => {
       return (
         <TableRow hoverable={true} key={customer.id}>
-          <TableRowColumn style={rowStyle}>{customer.name}</TableRowColumn>
-          <TableRowColumn style={rowStyle}>{customer.email}</TableRowColumn>
-          <TableRowColumn style={rowStyle}>{customer.phone}</TableRowColumn>
-          <TableRowColumn style={rowStyle}>{`${
-            customer.blacklisted
-          }`}</TableRowColumn>
-          <TableRowColumn style={rowStyle}>{customer.notes}</TableRowColumn>
-          <TableRowColumn style={rowStyle}>
-            <IconButton iconClassName="material-icons">edit</IconButton>
+          <TableRowColumn>{customer.name}</TableRowColumn>
+          <TableRowColumn>{customer.email}</TableRowColumn>
+          <TableRowColumn>{customer.phone}</TableRowColumn>
+          <TableRowColumn>{`${customer.blacklisted}`}</TableRowColumn>
+          <TableRowColumn>{customer.notes}</TableRowColumn>
+          <TableRowColumn>
+            <Link to={`/admin/dashboard/customer/edit/${customer.id}`}>
+              <IconButton iconClassName="material-icons">edit</IconButton>
+            </Link>
           </TableRowColumn>
           <TableRowColumn>
             <IconButton
@@ -88,10 +96,6 @@ class CustomerTable extends Component {
         </TableRow>
       );
     });
-  }
-
-  handlePageChange(value) {
-    this.setState({ currentPage: value });
   }
 
   render() {

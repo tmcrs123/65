@@ -10,6 +10,7 @@ import customerSelectedReservationReducer from "./customer/customerSelectedReser
 import { reducer as reduxForm } from "redux-form";
 import adminReservationsReducer from "./admin/adminReservationsReducer";
 import adminCustomerListReducer from "./admin/adminCustomerListReducer";
+import adminSelectedCustomerReducer from "./admin/adminSelectedCustomerReducer";
 
 export default combineReducers({
   adminAuth: adminAuthReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   customerSelectedReservation: customerSelectedReservationReducer,
   adminReservations: adminReservationsReducer,
   adminCustomerList: adminCustomerListReducer,
+  adminSelectedCustomer: adminSelectedCustomerReducer,
   form: reduxForm
 });

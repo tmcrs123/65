@@ -58,6 +58,18 @@ module.exports = {
       });
   },
 
+  //customer without populating reservations
+  getPlainCustomer(req, res, next) {
+    Customer.findById(req.params.id)
+      .then(customer => {
+        res.send(customer);
+      })
+      .catch(err => {
+        console.log(err);
+        next;
+      });
+  },
+
   getCustomerReservations(req, res, next) {
     Reservation.find({ customerId: req.user }).then(reservations => {
       res.send(reservations);

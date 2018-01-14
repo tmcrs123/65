@@ -5,6 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import AdminDashboardCustomers from "./AdminDashboardCustomers";
 import AdminDashboardPrices from "./AdminDashboardPrices";
 import AdminDashboardLanding from "./AdminDashboardLanding";
+import EditCustomerForm from "./customerListComponents/EditCustomerForm";
 import { Route } from "react-router-dom";
 
 class AdminDashboard extends Component {
@@ -38,6 +39,12 @@ class AdminDashboard extends Component {
               exact
               path="/admin/dashboard/prices"
               component={AdminDashboardPrices}
+            />
+
+            <Route
+              exact
+              path="/admin/dashboard/customer/edit/:id"
+              component={EditCustomerForm}
             />
           </div>
         </div>

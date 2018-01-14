@@ -74,8 +74,7 @@ export const updateReservation = (
   axios.put(`/api/reservations/${reservationId}`, reservationData).then(res => {
     if (res.data.availableDates) {
       dispatch({
-        type: CUSTOMER_EDIT_RESERVATION_SUCCESS_MESSAGE,
-        payload: "shit3"
+        type: CUSTOMER_EDIT_RESERVATION_SUCCESS_MESSAGE
       });
       history.push("/customerDashboard");
     } else {

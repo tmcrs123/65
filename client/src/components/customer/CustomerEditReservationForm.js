@@ -87,7 +87,6 @@ class CustomerEditReservationForm extends Component {
   }
 
   render() {
-    console.log("state in render", this);
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <div className="container">

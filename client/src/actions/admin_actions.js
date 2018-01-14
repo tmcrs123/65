@@ -13,7 +13,8 @@ import {
   GET_RESERVATIONS,
   GET_CUSTOMER_LIST,
   SEARCH_CUSTOMER_BY_NAME,
-  DELETE_CUSTOMER
+  DELETE_CUSTOMER,
+  ADMIN_SELECTED_CUSTOMER
 } from "./types.js";
 
 export const fetchAdmin = () => dispatch => {
@@ -60,8 +61,13 @@ export const searchCustomerByName = query => dispatch => {
 };
 
 export const deleteCustomer = customerId => dispatch => {
-  console.log("in delete customer action creator");
   axios
     .delete(`/api/customers/${customerId}`)
     .then(() => dispatch({ type: DELETE_CUSTOMER, payload: customerId }));
+};
+
+export const getCustomer = customerId => dispatch => {
+  axios.get(`/api/customers/${customerId}`).then(res => {
+    dispatch({ type: ADMIN_SELECTED_CUSTOMER, payload: res.data });
+  });
 };

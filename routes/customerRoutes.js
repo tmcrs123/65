@@ -6,7 +6,7 @@ const { isCustomer } = require("../middlewares/isCustomer.js");
 
 module.exports = app => {
   app.get("/api/customers", customerController.getAllCustomers);
-  app.get("/api/customers/:id", customerController.getCustomer);
+  app.get("/api/customers/:id", customerController.getPlainCustomer);
   app.get(
     "/api/customerReservations/",
     customerController.getCustomerReservations

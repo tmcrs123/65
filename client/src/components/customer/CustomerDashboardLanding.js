@@ -9,8 +9,6 @@ import FlatButton from "material-ui/FlatButton";
 import Snackbar from "material-ui/Snackbar";
 import { red500, green500, yellow500 } from "material-ui/styles/colors";
 import _ from "lodash";
-import axios from "axios";
-import Sidebar from "../shared/Sidebar";
 import { Route } from "react-router-dom";
 import CustomerCreateReservationForm from "./CustomerCreateReservationForm";
 import CustomerEditReservationForm from "./CustomerEditReservationForm";
@@ -24,20 +22,20 @@ class CustomerDashboard extends Component {
     };
   }
 
-  handleRequestClose() {
-    this.props.clearCustomerReservationFormMessage();
-  }
-
   componentDidMount() {
     this.props.fetchCustomer();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.deleteReservationMessage != "") {
+    if (nextProps.deleteReservationMessage !== "") {
       this.setState({ showDeleteReservationMessage: true });
     } else {
       this.setState({ showDeleteReservationMessage: false });
     }
+  }
+
+  handleRequestClose() {
+    this.props.clearCustomerReservationFormMessage();
   }
 
   deleteReservation(reservationId) {
@@ -70,7 +68,7 @@ class CustomerDashboard extends Component {
       />
     ];
 
-    if (reservation.status != "rejected")
+    if (reservation.status !== "rejected")
       return (
         <CardActions>
           <Link to={`/customer/dashboard/editReservation/${reservation.id}`}>

@@ -6,15 +6,16 @@
 import axios from "axios";
 import {
   FETCH_CUSTOMER,
-  CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS,
-  CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR,
-  CUSTOMER_FORM_CLEAR_MESSAGE,
-  CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES,
+  CREATE_RESERVATION_FORM_SUBMIT_SUCCESS,
+  CREATE_RESERVATION_FORM_SUBMIT_ERROR,
+  FORM_CLEAR_MESSAGE,
+  CREATE_RESERVATION_FORM_UNAVAILABLE_DATES,
   CUSTOMER_DELETE_RESERVATION,
   CUSTOMER_SELECTED_RESERVATION,
-  CUSTOMER_EDIT_RESERVATION_SUCCESS_MESSAGE,
-  CUSTOMER_INVALID_DATES_MESSAGE,
-  CUSTOMER_INVALID_PERSONS_MESSAGE
+  EDIT_RESERVATION_SUCCESS_MESSAGE,
+  INVALID_DATES_MESSAGE,
+  INVALID_PERSONS_MESSAGE,
+  INVALID_PRICE_MESSAGE
 } from "./types.js";
 
 export const fetchCustomer = () => dispatch => {
@@ -38,23 +39,23 @@ export const submitCustomerReservationForm = (
     .then(res => {
       if (res.data.availableDates) {
         dispatch({
-          type: CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_SUCCESS
+          type: CREATE_RESERVATION_FORM_SUBMIT_SUCCESS
         });
         resetForm();
       } else {
         dispatch({
-          type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES
+          type: CREATE_RESERVATION_FORM_UNAVAILABLE_DATES
         });
       }
     })
     .catch(err => {
       console.log("error", err);
-      dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_SUBMIT_ERROR });
+      dispatch({ type: CREATE_RESERVATION_FORM_SUBMIT_ERROR });
     });
 };
 
 export const clearCustomerReservationFormMessage = () => {
-  return { type: CUSTOMER_FORM_CLEAR_MESSAGE };
+  return { type: FORM_CLEAR_MESSAGE };
 };
 
 export const selectedReservation = selectedReservationId => dispatch => {
@@ -74,19 +75,23 @@ export const updateReservation = (
   axios.put(`/api/reservations/${reservationId}`, reservationData).then(res => {
     if (res.data.availableDates) {
       dispatch({
-        type: CUSTOMER_EDIT_RESERVATION_SUCCESS_MESSAGE
+        type: EDIT_RESERVATION_SUCCESS_MESSAGE
       });
       history.push("/customerDashboard");
     } else {
-      dispatch({ type: CUSTOMER_CREATE_RESERVATION_FORM_UNAVAILABLE_DATES });
+      dispatch({ type: CREATE_RESERVATION_FORM_UNAVAILABLE_DATES });
     }
   });
 };
 
 export const sendInvalidDatesMessage = () => {
-  return { type: CUSTOMER_INVALID_DATES_MESSAGE };
+  return { type: INVALID_DATES_MESSAGE };
 };
 
 export const sendInvalidPersonsMessage = () => {
-  return { type: CUSTOMER_INVALID_PERSONS_MESSAGE };
+  return { type: INVALID_PERSONS_MESSAGE };
+};
+
+export const sendInvalidPriceMessage = () => {
+  return { type: INVALID_PRICE_MESSAGE };
 };

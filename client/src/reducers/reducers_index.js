@@ -12,15 +12,21 @@ import adminReservationsReducer from "./admin/adminReservationsReducer";
 import adminCustomerListReducer from "./admin/adminCustomerListReducer";
 import adminSelectedCustomerReducer from "./admin/adminSelectedCustomerReducer";
 import adminMessagesReducer from "./admin/adminMessagesReducer";
+import reservationFormReducer from "./forms/reservationFormReducer";
+import authReducer from "./authenticationReducer";
+import adminLogin from "./forms/adminLoginFormReducer";
 
 export default combineReducers({
+  authReducer,
+  adminLogin,
   adminAuth: adminAuthReducer,
   customerInfo: customerInfoReducer,
-  customerMessages: customerMessagesReducer,
+  // customerMessages: customerMessagesReducer,
   customerSelectedReservation: customerSelectedReservationReducer,
   adminReservations: adminReservationsReducer,
   adminCustomerList: adminCustomerListReducer,
   adminSelectedCustomer: adminSelectedCustomerReducer,
-  adminMessages: adminMessagesReducer,
+  // adminMessages: adminMessagesReducer,
+  reservationForm: reservationFormReducer,
   form: reduxForm
 });

@@ -3,6 +3,7 @@ const path = require("path");
 const { currentAdmin } = require("../middlewares/currentAdmin.js");
 const { currentCustomer } = require("../middlewares/currentCustomer.js");
 const { isCustomer } = require("../middlewares/isCustomer.js");
+const { currentUser } = require("../middlewares/currentUser");
 const { isAdmin } = require("../middlewares/isAdmin.js");
 
 module.exports = app => {
@@ -94,4 +95,6 @@ module.exports = app => {
   app.get("/api/current_customer", currentCustomer);
 
   app.get("/api/current_admin", currentAdmin);
+
+  app.get("/api/user", currentUser);
 };

@@ -2,41 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AppBar from "material-ui/AppBar";
-import Menu from "material-ui/Menu";
-import MenuItem from "material-ui/MenuItem";
-import Drawer from "material-ui/Drawer";
 import FlatButton from "material-ui/FlatButton";
-import _ from "lodash";
-import * as adminActions from "../actions/admin_actions.js";
-import * as customerActions from "../actions/customer_actions.js";
-const composedActions = { ...adminActions, ...customerActions };
+import * as actions from "../actions/actions_index.js";
 
 class Header extends Component {
   componentDidMount() {
-    this.props.fetchCustomer();
-    this.props.fetchAdmin();
+    this.props.fetchUser();
   }
 
   renderHeaderButtons() {
-    if (!_.isEmpty(this.props.adminAuth) && !this.props.adminAuth.authError) {
-      return (
-        <div>
-          <Link to="/admin/dashboard/landing">
-            <FlatButton label="Admin Dashboard" />
-          </Link>
-          <FlatButton href="/api/logout" label="Logout" />
-        </div>
-      );
-    } else if (!_.isEmpty(this.props.customerInfo)) {
-      return (
-        <div>
-          <Link to="/customer/dashboard/landing">
-            <FlatButton label="Customer Dashboard" />
-          </Link>
-          <FlatButton href="/api/logout" label="Logout" />
-        </div>
-      );
-    } else {
+    if (this.props.isAdmin === undefined) {
       return (
         <div>
           <Link to="/customer/login">
@@ -47,19 +22,33 @@ class Header extends Component {
           </Link>
         </div>
       );
+    } else {
+      if (this.props.isAdmin) {
+        return (
+          <div>
+            <Link to="/admin/dashboard/landing">
+              <FlatButton label="Admin Dashboard" />
+            </Link>
+            <FlatButton href="/api/logout" label="Logout" />
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <Link to="/customer/dashboard/landing">
+              <FlatButton label="Customer Dashboard" />
+            </Link>
+            <FlatButton href="/api/logout" label="Logout" />
+          </div>
+        );
+      }
     }
   }
 
   render() {
-    const styles = {
-      title: {
-        cursor: "pointer"
-      }
-    };
-
     return (
       <AppBar
-        title={<span style={styles.title}>65</span>}
+        title={<span style={{ cursor: "pointer" }}>65</span>}
         onTitleClick={this.rootRedirect}
         iconElementRight={this.renderHeaderButtons()}
         showMenuIconButton={false}
@@ -68,8 +57,8 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { adminAuth: state.adminAuth, customerInfo: state.customerInfo };
+function mapStateToProps({ authReducer }) {
+  return { isAdmin: authReducer.isAdmin };
 }
 
-export default connect(mapStateToProps, composedActions)(Header);
+export default connect(mapStateToProps, actions)(Header);

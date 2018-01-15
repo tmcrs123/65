@@ -4,7 +4,8 @@ import { formFields } from "../formFields/shared/createReservationFormFields";
 export default function validateCreateReservationForm(
   formData,
   sendInvalidDatesMessage,
-  sendInvalidPersonsMessage
+  sendInvalidPersonsMessage,
+  sendInvalidPriceMessage
 ) {
   const validationErrors = false;
 
@@ -13,18 +14,22 @@ export default function validateCreateReservationForm(
   const totalPersons = numberAdults + numberChildrens;
 
   formFields.forEach(field => {
-    console.log("field", field);
     if (field.required && formData[field.name] === undefined) {
       const fieldName = field.name;
-      console.log("error");
-      console.log(`Plase insert a ${field.label}`);
       throw new SubmissionError({
-        [fieldName]: `Plase insert a ${field.label}`
+        [fieldName]: `Plase select a ${field.label}`
       });
     }
   });
 
+  if (!formData.customerId) {
+    throw new SubmissionError({
+      _error: "A reservation must have a customer."
+    });
+  }
+
   if (isNaN(formData["price"]) || isNaN(formData["payNow"])) {
+    sendInvalidPriceMessage();
     throw new SubmissionError({
       _error: "You must insert a valid price."
     });

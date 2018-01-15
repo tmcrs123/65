@@ -1,51 +1,31 @@
-// /**
-//  * action creator is a function that
-//  * returns and object with {type,payload}
-//  */
+import axios from "axios";
 
-// import axios from "axios";
-// import {
-//   FETCH_CUSTOMER,
-//   AUTH_USER,
-//   AUTH_ERROR_USER,
-//   RESET_AUTH_ERROR
-// } from "./types.js";
+import {
+  FETCH_USER,
+  LOGIN_USER,
+  WRONG_LOGIN_MESSAGE,
+  CLEAR_MESSAGE
+} from "./TYPES2";
 
-// /**
-//  * Auth
-//  */
+export const fetchUser = () => dispatch => {
+  axios.get("/api/user").then(res => {
+    dispatch({ type: FETCH_USER, payload: res.data });
+  });
+};
 
-// export const fetchCustomer = () => dispatch => {
-//   axios.get("/api/current_customer").then(res => {
-//     dispatch({ type: FETCH_CUSTOMER, payload: res.data });
-//   });
-// };
+export const loginUser = (loginInfo, history) => dispatch => {
+  axios
+    .post("/api/admin/login", loginInfo)
+    .then(res => {
+      dispatch({ type: LOGIN_USER, payload: res.data });
+      history.push("/");
+    })
+    .catch(err => {
+      console.log("in ctach");
+      dispatch({ type: WRONG_LOGIN_MESSAGE });
+    });
+};
 
-// export const fetchAdmin = () => dispatch => {
-//   axios.get("/api/current_admin").then(res => {
-//     dispatch({ type: FETCH_CUSTOMER, payload: res.data });
-//   });
-// };
-
-// export const authUser = (loginInfo, history) => dispatch => {
-//   axios
-//     .post("/api/admin/login", loginInfo)
-//     .then(res => {
-//       history.push("/");
-//       dispatch({ type: AUTH_USER, payload: res.data });
-//     })
-//     .catch(err => {
-//       dispatch({
-//         type: AUTH_ERROR_USER,
-//         payload: { authError: "Wrong Email or Password" }
-//       });
-//     });
-// };
-
-// export const resetAuthError = () => {
-//   return { type: RESET_AUTH_ERROR };
-// };
-
-// /**
-//  * Customer
-//  */
+export const clearMessage = () => {
+  return { type: CLEAR_MESSAGE };
+};

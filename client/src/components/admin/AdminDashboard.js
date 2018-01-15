@@ -36,19 +36,16 @@ class AdminDashboard extends Component {
               path="/admin/dashboard/customers"
               component={AdminDashboardCustomers}
             />
-
             <Route
               exact
               path="/admin/dashboard/prices"
               component={AdminDashboardPrices}
             />
-
             <Route
               exact
               path="/admin/dashboard/customer/edit/:id"
               component={EditCustomerForm}
             />
-
             <Route
               exact
               path="/admin/dashboard/customer/add"
@@ -58,7 +55,7 @@ class AdminDashboard extends Component {
             <Route
               exact
               path="/admin/dashboard/teste"
-              component={CreateReservationForm}
+              render={() => <CreateReservationForm isAdmin={false} />}
             />
           </div>
         </div>

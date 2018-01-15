@@ -1,30 +1,38 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import TextField from "material-ui/TextField";
+import { renderTextField } from "../../helpers/formComponents/textFields";
 import formFields from "./adminLoginFormFields.js";
-import * as actions from "../../actions/admin_actions.js";
+import RaisedButton from "material-ui/RaisedButton";
+import Snackbar from "material-ui/Snackbar";
+import MenuItem from "material-ui/MenuItem";
+import Paper from "material-ui/Paper";
+import * as actions from "../../actions/actions_index";
 import { connect } from "react-redux";
-
-const renderTextField = ({ input, type, label, meta: { touched, error } }) => {
-  return (
-    <div>
-      <TextField
-        hintText={label}
-        floatingLabelText={label}
-        errorText={touched && error}
-        type={type}
-        underlineShow={true}
-        {...input}
-      />
-      <br />
-      <br />
-    </div>
-  );
-};
+import validate from "../../helpers/formValidation/adminLoginFormValidation";
 
 class AdminLogin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMessage: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.message !== "") {
+      this.setState({ showMessage: true });
+    } else {
+      this.setState({ showMessage: false });
+    }
+  }
+
   handleFormSubmit(loginInfo, dispatchFunction, formProps) {
-    this.props.authAdmin(loginInfo, formProps.history);
+    this.props.loginUser(loginInfo, formProps.history);
+  }
+
+  handleRequestClose() {
+    this.props.clearMessage();
   }
 
   handleFormClear(reset) {
@@ -45,59 +53,53 @@ class AdminLogin extends Component {
     return (
       <div className="container">
         <h3>Admin login</h3>
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Field
-            name="email"
-            label="Email"
-            component={renderTextField}
-            type="text"
-          />
-          <Field
-            name="password"
-            label="Password"
-            component={renderTextField}
-            type="password"
-          />
-          <button type="submit" disabled={pristine || submitting}>
-            Submit
-          </button>
-          <button
-            type="button"
-            disabled={pristine || submitting}
-            onClick={() => this.handleFormClear(reset)}
-          >
-            Clear Values
-          </button>
-        </form>
-        <div>
-          {this.props.adminAuth.authError
-            ? "Invalid email/password combination"
-            : ""}
-        </div>
+        <Paper zDepth={5} className="center-align">
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <Field
+              name="email"
+              label="Email"
+              component={renderTextField}
+              type="text"
+            />
+            <br />
+            <Field
+              name="password"
+              label="Password"
+              component={renderTextField}
+              type="password"
+            />
+            <br />
+            <RaisedButton
+              type="Submit"
+              label="Submit"
+              disabled={pristine || submitting}
+              primary={true}
+              fullWidth={false}
+            />
+            <RaisedButton
+              type="button"
+              label="Clear Value"
+              disabled={pristine || submitting}
+              primary={true}
+              fullWidth={false}
+              onClick={reset}
+            />
+            <Snackbar
+              open={this.state.showMessage}
+              message={this.props.message}
+              autoHideDuration={3000}
+              onRequestClose={() => this.handleRequestClose()}
+            />
+          </form>
+        </Paper>
+        <div />
       </div>
     );
   }
 }
 
-function validate(values) {
-  const errors = {};
-
-  formFields.forEach(({ name }) => {
-    if (!values[name]) {
-      errors[name] = `Please insert a ${name}`;
-    }
-  });
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  if (re.test(values.email) === false) {
-    errors.email = "Please insert a valid email";
-  }
-
-  return errors;
-}
-
-function mapStateToProps(state) {
-  return { adminAuth: state.adminAuth };
+function mapStateToProps({ authReducer, adminLogin }) {
+  return { authReducer, message: adminLogin.message };
 }
 
 AdminLogin = connect(mapStateToProps, actions)(AdminLogin);

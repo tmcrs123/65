@@ -13,9 +13,17 @@ export const formFields = [
     required: true
   },
   {
-    name: "reservationPrice",
+    name: "price",
     label: "Price",
     required: true
+  },
+  {
+    name: "upfrontPayment",
+    required: false
+  },
+  {
+    name: "payNow",
+    required: false
   },
   {
     name: "numberAdults",

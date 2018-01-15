@@ -31,15 +31,11 @@ export function renderPriceField(props) {
 export function renderTextField(props) {
   return (
     <TextField
-      hintText={props.label}
       floatingLabelText={props.label}
       value={props.input.value}
       errorText={props.meta.touched && props.meta.error}
       {...props.input}
-      multiLine={props.multiLine}
-      fullWidth={props.fullWidth}
-      rows={2}
-      rowsMax={4}
+      type={props.type}
     />
   );
 }

@@ -7,19 +7,17 @@ import * as actions from "../../../actions/admin_actions";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 
+/**
+ * Same validator as admin edit customer form - Change names!
+ */
 import { validateForm } from "../../../helpers/formHelpers/adminForms/adminEditCustomerFormHelper";
 
-class AdminEditReservationForm extends Component {
+class AddCustomerForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showMessage: false
     };
-  }
-
-  componentDidMount() {
-    const customerId = this.props.match.params.id;
-    this.props.getCustomer(customerId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,21 +28,20 @@ class AdminEditReservationForm extends Component {
     }
   }
 
+  handleFormSubmit(formData, dispatchFunction, formProps) {
+    console.log("form data", formData);
+    validateForm(formData);
+    this.props.saveCustomer(formData, this.props.reset);
+  }
   handleRequestClose() {
     this.props.clearAdminMessage();
   }
 
-  handleFormSubmit(formData, dispatchFunction, formProps) {
-    validateForm(formData);
-    this.props.editCustomer(formData);
-  }
-
   render() {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
-
     return (
       <div className="container">
-        <h2>Edit a customer</h2>
+        <h1>Add customer form</h1>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field name="name" label="Name" component={renderTextField} />
           <br />
@@ -87,19 +84,15 @@ class AdminEditReservationForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    selectedCustomer: state.adminSelectedCustomer,
-    message: state.adminMessages,
-    initialValues: state.adminSelectedCustomer
+    message: state.adminMessages
   };
 }
 
-AdminEditReservationForm = reduxForm({
-  form: "adminEditCustomerForm",
+AddCustomerForm = reduxForm({
+  form: "adminAddCustomerForm",
   enableReinitialize: true
-})(AdminEditReservationForm);
+})(AddCustomerForm);
 
-AdminEditReservationForm = connect(mapStateToProps, actions)(
-  AdminEditReservationForm
-);
+AddCustomerForm = connect(mapStateToProps, actions)(AddCustomerForm);
 
-export default AdminEditReservationForm;
+export default AddCustomerForm;

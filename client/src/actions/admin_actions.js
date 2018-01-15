@@ -16,7 +16,8 @@ import {
   DELETE_CUSTOMER,
   ADMIN_SELECTED_CUSTOMER,
   ADMIN_EDIT_CUSTOMER_SUBMIT_SUCCESS,
-  CLEAR_ADMIN_MESSAGE
+  CLEAR_ADMIN_MESSAGE,
+  ADMIN_SAVE_CUSTOMER_SUBMIT_SUCCESS
 } from "./types.js";
 
 export const fetchAdmin = () => dispatch => {
@@ -74,7 +75,7 @@ export const getCustomer = customerId => dispatch => {
   });
 };
 
-export const submitCustomer = customerData => dispatch => {
+export const editCustomer = customerData => dispatch => {
   axios.put(`/api/customers/${customerData._id}`, customerData).then(() => {
     dispatch({ type: ADMIN_EDIT_CUSTOMER_SUBMIT_SUCCESS });
   });
@@ -82,4 +83,11 @@ export const submitCustomer = customerData => dispatch => {
 
 export const clearAdminMessage = () => {
   return { type: CLEAR_ADMIN_MESSAGE };
+};
+
+export const saveCustomer = (customerData, resetForm) => dispatch => {
+  axios.post("/api/customers/", customerData).then(() => {
+    resetForm();
+    dispatch({ type: ADMIN_SAVE_CUSTOMER_SUBMIT_SUCCESS });
+  });
 };

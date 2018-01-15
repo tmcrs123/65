@@ -34,3 +34,5 @@ export const ADMIN_SELECTED_CUSTOMER = "admin_selected_customer";
 export const ADMIN_EDIT_CUSTOMER_SUBMIT_SUCCESS =
   "admin_edit_customer_submit_success";
 export const CLEAR_ADMIN_MESSAGE = "clear_admin_message";
+export const ADMIN_SAVE_CUSTOMER_SUBMIT_SUCCESS =
+  "admin_save_customer_submit_success";

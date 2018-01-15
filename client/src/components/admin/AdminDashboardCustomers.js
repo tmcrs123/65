@@ -5,7 +5,9 @@ import TextField from "material-ui/TextField";
 import * as actions from "../../actions/admin_actions";
 import axios from "axios";
 import CustomerTable from "./customerListComponents/customerTable";
+import RaisedButton from "material-ui/RaisedButton";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 class AdminDashboardCustomer extends Component {
   constructor(props) {
@@ -40,8 +42,18 @@ class AdminDashboardCustomer extends Component {
         <div className="container-fluid">
           <div className="col s12">
             <Paper style={styles}>
-              <p>Customers List</p>
-              <TextField floatingLabelText="Search" onChange={searchNames} />
+              <div>
+                <p className="left">Customers List</p>
+                <Link to="/admin/dashboard/customer/add">
+                  <RaisedButton
+                    className="right"
+                    label="+ Add Customer"
+                    primary={true}
+                  />
+                </Link>
+                <br />
+                <TextField floatingLabelText="Search" onChange={searchNames} />
+              </div>
               <CustomerTable customers={this.props.customers} />
             </Paper>
           </div>

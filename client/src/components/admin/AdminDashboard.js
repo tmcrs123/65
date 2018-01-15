@@ -6,6 +6,7 @@ import AdminDashboardCustomers from "./AdminDashboardCustomers";
 import AdminDashboardPrices from "./AdminDashboardPrices";
 import AdminDashboardLanding from "./AdminDashboardLanding";
 import EditCustomerForm from "./customerListComponents/EditCustomerForm";
+import AddCustomerForm from "./customerListComponents/AddCustomerForm";
 import { Route } from "react-router-dom";
 
 class AdminDashboard extends Component {
@@ -45,6 +46,12 @@ class AdminDashboard extends Component {
               exact
               path="/admin/dashboard/customer/edit/:id"
               component={EditCustomerForm}
+            />
+
+            <Route
+              exact
+              path="/admin/dashboard/customer/add"
+              component={AddCustomerForm}
             />
           </div>
         </div>

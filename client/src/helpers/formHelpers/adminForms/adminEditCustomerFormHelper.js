@@ -23,8 +23,7 @@ export function validateForm(formData) {
     }
 
     const phone_re = /^\d+$/;
-    console.log(formData["phone"]);
-    if (phone_re.test(formData["phone"]) === false) {
+    if (formData["phone"] && phone_re.test(formData["phone"]) === false) {
       throw new SubmissionError({
         ["phone"]: `A phone number can only contain digits`
       });

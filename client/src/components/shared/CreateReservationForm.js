@@ -1,10 +1,3 @@
-/**
- * Remove imports I dont need
- * merge handlechange adulsts and children
- * shorten render form method to use form fields
- * organize helpers
- */
-
 import React, { Component } from "react";
 import { reduxForm, Field, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
@@ -18,10 +11,7 @@ import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
 import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
-import {
-  validateCustomerCreateReservationForm,
-  style
-} from "../../helpers/formHelpers/customerForms/customerCreateReservationHelper.js";
+import validateCreateReservationForm from "../../helpers/formValidation/createReservationFormValidation";
 import { renderMenuItems } from "../../helpers/formHelpers/customerForms/customerEditReservationFormHelper.js";
 
 class CreateReservationForm extends Component {
@@ -44,6 +34,14 @@ class CreateReservationForm extends Component {
     }
   }
 
+  handlePriceChange() {
+    setTimeout(() => {
+      this.props.upfrontPayment
+        ? this.props.change("payNow", this.props.price)
+        : this.props.change("payNow", this.props.price * 0.1);
+    }, 500);
+  }
+
   handleDateChange() {
     /**
      * Explain why set timeout
@@ -59,13 +57,18 @@ class CreateReservationForm extends Component {
   }
 
   handleCheckboxChange(value) {
+    let price = "";
+
     value
       ? this.props.change("payNow", this.props.price)
       : this.props.change("payNow", this.props.price * 0.1);
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    validateCustomerCreateReservationForm(
+    formData["price"] = Number(formData["price"]);
+    formData["payNow"] = Number(formData["payNow"]);
+    console.log("form data", formData);
+    validateCreateReservationForm(
       formData,
       this.props.sendInvalidDatesMessage,
       this.props.sendInvalidPersonsMessage
@@ -84,7 +87,7 @@ class CreateReservationForm extends Component {
 
     return (
       <div className="container">
-        <h3>Create a reservation</h3>
+        <h3>TEST CREATE RESERVATION</h3>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <div className="form-group">
             <Field
@@ -102,7 +105,13 @@ class CreateReservationForm extends Component {
             />
             <br />
           </div>
-          <Field name="price" label="Price" component={renderPriceField} />
+          <Field
+            name="price"
+            label="Price"
+            component={renderPriceField}
+            onChange={() => this.handlePriceChange()}
+            disabled={false}
+          />
           <br />
           <Field
             name="upfrontPayment"
@@ -141,7 +150,6 @@ class CreateReservationForm extends Component {
             label="Submit"
             disabled={pristine || submitting}
             primary={true}
-            style={style}
             fullWidth={false}
           />
           <RaisedButton
@@ -149,7 +157,6 @@ class CreateReservationForm extends Component {
             label="Clear Value"
             disabled={pristine || submitting}
             primary={true}
-            style={style}
             fullWidth={false}
             onClick={reset}
           />
@@ -165,7 +172,7 @@ class CreateReservationForm extends Component {
   }
 }
 
-const selector = formValueSelector("customerCreateReservationForm");
+const selector = formValueSelector("CreateReservationForm");
 
 function mapStateToProps(state) {
   const upfrontPayment = selector(state, "upfrontPayment");

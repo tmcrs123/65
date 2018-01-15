@@ -1,11 +1,15 @@
 import React from "react";
 import DatePicker from "material-ui/DatePicker";
-import { disableWeekends } from "../formHelpers/customerForms/customerCreateReservationHelper.js";
 import {
   parseDate,
   renderMenuItems,
   style
 } from "../../helpers/formHelpers/customerForms/customerEditReservationFormHelper.js";
+
+function disableWeekends(date) {
+  if (date.getTime() < Date.now()) return true;
+  return false;
+}
 
 export function renderDatePicker(props) {
   return (
@@ -18,24 +22,6 @@ export function renderDatePicker(props) {
       onChange={(event, value, index) => {
         props.input.onChange(value);
       }}
-      hintText={props.label}
-      errorText={props.meta.touched && props.meta.error}
-    />
-  );
-}
-
-export function renderSimpleDatePicker(props) {
-  const date = parseDate(props.input.value);
-  return (
-    <DatePicker
-      name={props.name}
-      shouldDisableDate={disableWeekends}
-      autoOk={true}
-      value={date}
-      onChange={(event, value, index) => {
-        props.input.onChange(value);
-      }}
-      floatingLabelText={props.label}
       hintText={props.label}
       errorText={props.meta.touched && props.meta.error}
     />

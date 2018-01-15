@@ -2,25 +2,27 @@ import React from "react";
 import TextField from "material-ui/TextField";
 
 export function renderPriceField(props) {
-  return (
-    <TextField
-      hintText={props.label}
-      floatingLabelText={props.label}
-      value={props.input.value ? `${props.input.value}€` : `${0}€`}
-      disabled={true}
-      errorText={props.meta.touched && props.meta.error}
-    />
-  );
-}
+  let value = 0;
 
-export function renderSimplePriceField(props) {
+  if (isNaN(props.input.value)) {
+    value = "";
+  } else if (typeof props.input.value === "string") {
+    if (props.input.value === "") {
+      value = "";
+    } else {
+      value = Number(props.input.value);
+    }
+  } else {
+    value = props.input.value;
+  }
+
   return (
     <TextField
-      name={props.name}
       hintText={props.label}
       floatingLabelText={props.label}
-      value={props.input.value}
-      disabled={true}
+      value={value}
+      onChange={props.input.onChange}
+      disabled={props.disabled}
       errorText={props.meta.touched && props.meta.error}
     />
   );
@@ -36,21 +38,6 @@ export function renderTextField(props) {
       {...props.input}
       multiLine={props.multiLine}
       fullWidth={props.fullWidth}
-      rows={2}
-      rowsMax={4}
-    />
-  );
-}
-
-export function renderTextFieldControlled(props) {
-  return (
-    <TextField
-      floatingLabelText={props.label}
-      errorText={props.meta.touched && props.meta.error}
-      multiLine={props.multiLine}
-      fullWidth={props.fullWidth}
-      value={props.text}
-      onChange={props.input.onChange}
       rows={2}
       rowsMax={4}
     />

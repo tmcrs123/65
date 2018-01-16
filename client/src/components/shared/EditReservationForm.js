@@ -3,42 +3,35 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import axios from "axios";
 import { reduxForm, Field, formValueSelector } from "redux-form";
-import * as actions from "../../actions/customer_actions.js";
-import { green100, green500, green700 } from "material-ui/styles/colors";
-
+import * as actions from "../../actions/actions_index";
+import MenuItem from "material-ui/MenuItem";
+import RaisedButton from "material-ui/RaisedButton";
+import Snackbar from "material-ui/Snackbar";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
-import {
-  parseDate,
-  renderMenuItems,
-  style
-} from "../../helpers/formHelpers/customerForms/customerEditReservationFormHelper.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
 import { renderTextField } from "../../helpers/formComponents/textFields.js";
-import { validateCustomerEditReservationForm } from "../../helpers/formHelpers/customerForms/customerEditReservationFormHelper.js";
-
-import RaisedButton from "material-ui/RaisedButton";
-import Snackbar from "material-ui/Snackbar";
+import validate from "../../helpers/formValidation/createReservationFormValidation";
 
 class CustomerEditReservationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDeleteReservationMessage: false
+      showMessage: false
     };
   }
 
   componentDidMount() {
     const selectedReservationId = this.props.match.params.id;
-    this.props.selectedReservation(selectedReservationId);
+    this.props.getReservation(selectedReservationId);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.message !== "") {
-      this.setState({ showDeleteReservationMessage: true });
+      this.setState({ showMessage: true });
     } else {
-      this.setState({ showDeleteReservationMessage: false });
+      this.setState({ showMessage: false });
     }
 
     if (
@@ -50,8 +43,17 @@ class CustomerEditReservationForm extends Component {
     }
   }
 
+  renderMenuItems = (startValue, endValue) => {
+    let menuItems = [];
+    for (let i = startValue; i <= endValue; i++) {
+      let item = <MenuItem key={i} value={i} primaryText={`${i}`} />;
+      menuItems.push(item);
+    }
+    return menuItems;
+  };
+
   handleRequestClose() {
-    this.props.clearCustomerReservationFormMessage();
+    this.props.clearMessage();
   }
   handleDateChange() {
     /**
@@ -74,10 +76,15 @@ class CustomerEditReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    validateCustomerEditReservationForm(
+    console.log("forma data", formData);
+    formData["price"] = Number(formData["price"]);
+    validate(
       formData,
+      this.props.isAdmin,
       this.props.sendInvalidDatesMessage,
-      this.props.sendInvalidPersonsMessage
+      this.props.sendInvalidPersonsMessage,
+      this.props.sendInvalidPriceMessage,
+      this.props.sendNoCustomerSelectedMessage
     );
     this.props.updateReservation(
       this.props.match.params.id,
@@ -106,7 +113,12 @@ class CustomerEditReservationForm extends Component {
             onChange={() => this.handleDateChange()}
           />
           <br />
-          <Field name="price" label="Price" component={renderPriceField} />
+          <Field
+            name="price"
+            label="Price"
+            component={renderPriceField}
+            disabled={!this.props.isAdmin}
+          />
           <br />
           <Field
             name="upfrontPayment"
@@ -120,6 +132,7 @@ class CustomerEditReservationForm extends Component {
             name="price_toPay"
             label="Pay Now"
             component={renderPriceField}
+            disabled={!this.props.isAdmin}
           />
           <br />
           <Field
@@ -127,7 +140,7 @@ class CustomerEditReservationForm extends Component {
             label="Number of Adults"
             component={renderSelectField}
           >
-            {renderMenuItems(1, 4)}
+            {this.renderMenuItems(1, 4)}
             <br />
           </Field>
           <br />
@@ -136,7 +149,7 @@ class CustomerEditReservationForm extends Component {
             label="Number of childrens"
             component={renderSelectField}
           >
-            {renderMenuItems(0, 3)}
+            {this.renderMenuItems(0, 3)}
           </Field>
           <br />
           <Field
@@ -151,16 +164,14 @@ class CustomerEditReservationForm extends Component {
             label="Submit"
             disabled={pristine || submitting}
             primary={true}
-            style={style}
             fullWidth={false}
           />
         </form>
         <Snackbar
-          open={this.state.showDeleteReservationMessage}
+          open={this.state.showMessage}
           message={this.props.message}
           autoHideDuration={3000}
           onRequestClose={() => this.handleRequestClose()}
-          style={{ background: green500 }}
         />
       </div>
     );
@@ -177,8 +188,8 @@ function mapStateToProps(state) {
   const priceToPay = selector(state, "price_toPay");
 
   return {
-    message: state.customerMessages.message,
-    initialValues: state.customerSelectedReservation,
+    message: state.messages.message,
+    initialValues: state.reservation,
     startDate,
     endDate,
     upfrontPayment,

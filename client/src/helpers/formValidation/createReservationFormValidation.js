@@ -31,7 +31,7 @@ export default function validate(
     });
   }
 
-  if (isNaN(formData["price"]) || isNaN(formData["payNow"])) {
+  if (isNaN(formData["price"])) {
     sendInvalidPriceMessage();
     throw new SubmissionError({
       _error: "You must insert a valid price."

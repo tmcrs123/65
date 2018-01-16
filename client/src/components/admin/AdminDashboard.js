@@ -1,20 +1,15 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import * as actions from "../../actions/admin_actions";
+
 import Sidebar from "../shared/Sidebar";
 import AdminDashboardCustomers from "./AdminDashboardCustomers";
 import AdminDashboardPrices from "./AdminDashboardPrices";
 import AdminDashboardLanding from "./AdminDashboardLanding";
-import EditCustomerForm from "./customerListComponents/EditCustomerForm";
-import AddCustomerForm from "./customerListComponents/AddCustomerForm";
+import EditCustomerForm from "../shared/EditCustomerForm";
+import CreateCustomerForm from "../shared/CreateCustomerForm";
 import CreateReservationForm from "../shared/CreateReservationForm";
 import { Route } from "react-router-dom";
 
 class AdminDashboard extends Component {
-  componentDidMount() {
-    this.props.getReservations();
-  }
-
   render() {
     const styles = {
       backgroundColor: "#BDBDBD",
@@ -49,7 +44,7 @@ class AdminDashboard extends Component {
             <Route
               exact
               path="/admin/dashboard/customer/add"
-              component={AddCustomerForm}
+              component={CreateCustomerForm}
             />
 
             <Route
@@ -64,8 +59,4 @@ class AdminDashboard extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { reservations: state.adminReservations };
-}
-
-export default connect(mapStateToProps, actions)(AdminDashboard);
+export default AdminDashboard;

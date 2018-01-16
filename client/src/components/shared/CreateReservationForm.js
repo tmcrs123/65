@@ -23,7 +23,9 @@ class CreateReservationForm extends Component {
   }
 
   componentDidMount() {
-    this.props.getCustomerList();
+    if (this.props.isAdmin) {
+      this.props.getCustomerList();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -108,8 +110,6 @@ class CreateReservationForm extends Component {
   handleFormSubmit(formData, dispatchFunction, formProps) {
     formData["price"] = Number(formData["price"]);
     formData["payNow"] = Number(formData["payNow"]);
-    console.log("form data", formData);
-    console.log(this.props.auth);
     validate(
       formData,
       this.props.isAdmin,

@@ -6,12 +6,22 @@ import {
   WRONG_LOGIN_MESSAGE,
   CLEAR_MESSAGE,
   SUBMIT_RESERVATION_FORM_SUCCESS,
-  SUBMIT_RESERVATION_FORM_UNAVAILABLE_DATES,
+  RESERVATION_FORM_UNAVAILABLE_DATES,
   GET_CUSTOMER_LIST,
   INVALID_DATES_MESSAGE,
   INVALID_PERSONS_MESSAGE,
   INVALID_PRICE_MESSAGE,
-  NO_CUSTOMER_SELECTED_MESSAGE
+  NO_CUSTOMER_SELECTED_MESSAGE,
+  DELETE_RESERVATION_MESSAGE,
+  GET_CUSTOMER_RESERVATIONS,
+  DELETE_RESERVATION,
+  SEARCH_CUSTOMER_BY_NAME,
+  DELETE_CUSTOMER,
+  SUBMIT_CUSTOMER_FORM_SUCCESS,
+  GET_RESERVATION,
+  EDIT_RESERVATION_FORM_SUCCESS,
+  GET_CUSTOMER,
+  EDIT_CUSTOMER_FORM_SUCCESS
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -47,7 +57,7 @@ export const submitReservationForm = (formData, resetForm) => dispatch => {
         resetForm();
       } else {
         dispatch({
-          type: SUBMIT_RESERVATION_FORM_UNAVAILABLE_DATES
+          type: RESERVATION_FORM_UNAVAILABLE_DATES
         });
       }
     })
@@ -56,9 +66,22 @@ export const submitReservationForm = (formData, resetForm) => dispatch => {
     });
 };
 
+export const deleteReservation = reservationId => dispatch => {
+  axios.delete(`/api/reservations/${reservationId}`).then(() => {
+    dispatch({ type: DELETE_RESERVATION_MESSAGE });
+    dispatch({ type: DELETE_RESERVATION, payload: reservationId });
+  });
+};
+
 export const getCustomerList = () => dispatch => {
   axios.get("/api/customers").then(res => {
     dispatch({ type: GET_CUSTOMER_LIST, payload: res.data });
+  });
+};
+
+export const getCustomerReservations = () => dispatch => {
+  axios.get("/api/customerReservations").then(res => {
+    dispatch({ type: GET_CUSTOMER_RESERVATIONS, payload: res.data });
   });
 };
 
@@ -76,4 +99,61 @@ export const sendInvalidPriceMessage = () => {
 
 export const sendNoCustomerSelectedMessage = () => {
   return { type: NO_CUSTOMER_SELECTED_MESSAGE };
+};
+
+export const searchCustomerByName = query => dispatch => {
+  axios.get(`/api/search?name=${query}`).then(res => {
+    dispatch({ type: SEARCH_CUSTOMER_BY_NAME, payload: res.data });
+  });
+};
+
+export const deleteCustomer = customerId => dispatch => {
+  axios
+    .delete(`/api/customers/${customerId}`)
+    .then(() => dispatch({ type: DELETE_CUSTOMER, payload: customerId }));
+};
+
+export const submitCustomerForm = (customerData, resetForm) => dispatch => {
+  axios.post("/api/customers/", customerData).then(() => {
+    resetForm();
+    dispatch({ type: SUBMIT_CUSTOMER_FORM_SUCCESS });
+  });
+};
+
+export const getReservation = selectedReservationId => dispatch => {
+  axios.get(`/api/reservations/${selectedReservationId}`).then(res => {
+    dispatch({
+      type: GET_RESERVATION,
+      payload: res.data
+    });
+  });
+};
+
+export const updateReservation = (
+  reservationId,
+  reservationData,
+  history
+) => dispatch => {
+  axios.put(`/api/reservations/${reservationId}`, reservationData).then(res => {
+    if (res.data.availableDates) {
+      dispatch({
+        type: EDIT_RESERVATION_FORM_SUCCESS
+      });
+      history.push("/customer/dashboard/landing");
+    } else {
+      dispatch({ type: RESERVATION_FORM_UNAVAILABLE_DATES });
+    }
+  });
+};
+
+export const getCustomer = customerId => dispatch => {
+  axios.get(`/api/customers/${customerId}`).then(res => {
+    dispatch({ type: GET_CUSTOMER, payload: res.data });
+  });
+};
+
+export const editCustomer = customerData => dispatch => {
+  axios.put(`/api/customers/${customerData._id}`, customerData).then(() => {
+    dispatch({ type: EDIT_CUSTOMER_FORM_SUCCESS });
+  });
 };

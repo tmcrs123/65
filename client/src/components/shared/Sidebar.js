@@ -23,36 +23,40 @@ const styles = {
 
 class Sidebar extends Component {
   renderDrawerMenuItems() {
-    if (!_.isEmpty(this.props.adminAuth) && !this.props.adminAuth.authError) {
-      return (
-        <div className={styles.col} style={styles.css}>
-          <Link to="/admin/dashboard/customers">
-            <MenuItem style={styles.menuItem}>Customers</MenuItem>
-          </Link>
-          <Link to="/admin/dashboard/reservations">
-            <MenuItem style={styles.menuItem}>Reservations</MenuItem>
-          </Link>
-          <Link to="/admin/dashboard/prices">
-            <MenuItem style={styles.menuItem}>Prices</MenuItem>
-          </Link>
-        </div>
-      );
-    } else if (!_.isEmpty(this.props.customerInfo)) {
-      return (
-        <div className={styles.col} style={styles.css}>
-          <Link to="/customer/dashboard/landing">
-            <MenuItem onClick={this.handleClose}>My Reservations</MenuItem>
-          </Link>
-          <Link to="/customer/dashboard/createReservation">
-            <MenuItem onClick={this.handleClose}>Create Reservations</MenuItem>
-          </Link>
-          <Link to="/customer/dashboard/createReservation">
-            <MenuItem onClick={this.handleClose}>Contact Us</MenuItem>
-          </Link>
-        </div>
-      );
-    } else {
+    if (this.props.isAdmin === undefined) {
       return <div />;
+    } else {
+      if (this.props.isAdmin) {
+        return (
+          <div className={styles.col} style={styles.css}>
+            <Link to="/admin/dashboard/customers">
+              <MenuItem style={styles.menuItem}>Customers</MenuItem>
+            </Link>
+            <Link to="/admin/dashboard/reservations">
+              <MenuItem style={styles.menuItem}>Reservations</MenuItem>
+            </Link>
+            <Link to="/admin/dashboard/prices">
+              <MenuItem style={styles.menuItem}>Prices</MenuItem>
+            </Link>
+          </div>
+        );
+      } else {
+        return (
+          <div className={styles.col} style={styles.css}>
+            <Link to="/customer/dashboard/landing">
+              <MenuItem onClick={this.handleClose}>My Reservations</MenuItem>
+            </Link>
+            <Link to="/customer/dashboard/createReservation">
+              <MenuItem onClick={this.handleClose}>
+                Create Reservations
+              </MenuItem>
+            </Link>
+            <Link to="/customer/dashboard/createReservation">
+              <MenuItem onClick={this.handleClose}>Contact Us</MenuItem>
+            </Link>
+          </div>
+        );
+      }
     }
   }
 
@@ -61,8 +65,8 @@ class Sidebar extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { adminAuth: state.adminAuth, customerInfo: state.customerInfo };
+function mapStateToProps({ auth }) {
+  return { isAdmin: auth.isAdmin };
 }
 
 export default connect(mapStateToProps, composedActions)(Sidebar);

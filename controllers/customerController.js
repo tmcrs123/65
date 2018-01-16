@@ -71,7 +71,7 @@ module.exports = {
   },
 
   getCustomerReservations(req, res, next) {
-    Reservation.find({ customerId: req.user }).then(reservations => {
+    Reservation.find({ customer: req.user }).then(reservations => {
       res.send(reservations);
     });
   },

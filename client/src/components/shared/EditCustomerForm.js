@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { renderTextField } from "../../../helpers/formComponents/textFields";
-import { renderCheckbox } from "../../../helpers/formComponents/checkbox";
-import * as actions from "../../../actions/admin_actions";
+import { renderTextField } from "../../helpers/formComponents/textFields";
+import { renderCheckbox } from "../../helpers/formComponents/checkbox";
+import * as actions from "../../actions/actions_index";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 
 /**
  * Same validator as admin edit customer form - Change names!
  */
-import { validateForm } from "../../../helpers/formHelpers/adminForms/adminEditCustomerFormHelper";
+import { validate } from "../../helpers/formValidation/customerFormValidation";
 
 class AddCustomerForm extends Component {
   constructor(props) {
@@ -20,8 +20,12 @@ class AddCustomerForm extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getCustomer(this.props.match.params.id);
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.message.text !== "") {
+    if (nextProps.message !== "") {
       this.setState({ showMessage: true });
     } else {
       this.setState({ showMessage: false });
@@ -29,12 +33,11 @@ class AddCustomerForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("form data", formData);
-    validateForm(formData);
-    this.props.saveCustomer(formData, this.props.reset);
+    validate(formData);
+    this.props.editCustomer(formData, this.props.reset);
   }
   handleRequestClose() {
-    this.props.clearAdminMessage();
+    this.props.clearMessage();
   }
 
   render() {
@@ -73,7 +76,7 @@ class AddCustomerForm extends Component {
         </form>
         <Snackbar
           open={this.state.showMessage}
-          message={this.props.message.text}
+          message={this.props.message}
           autoHideDuration={3000}
           onRequestClose={() => this.handleRequestClose()}
         />
@@ -84,7 +87,8 @@ class AddCustomerForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    message: state.adminMessages
+    message: state.messages.message,
+    initialValues: state.customer
   };
 }
 

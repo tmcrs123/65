@@ -10,16 +10,8 @@ import _ from "lodash";
 import { Link } from "react-router-dom";
 
 class AdminDashboardCustomer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.getCustomerList();
-  }
-
-  componentWillUnmount() {
-    console.log("unmounting admin dashboard");
   }
 
   handleSearchChange(event, query) {
@@ -64,7 +56,7 @@ class AdminDashboardCustomer extends Component {
 }
 
 function mapStateToProps(state) {
-  return { customers: state.adminCustomerList };
+  return { customers: state.customerList };
 }
 
 export default connect(mapStateToProps, actions)(AdminDashboardCustomer);

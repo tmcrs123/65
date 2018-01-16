@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { renderTextField } from "../../../helpers/formComponents/textFields";
-import { renderCheckbox } from "../../../helpers/formComponents/checkbox";
-import * as actions from "../../../actions/admin_actions";
+import { renderTextField } from "../../helpers/formComponents/textFields";
+import { renderCheckbox } from "../../helpers/formComponents/checkbox";
+import * as actions from "../../actions/actions_index";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
+import { validate } from "../../helpers/formValidation/customerFormValidation";
 
-import { validateForm } from "../../../helpers/formHelpers/adminForms/adminEditCustomerFormHelper";
-
-class AdminEditReservationForm extends Component {
+class AddCustomerForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,34 +16,27 @@ class AdminEditReservationForm extends Component {
     };
   }
 
-  componentDidMount() {
-    const customerId = this.props.match.params.id;
-    this.props.getCustomer(customerId);
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.message.text !== "") {
+    if (nextProps.message !== "") {
       this.setState({ showMessage: true });
     } else {
       this.setState({ showMessage: false });
     }
   }
 
-  handleRequestClose() {
-    this.props.clearAdminMessage();
-  }
-
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    validateForm(formData);
-    this.props.editCustomer(formData);
+    validate(formData);
+    this.props.submitCustomerForm(formData, this.props.reset);
+  }
+  handleRequestClose() {
+    this.props.clearMessage();
   }
 
   render() {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
-
     return (
       <div className="container">
-        <h2>Edit a customer</h2>
+        <h1>Add customer form</h1>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field name="name" label="Name" component={renderTextField} />
           <br />
@@ -76,7 +68,7 @@ class AdminEditReservationForm extends Component {
         </form>
         <Snackbar
           open={this.state.showMessage}
-          message={this.props.message.text}
+          message={this.props.message}
           autoHideDuration={3000}
           onRequestClose={() => this.handleRequestClose()}
         />
@@ -87,19 +79,16 @@ class AdminEditReservationForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    selectedCustomer: state.adminSelectedCustomer,
-    message: state.adminMessages,
-    initialValues: state.adminSelectedCustomer
+    message: state.messages.message
   };
 }
 
-AdminEditReservationForm = reduxForm({
-  form: "adminEditCustomerForm",
+AddCustomerForm = reduxForm({
+  form: "adminAddCustomerForm",
+  initialValues: { blacklisted: false },
   enableReinitialize: true
-})(AdminEditReservationForm);
+})(AddCustomerForm);
 
-AdminEditReservationForm = connect(mapStateToProps, actions)(
-  AdminEditReservationForm
-);
+AddCustomerForm = connect(mapStateToProps, actions)(AddCustomerForm);
 
-export default AdminEditReservationForm;
+export default AddCustomerForm;

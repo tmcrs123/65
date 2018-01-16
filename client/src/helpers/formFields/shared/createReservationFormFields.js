@@ -1,6 +1,3 @@
-import React from "react";
-import MenuItem from "material-ui/MenuItem";
-
 export const formFields = [
   {
     name: "startDate",

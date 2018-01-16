@@ -1,10 +1,9 @@
 import React from "react";
 import CustomerDashboardLanding from "./CustomerDashboardLanding";
-import CustomerCreateReservationForm from "./CustomerCreateReservationForm";
-import CustomerEditReservationForm from "./CustomerEditReservationForm";
-import CreateReservationForm from "../shared/CreateReservationForm";
 import Sidebar from "../shared/Sidebar";
 import { Route } from "react-router-dom";
+import CreateReservationForm from "../shared/CreateReservationForm";
+import EditReservationForm from "../shared/EditReservationForm";
 
 export default () => {
   const styles = {
@@ -26,11 +25,10 @@ export default () => {
             path="/customer/dashboard/createReservation"
             render={() => <CreateReservationForm isAdmin={false} />}
           />
-
           <Route
             exact
             path="/customer/dashboard/editReservation/:id"
-            component={CustomerEditReservationForm}
+            render={props => <EditReservationForm isAdmin={false} {...props} />}
           />
         </div>
       </div>

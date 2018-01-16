@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import TextField from "material-ui/TextField";
 import { renderTextField } from "../../helpers/formComponents/textFields";
-import formFields from "./adminLoginFormFields.js";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import MenuItem from "material-ui/MenuItem";

@@ -1,10 +1,5 @@
 import React from "react";
 import DatePicker from "material-ui/DatePicker";
-import {
-  parseDate,
-  renderMenuItems,
-  style
-} from "../../helpers/formHelpers/customerForms/customerEditReservationFormHelper.js";
 
 function disableWeekends(date) {
   if (date.getTime() < Date.now()) return true;

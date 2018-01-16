@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../actions/admin_actions";
+import * as actions from "../../../actions/actions_index.js";
 import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
 import TextField from "material-ui/TextField";
@@ -29,7 +29,6 @@ class CustomerTable extends Component {
    */
 
   deleteCustomer(event, customerId) {
-    console.log("in delete customer handler");
     this.props.deleteCustomer(customerId);
   }
 

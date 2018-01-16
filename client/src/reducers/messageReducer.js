@@ -4,15 +4,17 @@
 
 import {
   SUBMIT_RESERVATION_FORM_SUCCESS,
-  SUBMIT_RESERVATION_FORM_UNAVAILABLE_DATES,
-  //   DELETE_RESERVATION_SUCCESS,
-  //   EDIT_RESERVATION_SUCCESS_MESSAGE,
+  RESERVATION_FORM_UNAVAILABLE_DATES,
+  SUBMIT_CUSTOMER_FORM_SUCCESS,
+  DELETE_RESERVATION_MESSAGE,
+  EDIT_RESERVATION_FORM_SUCCESS,
   INVALID_DATES_MESSAGE,
   INVALID_PERSONS_MESSAGE,
   INVALID_PRICE_MESSAGE,
   WRONG_LOGIN_MESSAGE,
   CLEAR_MESSAGE,
-  NO_CUSTOMER_SELECTED_MESSAGE
+  NO_CUSTOMER_SELECTED_MESSAGE,
+  EDIT_CUSTOMER_FORM_SUCCESS
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -24,19 +26,19 @@ export default function(state = { type: "", message: "" }, action) {
         type: SUCCESS,
         message: "Your reservation was successfully created."
       };
-    case SUBMIT_RESERVATION_FORM_UNAVAILABLE_DATES:
+    case RESERVATION_FORM_UNAVAILABLE_DATES:
       return {
-        type: SUCCESS,
+        type: ERROR,
         message: "The dates you selected are not available."
       };
     case INVALID_DATES_MESSAGE:
       return { type: ERROR, message: "Dates are invalid." };
-    case "DELETE_RESERVATION_SUCCESS":
+    case DELETE_RESERVATION_MESSAGE:
       return {
         type: SUCCESS,
         message: "Your reservation was successfully deleted."
       };
-    case "EDIT_RESERVATION_SUCCESS_MESSAGE":
+    case EDIT_RESERVATION_FORM_SUCCESS:
       return {
         type: SUCCESS,
         message: "Your reservation was successfully edited."
@@ -53,7 +55,11 @@ export default function(state = { type: "", message: "" }, action) {
     case CLEAR_MESSAGE:
       return { type: "", message: "" };
     case NO_CUSTOMER_SELECTED_MESSAGE:
-      return { type: "ERROR", message: "Please select a customer." };
+      return { type: ERROR, message: "Please select a customer." };
+    case SUBMIT_CUSTOMER_FORM_SUCCESS:
+      return { type: SUCCESS, message: "Customer created successfully." };
+    case EDIT_CUSTOMER_FORM_SUCCESS:
+      return { type: SUCCESS, message: "Edited customer successfully." };
     default:
       return state;
   }

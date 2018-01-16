@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import * as actions from "../../actions/customer_actions.js";
+import * as actions from "../../actions/actions_index";
 import { Card, CardActions, CardTitle, CardText } from "material-ui/Card";
 import Chip from "material-ui/Chip";
 import Dialog from "material-ui/Dialog";
@@ -10,8 +10,7 @@ import Snackbar from "material-ui/Snackbar";
 import { red500, green500, yellow500 } from "material-ui/styles/colors";
 import _ from "lodash";
 import { Route } from "react-router-dom";
-import CustomerCreateReservationForm from "./CustomerCreateReservationForm";
-import CustomerEditReservationForm from "./CustomerEditReservationForm";
+
 import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
 
 class CustomerDashboard extends Component {
@@ -24,7 +23,7 @@ class CustomerDashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCustomer();
+    this.props.getCustomerReservations();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,11 +35,11 @@ class CustomerDashboard extends Component {
   }
 
   handleRequestClose() {
-    this.props.clearCustomerReservationFormMessage();
+    this.props.clearMessage();
   }
 
   deleteReservation(reservationId) {
-    this.props.deleteCustomerReservation(reservationId);
+    this.props.deleteReservation(reservationId);
   }
 
   handleDeleteReservationDialogOpen = () => {
@@ -54,18 +53,18 @@ class CustomerDashboard extends Component {
   renderActionButtons(reservation) {
     const actions = [
       <FlatButton
-        label="Back"
-        primary={true}
-        onClick={this.handleDeleteReservationDialogClose}
-      />,
-      <FlatButton
-        label="Delete Reservation"
+        label="Delete"
         primary={true}
         keyboardFocused={true}
         onClick={() => {
           this.deleteReservation(reservation.id);
           this.handleDeleteReservationDialogClose();
         }}
+      />,
+      <FlatButton
+        label="Back"
+        primary={true}
+        onClick={this.handleDeleteReservationDialogClose}
       />
     ];
 
@@ -158,16 +157,6 @@ class CustomerDashboard extends Component {
           autoHideDuration={4000}
           onRequestClose={() => this.handleRequestClose()}
         />
-        <Route
-          exact
-          path="/customer/dashboard/createReservation"
-          component={CustomerCreateReservationForm}
-        />
-        <Route
-          exact
-          path="/customer/dashboard/editReservation/:id"
-          component={CustomerEditReservationForm}
-        />
       </div>
     );
   }
@@ -175,7 +164,7 @@ class CustomerDashboard extends Component {
 
 function mapStateToProps(state) {
   return {
-    reservations: state.customerInfo.reservations,
+    reservations: state.customerReservations,
     message: state.messages.message
   };
 }

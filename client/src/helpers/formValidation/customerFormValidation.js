@@ -1,7 +1,7 @@
-import { formFields } from "../../formFields/adminForms/adminEditCustomerFormFields";
+import { formFields } from "../formFields/shared/createCustomerFormFields";
 import { SubmissionError } from "redux-form";
 
-export function validateForm(formData) {
+export function validate(formData) {
   formFields.forEach(field => {
     if (
       field.required &&

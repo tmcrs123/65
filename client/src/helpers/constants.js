@@ -4,3 +4,6 @@ export const MARGIN = 0.1;
 export const SUCCESS = "success";
 export const ERROR = "error";
 export const INFO = "info";
+export const REJECTED = "rejected";
+export const APPROVED = "approved";
+export const PENDING = "pending";

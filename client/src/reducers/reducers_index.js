@@ -13,12 +13,14 @@ import adminCustomerListReducer from "./admin/adminCustomerListReducer";
 import adminSelectedCustomerReducer from "./admin/adminSelectedCustomerReducer";
 import adminMessagesReducer from "./admin/adminMessagesReducer";
 import reservationFormReducer from "./forms/reservationFormReducer";
-import authReducer from "./authenticationReducer";
-import adminLogin from "./forms/adminLoginFormReducer";
+import auth from "./authenticationReducer";
+import messages from "./messageReducer";
+import customerList from "./customerListReducer";
 
 export default combineReducers({
-  authReducer,
-  adminLogin,
+  auth,
+  messages,
+  customerList,
   adminAuth: adminAuthReducer,
   customerInfo: customerInfoReducer,
   // customerMessages: customerMessagesReducer,

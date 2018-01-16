@@ -81,7 +81,7 @@ module.exports = {
           _id: 0
         }
       }
-    ]).then(sum => (res.send({[req.params.status]:sum})));
+    ]).then(sum => res.send({ [req.params.status]: sum }));
   },
 
   getReservation(req, res, next) {
@@ -93,20 +93,22 @@ module.exports = {
 
   create(req, res, next) {
     const availableDates = res.locals.availableDates;
-    let customerId;
+    let reservationCustomer;
     let reservationData;
     let formData = { ...req.body };
 
-    if (req.body.createdByCustomer) {
-      customerId = req.user.id;
+    console.log("req.body", req.body);
+
+    if (req.body.createdByAdmin) {
+      reservationCustomer = req.body.customer;
     } else {
-      customerId = req.body.customer;
+      reservationCustomer = req.user.id;
     }
-    reservationData = { ...formData, customerId };
+    reservationData = { ...formData, customer: reservationCustomer };
 
     const reservation = new Reservation(reservationData);
 
-    Customer.findById(customerId).then(customer => {
+    Customer.findById(reservationCustomer).then(customer => {
       customer.reservations.push(reservation.id);
       reservation
         .save()

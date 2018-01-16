@@ -1,11 +1,13 @@
 import { SubmissionError } from "redux-form";
 import { formFields } from "../formFields/shared/createReservationFormFields";
 
-export default function validateCreateReservationForm(
+export default function validate(
   formData,
+  isAdmin,
   sendInvalidDatesMessage,
   sendInvalidPersonsMessage,
-  sendInvalidPriceMessage
+  sendInvalidPriceMessage,
+  sendNoCustomerSelectedMessage
 ) {
   const validationErrors = false;
 
@@ -22,7 +24,8 @@ export default function validateCreateReservationForm(
     }
   });
 
-  if (!formData.customerId) {
+  if (isAdmin && !formData.customer) {
+    sendNoCustomerSelectedMessage();
     throw new SubmissionError({
       _error: "A reservation must have a customer."
     });

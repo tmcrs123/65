@@ -5,8 +5,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import MenuItem from "material-ui/MenuItem";
 import axios from "axios";
-import * as formActions from "../../actions/form_actions/CreateReservationFormActions";
-import * as customerActions from "../../actions/admin_actions";
+import * as actions from "../../actions/actions_index";
 
 import { renderTextField } from "../../helpers/formComponents/textFields.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
@@ -14,8 +13,6 @@ import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
 import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
 import validate from "../../helpers/formValidation/createReservationFormValidation";
-
-const composedActions = { ...formActions, ...customerActions };
 
 class CreateReservationForm extends Component {
   constructor(props) {
@@ -56,7 +53,7 @@ class CreateReservationForm extends Component {
 
     return (
       <Field
-        name="customerId"
+        name="customer"
         label="Select a customer"
         component={renderSelectField}
       >
@@ -112,23 +109,25 @@ class CreateReservationForm extends Component {
     formData["price"] = Number(formData["price"]);
     formData["payNow"] = Number(formData["payNow"]);
     console.log("form data", formData);
+    console.log(this.props.auth);
     validate(
       formData,
+      this.props.isAdmin,
       this.props.sendInvalidDatesMessage,
       this.props.sendInvalidPersonsMessage,
-      this.props.sendInvalidPriceMessage
+      this.props.sendInvalidPriceMessage,
+      this.props.sendNoCustomerSelectedMessage
     );
-    // this.props.submitCustomerReservationForm(
-    //   {
-    //     ...formData,
-    //     createdByCustomer: true
-    //   },
-    //   this.props.reset
-    // );
+    this.props.submitReservationForm(
+      {
+        ...formData,
+        createdByAdmin: this.props.isAdmin
+      },
+      this.props.reset
+    );
   }
 
   render() {
-    console.log("props in render", this);
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
 
     return (
@@ -157,7 +156,7 @@ class CreateReservationForm extends Component {
             label="Price"
             component={renderPriceField}
             onChange={() => this.handlePriceChange()}
-            disabled={false}
+            disabled={!this.props.isAdmin}
           />
           <br />
           <Field
@@ -167,7 +166,13 @@ class CreateReservationForm extends Component {
             onChange={(event, value) => this.handleCheckboxChange(value)}
           />
           <br />
-          <Field name="payNow" label="Pay Now" component={renderPriceField} />
+
+          <Field
+            name="payNow"
+            label="Pay Now"
+            component={renderPriceField}
+            disabled={!this.props.isAdmin}
+          />
           <br />
           <Field
             name="numberAdults"
@@ -229,8 +234,9 @@ function mapStateToProps(state) {
   const payNow = selector(state, "payNow");
 
   return {
-    message: state.reservationForm.message,
-    customers: state.adminCustomerList,
+    message: state.messages.message,
+    auth: state.auth,
+    customers: state.customerList,
     customerInfo: state.customerInfo,
     adminInfo: state.adminAuth,
     upfrontPayment,
@@ -247,7 +253,7 @@ CreateReservationForm = reduxForm({
   initialValues: { upfrontPayment: false }
 })(CreateReservationForm);
 
-CreateReservationForm = connect(mapStateToProps, composedActions)(
+CreateReservationForm = connect(mapStateToProps, actions)(
   CreateReservationForm
 );
 

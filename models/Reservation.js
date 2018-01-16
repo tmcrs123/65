@@ -49,9 +49,10 @@ const reservationSchema = new Schema(
       type: String,
       default: "pending"
     },
-    createdByCustomer: {
+    createdByAdmin: {
       type: Boolean,
-      required: "Customer Created field must be supplied"
+      required:
+        "The role of the person who created the reservation must be supplied"
     }
   },
   {

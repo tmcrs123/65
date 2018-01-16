@@ -57,8 +57,8 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps({ authReducer }) {
-  return { isAdmin: authReducer.isAdmin };
+function mapStateToProps({ auth }) {
+  return { isAdmin: auth.isAdmin };
 }
 
 export default connect(mapStateToProps, actions)(Header);

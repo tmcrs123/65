@@ -12,13 +12,14 @@ import _ from "lodash";
 import { Route } from "react-router-dom";
 import CustomerCreateReservationForm from "./CustomerCreateReservationForm";
 import CustomerEditReservationForm from "./CustomerEditReservationForm";
+import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
 
 class CustomerDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       deleteReservationDialogOpen: false,
-      showDeleteReservationMessage: false
+      showMessage: false
     };
   }
 
@@ -27,10 +28,10 @@ class CustomerDashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.deleteReservationMessage !== "") {
-      this.setState({ showDeleteReservationMessage: true });
+    if (nextProps.message !== "") {
+      this.setState({ showMessage: true });
     } else {
-      this.setState({ showDeleteReservationMessage: false });
+      this.setState({ showMessage: false });
     }
   }
 
@@ -68,7 +69,7 @@ class CustomerDashboard extends Component {
       />
     ];
 
-    if (reservation.status !== "rejected")
+    if (reservation.status !== REJECTED)
       return (
         <CardActions>
           <Link to={`/customer/dashboard/editReservation/${reservation.id}`}>
@@ -97,10 +98,10 @@ class CustomerDashboard extends Component {
     let backgroundColor;
 
     switch (reservation.status) {
-      case "aproved":
+      case APPROVED:
         backgroundColor = green500;
         break;
-      case "rejected":
+      case REJECTED:
         backgroundColor = red500;
         break;
       default:
@@ -152,8 +153,8 @@ class CustomerDashboard extends Component {
         <h1>Customer Dashboard</h1>
         {this.props.reservations ? this.renderReservations() : ""}
         <Snackbar
-          open={this.state.showDeleteReservationMessage}
-          message={this.props.deleteReservationMessage}
+          open={this.state.showMessage}
+          message={this.props.message}
           autoHideDuration={4000}
           onRequestClose={() => this.handleRequestClose()}
         />
@@ -175,7 +176,7 @@ class CustomerDashboard extends Component {
 function mapStateToProps(state) {
   return {
     reservations: state.customerInfo.reservations,
-    deleteReservationMessage: state.customerMessages.message
+    message: state.messages.message
   };
 }
 

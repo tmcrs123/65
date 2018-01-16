@@ -36,6 +36,7 @@ export function renderTextField(props) {
       errorText={props.meta.touched && props.meta.error}
       {...props.input}
       type={props.type}
+      disabled={props.disabled}
     />
   );
 }

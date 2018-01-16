@@ -98,8 +98,8 @@ class AdminLogin extends Component {
   }
 }
 
-function mapStateToProps({ authReducer, adminLogin }) {
-  return { authReducer, message: adminLogin.message };
+function mapStateToProps({ authReducer, messages }) {
+  return { authReducer, message: messages.message };
 }
 
 AdminLogin = connect(mapStateToProps, actions)(AdminLogin);

@@ -21,5 +21,9 @@ export const styles = {
       height: 72,
       padding: 16
     }
+  },
+  paper: {
+    padding: "30px",
+    margin: "10px"
   }
 };

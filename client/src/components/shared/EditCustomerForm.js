@@ -6,6 +6,8 @@ import { renderCheckbox } from "../../helpers/formComponents/checkbox";
 import * as actions from "../../actions/actions_index";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
+import Paper from "material-ui/Paper";
+import { styles } from "../../styles/styles";
 
 /**
  * Same validator as admin edit customer form - Change names!
@@ -44,36 +46,46 @@ class AddCustomerForm extends Component {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <div className="container">
-        <h1>Add customer form</h1>
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Field name="name" label="Name" component={renderTextField} />
-          <br />
-          <Field name="email" label="Email" component={renderTextField} />
-          <br />
-          <Field
-            name="notes"
-            label="Notes"
-            component={renderTextField}
-            multiline={true}
-            rows={5}
-          />
-          <br />
-          <Field name="phone" label="Phone" component={renderTextField} />
-          <br />
-          <Field
-            name="blacklisted"
-            label="Blacklisted"
-            component={renderCheckbox}
-          />
-          <br />
-          <RaisedButton
-            type="Submit"
-            label="Submit"
-            disabled={pristine || submitting}
-            primary={true}
-            fullWidth={false}
-          />
-        </form>
+        <Paper style={styles.paper}>
+          <h3>Edit Customer</h3>
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <div className="col s6">
+              <Field name="name" label="Name" component={renderTextField} />
+              <Field name="email" label="Email" component={renderTextField} />
+              <Field name="phone" label="Phone" component={renderTextField} />
+            </div>
+            <div className="col s6">
+              <Field
+                name="notes"
+                label="Notes"
+                component={renderTextField}
+                multiLine={true}
+                rows={3}
+                rowsMax={4}
+              />
+              <br />
+              <br />
+              <br />
+              <Field
+                name="blacklisted"
+                label="Blacklisted"
+                component={renderCheckbox}
+              />
+              <br />
+              <br />
+              <br />
+            </div>
+            <div className="right-align">
+              <RaisedButton
+                type="Submit"
+                label="Submit"
+                disabled={pristine || submitting}
+                primary={true}
+                fullWidth={false}
+              />
+            </div>
+          </form>
+        </Paper>
         <Snackbar
           open={this.state.showMessage}
           message={this.props.message}

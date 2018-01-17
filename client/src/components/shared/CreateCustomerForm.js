@@ -4,6 +4,7 @@ import { reduxForm, Field } from "redux-form";
 import { renderTextField } from "../../helpers/formComponents/textFields";
 import { renderCheckbox } from "../../helpers/formComponents/checkbox";
 import * as actions from "../../actions/actions_index";
+import Paper from "material-ui/Paper";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import { validate } from "../../helpers/formValidation/customerFormValidation";
@@ -36,42 +37,44 @@ class AddCustomerForm extends Component {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <div className="container">
-        <h1>Add customer form</h1>
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Field name="name" label="Name" component={renderTextField} />
-          <br />
-          <Field name="email" label="Email" component={renderTextField} />
-          <br />
-          <Field
-            name="notes"
-            label="Notes"
-            component={renderTextField}
-            multiline={true}
-            rows={5}
+        <Paper>
+          <h3>Add customer form</h3>
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <Field name="name" label="Name" component={renderTextField} />
+            <br />
+            <Field name="email" label="Email" component={renderTextField} />
+            <br />
+            <Field
+              name="notes"
+              label="Notes"
+              component={renderTextField}
+              multiline={true}
+              rows={5}
+            />
+            <br />
+            <Field name="phone" label="Phone" component={renderTextField} />
+            <br />
+            <Field
+              name="blacklisted"
+              label="Blacklisted"
+              component={renderCheckbox}
+            />
+            <br />
+            <RaisedButton
+              type="Submit"
+              label="Submit"
+              disabled={pristine || submitting}
+              primary={true}
+              fullWidth={false}
+            />
+          </form>
+          <Snackbar
+            open={this.state.showMessage}
+            message={this.props.message}
+            autoHideDuration={3000}
+            onRequestClose={() => this.handleRequestClose()}
           />
-          <br />
-          <Field name="phone" label="Phone" component={renderTextField} />
-          <br />
-          <Field
-            name="blacklisted"
-            label="Blacklisted"
-            component={renderCheckbox}
-          />
-          <br />
-          <RaisedButton
-            type="Submit"
-            label="Submit"
-            disabled={pristine || submitting}
-            primary={true}
-            fullWidth={false}
-          />
-        </form>
-        <Snackbar
-          open={this.state.showMessage}
-          message={this.props.message}
-          autoHideDuration={3000}
-          onRequestClose={() => this.handleRequestClose()}
-        />
+        </Paper>
       </div>
     );
   }

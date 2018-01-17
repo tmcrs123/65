@@ -32,11 +32,15 @@ export function renderTextField(props) {
   return (
     <TextField
       hintText={props.label}
+      floatingLabelText={props.label}
       value={props.input.value}
       errorText={props.meta.touched && props.meta.error}
       {...props.input}
       type={props.type}
       disabled={props.disabled}
+      rows={props.rows}
+      multiLine={props.multiLine}
+      rowsMax={props.rowsMax}
     />
   );
 }

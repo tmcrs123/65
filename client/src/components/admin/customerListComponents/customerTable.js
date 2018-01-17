@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../../actions/actions_index.js";
-import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
 import MenuItem from "material-ui/MenuItem";
 import IconMenu from "material-ui/IconMenu";

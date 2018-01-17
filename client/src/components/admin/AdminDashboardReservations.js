@@ -2,20 +2,44 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
-import * as actions from "../../actions/admin_actions";
+import * as actions from "../../actions/actions_index";
 import axios from "axios";
 import ReservationsTable from "./reservationsTable";
 import RaisedButton from "material-ui/RaisedButton";
+import Snackbar from "material-ui/Snackbar";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
-class AdminDashboardCustomer extends Component {
+class AdminDashboardReservations extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMessage: false
+    };
+  }
+
   componentDidMount() {
     this.props.getReservationList();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.message !== "") {
+      this.setState({
+        showMessage: true
+      });
+    } else {
+      this.setState({
+        showMessage: false
+      });
+    }
+  }
+
   handleSearchChange(event, query) {
-    this.props.searchCustomerByName(query);
+    this.props.searchReservationByCustomerName(query);
+  }
+
+  handleRequestClose() {
+    this.props.clearMessage();
   }
 
   render() {
@@ -35,20 +59,26 @@ class AdminDashboardCustomer extends Component {
           <div className="col s12">
             <Paper style={styles}>
               <div>
-                <p className="left">Reservation List</p>
+                <p className="left"> Reservation List </p>
                 <Link to="/admin/dashboard/reservation/add">
                   <RaisedButton
                     className="right"
-                    label="+ Add Customer"
+                    label="+ Add Reservation"
                     primary={true}
                   />
                 </Link>
                 <br />
                 <TextField floatingLabelText="Search" onChange={searchNames} />
               </div>
-              <ReservationTable customers={this.props.reservations} />
+              <ReservationsTable reservations={this.props.reservations} />
             </Paper>
           </div>
+          <Snackbar
+            open={this.state.showMessage}
+            message={this.props.message}
+            autoHideDuration={4000}
+            onRequestClose={() => this.handleRequestClose()}
+          />
         </div>
       </div>
     );
@@ -56,7 +86,10 @@ class AdminDashboardCustomer extends Component {
 }
 
 function mapStateToProps(state) {
-  return { reservations: state.reservationList };
+  return {
+    reservations: state.reservationList,
+    message: state.messages.message
+  };
 }
 
-export default connect(mapStateToProps, actions)(AdminDashboardCustomer);
+export default connect(mapStateToProps, actions)(AdminDashboardReservations);

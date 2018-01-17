@@ -51,6 +51,11 @@ class AdminDashboard extends Component {
               path="/admin/dashboard/customer/add"
               component={CreateCustomerForm}
             />
+            <Route
+              exact
+              path="/admin/dashboard/reservation/add"
+              render={() => <CreateReservationForm isAdmin={true} />}
+            />
           </div>
         </div>
       </div>

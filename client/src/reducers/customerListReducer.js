@@ -13,7 +13,7 @@ export default function(state = [], action) {
     case SEARCH_CUSTOMER_BY_NAME:
       return action.payload;
     case DELETE_CUSTOMER:
-      _.remove(state, customer => customer.id == action.payload);
+      _.remove(state, customer => customer._id == action.payload);
       return [...state];
     default:
       return state;

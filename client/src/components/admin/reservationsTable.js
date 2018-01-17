@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../../actions/actions_index.js";
+import * as actions from "../../actions/actions_index";
 import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
 import TextField from "material-ui/TextField";
@@ -16,51 +16,48 @@ import {
 } from "material-ui/Table";
 import Pagination from "material-ui-pagination";
 
-import { ITEMS_PER_PAGE, PAGES_TO_SHOW } from "../../../helpers/constants";
+import { ITEMS_PER_PAGE, PAGES_TO_SHOW } from "../../helpers/constants";
 
 class CustomerTable extends Component {
   constructor(props) {
     super(props);
-    this.state = { currentPage: 1, observationsDialogOpen: false };
+    this.state = {
+      currentPage: 1
+    };
   }
-
-  /**
-   * Actions
-   */
 
   deleteCustomer(event, customerId) {
-    this.props.deleteCustomer(customerId);
+    this.props.deleteReservation(customerId);
   }
 
-  /**
-   * Handlers
-   */
-
   handlePageChange(value) {
-    this.setState({ currentPage: value });
+    this.setState({
+      currentPage: value
+    });
   }
 
   renderTableHeader() {
     return (
       <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
         <TableRow>
-          <TableHeaderColumn>Name</TableHeaderColumn>
-          <TableHeaderColumn>Email</TableHeaderColumn>
-          <TableHeaderColumn>Phone</TableHeaderColumn>
-          <TableHeaderColumn>Blacklisted</TableHeaderColumn>
-          <TableHeaderColumn>Notes</TableHeaderColumn>
-          <TableHeaderColumn>Edit</TableHeaderColumn>
-          <TableHeaderColumn>Delete</TableHeaderColumn>
+          <TableHeaderColumn> Customer </TableHeaderColumn>
+          <TableHeaderColumn> Start Date </TableHeaderColumn>
+          <TableHeaderColumn> End Date </TableHeaderColumn>
+          <TableHeaderColumn> Status </TableHeaderColumn>
+          <TableHeaderColumn> Price </TableHeaderColumn>
+          <TableHeaderColumn> Paid </TableHeaderColumn>
+          <TableHeaderColumn> Edit </TableHeaderColumn>
+          <TableHeaderColumn> Delete </TableHeaderColumn>
         </TableRow>
       </TableHeader>
     );
   }
 
-  renderTableRows(customers) {
-    if (customers.length === 0) {
+  renderTableRows(reservations) {
+    if (reservations.length === 0) {
       return (
         <TableRow hoverable={true}>
-          <TableRowColumn>No customers found</TableRowColumn>
+          <TableRowColumn> No reservations found </TableRowColumn>
         </TableRow>
       );
     }
@@ -69,25 +66,26 @@ class CustomerTable extends Component {
     const firstIndex = currentPage * ITEMS_PER_PAGE - ITEMS_PER_PAGE;
     const lastIndex = (currentPage + 1) * ITEMS_PER_PAGE - ITEMS_PER_PAGE;
 
-    const pagedCustomers = customers.slice(firstIndex, lastIndex);
+    const pagedReservations = reservations.slice(firstIndex, lastIndex);
 
-    return pagedCustomers.map(customer => {
+    return pagedReservations.map((reservation, index) => {
       return (
-        <TableRow hoverable={true} key={customer.id}>
-          <TableRowColumn>{customer.name}</TableRowColumn>
-          <TableRowColumn>{customer.email}</TableRowColumn>
-          <TableRowColumn>{customer.phone}</TableRowColumn>
-          <TableRowColumn>{`${customer.blacklisted}`}</TableRowColumn>
-          <TableRowColumn>{customer.notes}</TableRowColumn>
+        <TableRow hoverable={true} key={index}>
+          <TableRowColumn> {reservation.customerName} </TableRowColumn>
+          <TableRowColumn> {reservation.startDate} </TableRowColumn>
+          <TableRowColumn> {reservation.endDate} </TableRowColumn>
+          <TableRowColumn> {reservation.status} </TableRowColumn>
+          <TableRowColumn> {reservation.price} </TableRowColumn>
+          <TableRowColumn> {reservation.price_paid} </TableRowColumn>
           <TableRowColumn>
-            <Link to={`/admin/dashboard/customer/edit/${customer.id}`}>
-              <IconButton iconClassName="material-icons">edit</IconButton>
+            <Link to={`/admin/dashboard/customer/edit/${reservation._id}`}>
+              <IconButton iconClassName="material-icons"> edit </IconButton>
             </Link>
           </TableRowColumn>
           <TableRowColumn>
             <IconButton
               iconClassName="material-icons"
-              onClick={event => this.deleteCustomer(event, customer.id)}
+              onClick={event => this.deleteReservation(event, reservation._id)}
             >
               delete
             </IconButton>
@@ -98,17 +96,24 @@ class CustomerTable extends Component {
   }
 
   render() {
-    const totalPages = Math.ceil(this.props.customers.length / ITEMS_PER_PAGE);
+    console.log("in reder", this);
+    const totalPages = Math.ceil(
+      this.props.reservations.length / ITEMS_PER_PAGE
+    );
 
     return (
       <div>
         <Table>
           {this.renderTableHeader()}
           <TableBody displayRowCheckbox={false}>
-            {this.renderTableRows(this.props.customers)}
+            {this.renderTableRows(this.props.reservations)}
           </TableBody>
         </Table>
-        <div style={{ textAlign: "right" }}>
+        <div
+          style={{
+            textAlign: "right"
+          }}
+        >
           <Pagination
             total={totalPages}
             display={PAGES_TO_SHOW}

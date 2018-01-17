@@ -12,11 +12,11 @@ module.exports = {
     const oneMonthFromNow = moment(new Date()).add(1, "Month");
 
     Reservation.find({
-      startDate: {
-        $gte: today,
-        $lte: oneMonthFromNow
-      }
-    })
+        startDate: {
+          $gte: today,
+          $lte: oneMonthFromNow
+        }
+      })
       .populate("customer", "name")
       .then(reservations => {
         res.send(reservations);
@@ -25,7 +25,9 @@ module.exports = {
 
   getReservationCount(req, res, next) {
     const count = Reservation.count().then(count =>
-      res.send({ totalReservations: count })
+      res.send({
+        totalReservations: count
+      })
     );
   },
 
@@ -40,13 +42,14 @@ module.exports = {
         $lte: lastDayMonth
       }
     }).then(reservations => {
-      res.send({ count: reservations.length });
+      res.send({
+        count: reservations.length
+      });
     });
   },
 
   getAllReservations(req, res, next) {
-    Reservation.aggregate([
-      {
+    Reservation.aggregate([{
         $lookup: {
           from: "customers",
           localField: "customer",
@@ -58,10 +61,17 @@ module.exports = {
         $unwind: "$customer"
       },
       {
-        $addFields: { customerName: "$customer.name" }
+        $addFields: {
+          customerName: "$customer.name"
+        }
       },
       {
-        $project: { __v: 0, customer: 0, createdByAdmin: 0, upfrontPayment: 0 }
+        $project: {
+          __v: 0,
+          customer: 0,
+          createdByAdmin: 0,
+          upfrontPayment: 0
+        }
       }
     ]).then(customers => res.send(customers));
   },
@@ -72,42 +82,71 @@ module.exports = {
 
     console.log("name", name);
 
-    Reservation.aggregate([
-      {
+    Reservation.aggregate([{
         $lookup: {
           from: "customers",
           localField: "customer",
           foreignField: "_id",
           as: "customer"
         }
+      },
+      {
+        $match: {
+          "customer.name": {
+            $regex: exp,
+            $options: "i"
+          }
+        }
+      },
+      {
+        $unwind: "$customer"
+      },
+      {
+        $addFields: {
+          customerName: "$customer.name"
+        }
+      },
+      {
+        $project: {
+          __v: 0,
+          customer: 0,
+          createdByAdmin: 0,
+          upfrontPayment: 0
+        }
       }
     ]).then(customers => res.send(customers));
   },
 
   getTotalReservationsValue(req, res, next) {
-    Reservation.aggregate(
-      {
-        $group: {
-          _id: "",
-          price: { $sum: "$price" }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          price: "$price"
+    Reservation.aggregate({
+      $group: {
+        _id: "",
+        price: {
+          $sum: "$price"
         }
       }
-    ).then(sum => res.send({ reservationsTotal: sum[0].price }));
+    }, {
+      $project: {
+        _id: 0,
+        price: "$price"
+      }
+    }).then(sum => res.send({
+      reservationsTotal: sum[0].price
+    }));
   },
 
   getTotalReservationsValueByStatus(req, res, next) {
-    Reservation.aggregate([
-      { $match: { status: req.params.status } },
+    Reservation.aggregate([{
+        $match: {
+          status: req.params.status
+        }
+      },
       {
         $group: {
           _id: null,
-          price: { $sum: "$price" }
+          price: {
+            $sum: "$price"
+          }
         }
       },
       {
@@ -115,12 +154,16 @@ module.exports = {
           _id: 0
         }
       }
-    ]).then(sum => res.send({ [req.params.status]: sum }));
+    ]).then(sum => res.send({
+      [req.params.status]: sum
+    }));
   },
 
   getReservation(req, res, next) {
     const reservationId = req.params.id;
-    Reservation.findById({ _id: reservationId }).then(reservation =>
+    Reservation.findById({
+      _id: reservationId
+    }).then(reservation =>
       res.send(reservation)
     );
   },
@@ -129,7 +172,8 @@ module.exports = {
     const availableDates = res.locals.availableDates;
     let reservationCustomer;
     let reservationData;
-    let formData = { ...req.body };
+    let formData = { ...req.body
+    };
 
     console.log("req.body", req.body);
 
@@ -138,7 +182,9 @@ module.exports = {
     } else {
       reservationCustomer = req.user.id;
     }
-    reservationData = { ...formData, customer: reservationCustomer };
+    reservationData = { ...formData,
+      customer: reservationCustomer
+    };
 
     const reservation = new Reservation(reservationData);
 
@@ -160,11 +206,14 @@ module.exports = {
     console.log("got info that dates are", availableDates);
     const reservationId = req.params.id;
     const reservationProps = req.body;
-    Reservation.findByIdAndUpdate(
-      { _id: reservationId },
+    Reservation.findByIdAndUpdate({
+        _id: reservationId
+      },
       reservationProps
     ).then(reservation => {
-      Reservation.findById({ _id: reservation.id }).then(reservation => {
+      Reservation.findById({
+        _id: reservation.id
+      }).then(reservation => {
         res.send(availableDates);
       });
     });
@@ -188,7 +237,9 @@ module.exports = {
   },
 
   availableDates(req, res, next) {
-    let availableDates = { availableDates: true };
+    let availableDates = {
+      availableDates: true
+    };
     const startDate = req.body.startDate;
     const endDate = req.body.endDate;
     let reservationId = req.params.id ? req.params.id : null;
@@ -199,8 +250,7 @@ module.exports = {
     );
 
     Reservation.find({
-      $or: [
-        {
+      $or: [{
           startDate: {
             $gte: startDate,
             $lt: endDate
@@ -238,7 +288,9 @@ module.exports = {
 
       // if return something that is not a reservation I'm editing then dates are unavailable
       if (dbReservations.length > 0) {
-        availableDates = { availableDates: false };
+        availableDates = {
+          availableDates: false
+        };
         res.send(availableDates);
         return;
       }

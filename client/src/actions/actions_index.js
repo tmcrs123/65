@@ -22,7 +22,8 @@ import {
   EDIT_RESERVATION_FORM_SUCCESS,
   GET_CUSTOMER,
   EDIT_CUSTOMER_FORM_SUCCESS,
-  GET_RESERVATION_LIST
+  GET_RESERVATION_LIST,
+  SEARCH_RESERVATION_BY_CUSTOMER_NAME
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -160,7 +161,13 @@ export const editCustomer = customerData => dispatch => {
 };
 
 export const getReservationList = () => dispatch => {
-  axios.get("/api/reservations").then(reservations => {
-    dispatch({ type: GET_RESERVATION_LIST, payload: reservations });
+  axios.get("/api/reservations").then(res => {
+    dispatch({ type: GET_RESERVATION_LIST, payload: res.data });
   });
 };
+
+export const searchReservationByCustomerName = (query) => dispatch=>{
+  axios.get(`/api/reservationSearch?name=${query}`).then(res => {
+    dispatch({type:SEARCH_RESERVATION_BY_CUSTOMER_NAME,payload:res.data})
+  })
+}

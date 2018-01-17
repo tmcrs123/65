@@ -44,3 +44,4 @@ export const DELETE_CUSTOMER = "delete_customer";
 
 //Reservation List
 export const GET_RESERVATION_LIST = "get_reservation_list";
+export const SEARCH_RESERVATION_BY_CUSTOMER_NAME = "search_reservation_by_customer_name";

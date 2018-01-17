@@ -8,14 +8,10 @@ import { reduxForm, Field, formValueSelector } from "redux-form";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import DateIntervalsForm from "../admin/AdminDateIntervalsForm";
+import AdminDateIntervalsList from "./AdminDateIntervalsList";
 
 class AdminDashboardPrices extends Component {
-  handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("form data", formData);
-  }
-
   render() {
-    const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <Paper>
         <div className="container-fluid">
@@ -24,7 +20,7 @@ class AdminDashboardPrices extends Component {
           </div>
         </div>
         <div className="col s6">
-          <h3>A list of price intervals</h3>
+          <AdminDateIntervalsList />
         </div>
         <Divider inset={false} />
       </Paper>

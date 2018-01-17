@@ -7,9 +7,9 @@ module.exports = {
   },
 
   saveDateInterval(req, res, next) {
-    new DateInterval(req.body)
-      .save()
-      .then(() => res.status(201).send({ created: true }));
+    new DateInterval(req.body).save().then(() => {
+      DateInterval.find().then(intervals => res.send(intervals));
+    });
   },
 
   deleteDateInterval(req, res, next) {

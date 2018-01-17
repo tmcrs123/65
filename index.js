@@ -57,6 +57,7 @@ app.use(passport.session());
 require("./routes/authRoutes")(app);
 require("./routes/customerRoutes.js")(app);
 require("./routes/reservationRoutes.js")(app);
+require("./routes/priceRoutes.js")(app);
 
 app.get("/", (req, res) => {
   res.send("hi there");

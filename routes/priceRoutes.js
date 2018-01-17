@@ -1,4 +1,4 @@
-import priceController from "../controllers/priceController";
+const priceController = require("../controllers/priceController");
 
 module.exports = app => {
   app.get("/api/dateIntervals", priceController.getDateIntervals);

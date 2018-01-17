@@ -28,7 +28,8 @@ import {
   GET_DATE_INTERVALS,
   DELETE_DATE_INTERVAL,
   SUBMIT_DATE_INTERVAL_FORM_SUCCESS,
-  DELETE_DATE_INTERVAL_MESSAGE_SUCCESS
+  DELETE_DATE_INTERVAL_MESSAGE_SUCCESS,
+  SAVE_DATE_INTERVAL
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -192,7 +193,8 @@ export const deleteDateInterval = dateIntervalId => dispatch => {
 };
 
 export const saveDateInterval = dateInterval => dispatch => {
-  axios.post("/api/dateIntervals", dateInterval).then(() => {
+  axios.post("/api/dateIntervals", dateInterval).then(res => {
     dispatch({ type: SUBMIT_DATE_INTERVAL_FORM_SUCCESS });
+    dispatch({ type: SAVE_DATE_INTERVAL, payload: res.data });
   });
 };

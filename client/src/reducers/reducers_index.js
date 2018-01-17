@@ -12,6 +12,7 @@ import reservationList from "./reservationListReducer";
 import customerReservations from "./customerReservationsReducer";
 import reservation from "./reservationReducer";
 import customer from "./customerReducer";
+import dateIntervals from "./dateIntervalsReducer";
 
 export default combineReducers({
   auth,
@@ -21,5 +22,6 @@ export default combineReducers({
   customerReservations,
   reservation,
   customer,
+  dateIntervals,
   form: reduxForm
 });

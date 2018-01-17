@@ -1,15 +1,19 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import { reduxForm, Field, formValueSelector } from "redux-form";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
+import * as actions from "../../actions/actions_index";
 
 class AdminDateIntervalsForm extends Component {
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("form data", formData);
+    this.props.saveDateInterval(formData);
+    formProps.reset();
   }
 
   render() {
+    console.log(this);
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -33,7 +37,11 @@ class AdminDateIntervalsForm extends Component {
   }
 }
 
-export default reduxForm({
+AdminDateIntervalsForm = reduxForm({
   form: "dateIntervalsForm",
   enableReinitialize: true
 })(AdminDateIntervalsForm);
+
+AdminDateIntervalsForm = connect(null, actions)(AdminDateIntervalsForm);
+
+export default AdminDateIntervalsForm;

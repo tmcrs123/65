@@ -57,3 +57,4 @@ export const SEARCH_RESERVATION_BY_CUSTOMER_NAME =
 //Date Intervals
 export const GET_DATE_INTERVALS = "get_date_intervals";
 export const DELETE_DATE_INTERVAL = "delete_date_interval";
+export const SAVE_DATE_INTERVAL = "save_date_interval";

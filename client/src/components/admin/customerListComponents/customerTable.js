@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import * as actions from "../../../actions/actions_index.js";
 import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
+import Chip from "material-ui/Chip";
+import { styles } from "../../../styles/styles";
 import TextField from "material-ui/TextField";
 import { Link } from "react-router-dom";
 import {
@@ -15,6 +17,7 @@ import {
   TableFooter
 } from "material-ui/Table";
 import Pagination from "material-ui-pagination";
+import _ from "lodash";
 
 import { ITEMS_PER_PAGE, PAGES_TO_SHOW } from "../../../helpers/constants";
 
@@ -36,6 +39,30 @@ class CustomerTable extends Component {
     });
   }
 
+  renderBlacklistedChip(customer) {
+    if (customer.blacklisted) {
+      return (
+        <IconButton
+          iconClassName="material-icons"
+          iconStyle={styles.iconButton.smallIconRed}
+          style={styles.iconButton.small}
+        >
+          remove_circle
+        </IconButton>
+      );
+    }
+
+    return (
+      <IconButton
+        iconClassName="material-icons"
+        iconStyle={styles.iconButton.smallIconGreen}
+        style={styles.iconButton.small}
+      >
+        check_circle
+      </IconButton>
+    );
+  }
+
   renderTableHeader() {
     return (
       <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -44,7 +71,6 @@ class CustomerTable extends Component {
           <TableHeaderColumn>Email </TableHeaderColumn>
           <TableHeaderColumn>Phone </TableHeaderColumn>
           <TableHeaderColumn>Blacklisted </TableHeaderColumn>
-          <TableHeaderColumn>Notes </TableHeaderColumn>
           <TableHeaderColumn>Edit </TableHeaderColumn>
           <TableHeaderColumn>Delete </TableHeaderColumn>
         </TableRow>
@@ -73,16 +99,25 @@ class CustomerTable extends Component {
           <TableRowColumn> {customer.name} </TableRowColumn>
           <TableRowColumn> {customer.email} </TableRowColumn>
           <TableRowColumn> {customer.phone} </TableRowColumn>
-          <TableRowColumn> {`${customer.blacklisted}`} </TableRowColumn>
-          <TableRowColumn> {customer.notes} </TableRowColumn>
+          <TableRowColumn>
+            {this.renderBlacklistedChip(customer)}
+          </TableRowColumn>
           <TableRowColumn>
             <Link to={`/admin/dashboard/customer/edit/${customer._id}`}>
-              <IconButton iconClassName="material-icons"> edit </IconButton>
+              <IconButton
+                iconClassName="material-icons"
+                iconStyle={styles.iconButton.smallIcon}
+                style={styles.iconButton.small}
+              >
+                edit
+              </IconButton>
             </Link>
           </TableRowColumn>
           <TableRowColumn>
             <IconButton
               iconClassName="material-icons"
+              iconStyle={styles.iconButton.smallIcon}
+              style={styles.iconButton.small}
               onClick={event => this.deleteCustomer(event, customer._id)}
             >
               delete

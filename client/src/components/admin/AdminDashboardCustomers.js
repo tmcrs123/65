@@ -44,8 +44,18 @@ class AdminDashboardCustomer extends Component {
 
   render() {
     const styles = {
-      padding: "20px",
-      margin: "10px"
+      paper: {
+        padding: "20px",
+        margin: "10px"
+      },
+      search: {
+        marginRight: "10px",
+        marginBottom: "60px",
+        fontSize: "40px"
+      },
+      textfield: {
+        fontSize: "22px"
+      }
     };
 
     const searchNames = _.debounce(
@@ -57,18 +67,25 @@ class AdminDashboardCustomer extends Component {
       <div className="row">
         <div className="container-fluid">
           <div className="col s12">
-            <Paper style={styles}>
+            <Paper style={styles.paper}>
               <div>
-                <p className="left">Customers List</p>
-                <Link to="/admin/dashboard/customer/add">
-                  <RaisedButton
-                    className="right"
-                    label="+ Add Customer"
-                    primary={true}
+                <div>
+                  <Link to="/admin/dashboard/customer/add">
+                    <RaisedButton
+                      className="right"
+                      label="+ Add Customer"
+                      primary={true}
+                    />
+                  </Link>
+                  <i className="material-icons" style={styles.search}>
+                    search
+                  </i>
+                  <TextField
+                    hintText="Enter a name..."
+                    onChange={searchNames}
+                    style={styles.textfield}
                   />
-                </Link>
-                <br />
-                <TextField floatingLabelText="Search" onChange={searchNames} />
+                </div>
               </div>
               <CustomerTable customers={this.props.customers} />
             </Paper>

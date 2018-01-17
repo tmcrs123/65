@@ -31,7 +31,7 @@ export function renderPriceField(props) {
 export function renderTextField(props) {
   return (
     <TextField
-      floatingLabelText={props.label}
+      hintText={props.label}
       value={props.input.value}
       errorText={props.meta.touched && props.meta.error}
       {...props.input}

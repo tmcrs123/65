@@ -7,7 +7,7 @@ import Chip from "material-ui/Chip";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import Snackbar from "material-ui/Snackbar";
-import { red500, green500, yellow500 } from "material-ui/styles/colors";
+import { red800, green800, yellow800 } from "material-ui/styles/colors";
 import _ from "lodash";
 import { Route } from "react-router-dom";
 
@@ -98,13 +98,13 @@ class CustomerDashboard extends Component {
 
     switch (reservation.status) {
       case APPROVED:
-        backgroundColor = green500;
+        backgroundColor = green800;
         break;
       case REJECTED:
-        backgroundColor = red500;
+        backgroundColor = red800;
         break;
       default:
-        backgroundColor = yellow500;
+        backgroundColor = yellow800;
     }
 
     return (

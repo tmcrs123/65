@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import * as actions from "../../../actions/actions_index.js";
 import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
+import MenuItem from "material-ui/MenuItem";
+import IconMenu from "material-ui/IconMenu";
 import Chip from "material-ui/Chip";
 import { styles } from "../../../styles/styles";
 import TextField from "material-ui/TextField";
@@ -30,6 +32,7 @@ class CustomerTable extends Component {
   }
 
   deleteCustomer(event, customerId) {
+    console.log("click handler");
     this.props.deleteCustomer(customerId);
   }
 
@@ -71,8 +74,8 @@ class CustomerTable extends Component {
           <TableHeaderColumn>Email </TableHeaderColumn>
           <TableHeaderColumn>Phone </TableHeaderColumn>
           <TableHeaderColumn>Blacklisted </TableHeaderColumn>
-          <TableHeaderColumn>Edit </TableHeaderColumn>
-          <TableHeaderColumn>Delete </TableHeaderColumn>
+          <TableHeaderColumn>Notes </TableHeaderColumn>
+          <TableHeaderColumn>More </TableHeaderColumn>
         </TableRow>
       </TableHeader>
     );
@@ -102,31 +105,43 @@ class CustomerTable extends Component {
           <TableRowColumn>
             {this.renderBlacklistedChip(customer)}
           </TableRowColumn>
+          <TableRowColumn>{customer.notes}</TableRowColumn>
           <TableRowColumn>
-            <Link to={`/admin/dashboard/customer/edit/${customer._id}`}>
-              <IconButton
-                iconClassName="material-icons"
-                iconStyle={styles.iconButton.smallIcon}
-                style={styles.iconButton.small}
-              >
-                edit
-              </IconButton>
-            </Link>
-          </TableRowColumn>
-          <TableRowColumn>
-            <IconButton
-              iconClassName="material-icons"
-              iconStyle={styles.iconButton.smallIcon}
-              style={styles.iconButton.small}
-              onClick={event => this.deleteCustomer(event, customer._id)}
+            <IconMenu
+              iconButtonElement={
+                <IconButton
+                  iconClassName="material-icons"
+                  iconStyle={styles.iconButton.smallIcon}
+                  style={styles.iconButton.small}
+                >
+                  expand_more
+                </IconButton>
+              }
+              anchorOrigin={{ horizontal: "left", vertical: "top" }}
+              targetOrigin={{ horizontal: "left", vertical: "top" }}
             >
-              delete
-            </IconButton>
+              <Link to={`/admin/dashboard/customer/edit/${customer._id}`}>
+                <MenuItem primaryText="Edit" />
+              </Link>
+              <MenuItem
+                onClick={event => this.deleteCustomer(event, customer._id)}
+                primaryText="Delete"
+              />
+            </IconMenu>
           </TableRowColumn>
         </TableRow>
       );
     });
   }
+
+  // <IconButton
+  //             iconClassName="material-icons"
+  //             iconStyle={styles.iconButton.smallIcon}
+  //             style={styles.iconButton.small}
+  //             onClick={event => this.deleteCustomer(event, customer._id)}
+  //           >
+  //             delete
+  //           </IconButton>
 
   render() {
     const totalPages = Math.ceil(this.props.customers.length / ITEMS_PER_PAGE);

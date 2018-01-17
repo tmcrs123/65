@@ -12,6 +12,10 @@ export const styles = {
       height: 36,
       color: red800
     },
+    smallIcon: {
+      width: 36,
+      height: 36
+    },
     small: {
       width: 72,
       height: 72,

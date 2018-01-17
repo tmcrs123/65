@@ -24,7 +24,11 @@ import {
   EDIT_CUSTOMER_FORM_SUCCESS,
   GET_RESERVATION_LIST,
   SEARCH_RESERVATION_BY_CUSTOMER_NAME,
-  DELETE_CUSTOMER_MESSAGE
+  DELETE_CUSTOMER_MESSAGE,
+  GET_DATE_INTERVALS,
+  DELETE_DATE_INTERVAL,
+  SUBMIT_DATE_INTERVAL_FORM_SUCCESS,
+  DELETE_DATE_INTERVAL_MESSAGE_SUCCESS
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -171,5 +175,24 @@ export const getReservationList = () => dispatch => {
 export const searchReservationByCustomerName = query => dispatch => {
   axios.get(`/api/reservationSearch?name=${query}`).then(res => {
     dispatch({ type: SEARCH_RESERVATION_BY_CUSTOMER_NAME, payload: res.data });
+  });
+};
+
+export const getDateIntervals = () => dispatch => {
+  axios.get("/api/dateIntervals").then(res => {
+    dispatch({ type: GET_DATE_INTERVALS, payload: res.data });
+  });
+};
+
+export const deleteDateInterval = dateIntervalId => dispatch => {
+  axios.delete(`/api/dateIntervals/${dateIntervalId}`).then(() => {
+    dispatch({ type: DELETE_DATE_INTERVAL_MESSAGE_SUCCESS });
+    dispatch({ type: DELETE_DATE_INTERVAL, payload: dateIntervalId });
+  });
+};
+
+export const saveDateInterval = dateInterval => dispatch => {
+  axios.post("/api/dateIntervals", dateInterval).then(() => {
+    dispatch({ type: SUBMIT_DATE_INTERVAL_FORM_SUCCESS });
   });
 };

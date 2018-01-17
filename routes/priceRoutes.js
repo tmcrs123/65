@@ -1,0 +1,7 @@
+import priceController from "../controllers/priceController";
+
+module.exports = app => {
+  app.get("/api/dateIntervals", priceController.getDateIntervals);
+  app.post("/api/dateIntervals", priceController.saveDateInterval);
+  app.delete("/api/dateIntervals/:id", priceController.deleteDateInterval);
+};

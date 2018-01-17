@@ -28,6 +28,12 @@ export const EDIT_RESERVATION_FORM_SUCCESS = "edit_reservation_form_success";
 export const SUBMIT_CUSTOMER_FORM_SUCCESS = "submit_customer_form_success";
 export const EDIT_CUSTOMER_FORM_SUCCESS = "edit";
 
+//Date intervals form
+export const SUBMIT_DATE_INTERVAL_FORM_SUCCESS =
+  "Date interval successfully submited";
+export const DELETE_DATE_INTERVAL_MESSAGE_SUCCESS =
+  "delete_date_inteval_message_success";
+
 //A Customer
 export const GET_CUSTOMER_RESERVATIONS = "get_customer_reservations";
 export const GET_CUSTOMER = "get_customer";
@@ -47,3 +53,7 @@ export const DELETE_CUSTOMER = "delete_customer";
 export const GET_RESERVATION_LIST = "get_reservation_list";
 export const SEARCH_RESERVATION_BY_CUSTOMER_NAME =
   "search_reservation_by_customer_name";
+
+//Date Intervals
+export const GET_DATE_INTERVALS = "get_date_intervals";
+export const DELETE_DATE_INTERVAL = "delete_date_interval";

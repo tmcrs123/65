@@ -13,6 +13,7 @@ const morgan = require("morgan");
 require("./models/Customer");
 require("./models/Admin");
 require("./models/Reservation");
+require("./models/DateInterval");
 
 //load all passaport strategies
 require("./services/passport");

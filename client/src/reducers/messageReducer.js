@@ -14,7 +14,8 @@ import {
   WRONG_LOGIN_MESSAGE,
   CLEAR_MESSAGE,
   NO_CUSTOMER_SELECTED_MESSAGE,
-  EDIT_CUSTOMER_FORM_SUCCESS
+  EDIT_CUSTOMER_FORM_SUCCESS,
+  DELETE_CUSTOMER_MESSAGE
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -60,6 +61,8 @@ export default function(state = { type: "", message: "" }, action) {
       return { type: SUCCESS, message: "Customer created successfully." };
     case EDIT_CUSTOMER_FORM_SUCCESS:
       return { type: SUCCESS, message: "Edited customer successfully." };
+    case DELETE_CUSTOMER_MESSAGE:
+      return { type: ERROR, message: "Deleted customer successfully." };
     default:
       return state;
   }

@@ -21,6 +21,7 @@ export const INVALID_PERSONS_MESSAGE = "invalid_persons_message";
 export const INVALID_PRICE_MESSAGE = "invalid_price_message";
 export const NO_CUSTOMER_SELECTED_MESSAGE = "no_customer_selected_message";
 export const DELETE_RESERVATION_MESSAGE = "delete_reservation_message";
+export const DELETE_CUSTOMER_MESSAGE = "delete_customer_message";
 export const EDIT_RESERVATION_FORM_SUCCESS = "edit_reservation_form_success";
 
 //Customer Form
@@ -44,4 +45,5 @@ export const DELETE_CUSTOMER = "delete_customer";
 
 //Reservation List
 export const GET_RESERVATION_LIST = "get_reservation_list";
-export const SEARCH_RESERVATION_BY_CUSTOMER_NAME = "search_reservation_by_customer_name";
+export const SEARCH_RESERVATION_BY_CUSTOMER_NAME =
+  "search_reservation_by_customer_name";

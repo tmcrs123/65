@@ -2,20 +2,44 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
-import * as actions from "../../actions/admin_actions";
+import * as actions from "../../actions/actions_index";
 import axios from "axios";
 import CustomerTable from "./customerListComponents/customerTable";
 import RaisedButton from "material-ui/RaisedButton";
+import Snackbar from "material-ui/Snackbar";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
 class AdminDashboardCustomer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMessage: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.message !== "") {
+      this.setState({
+        showMessage: true
+      });
+    } else {
+      this.setState({
+        showMessage: false
+      });
+    }
+  }
+
   componentDidMount() {
     this.props.getCustomerList();
   }
 
   handleSearchChange(event, query) {
     this.props.searchCustomerByName(query);
+  }
+
+  handleRequestClose() {
+    this.props.clearMessage();
   }
 
   render() {
@@ -49,6 +73,12 @@ class AdminDashboardCustomer extends Component {
               <CustomerTable customers={this.props.customers} />
             </Paper>
           </div>
+          <Snackbar
+            open={this.state.showMessage}
+            message={this.props.message}
+            autoHideDuration={4000}
+            onRequestClose={() => this.handleRequestClose()}
+          />
         </div>
       </div>
     );
@@ -56,7 +86,7 @@ class AdminDashboardCustomer extends Component {
 }
 
 function mapStateToProps(state) {
-  return { customers: state.customerList };
+  return { customers: state.customerList, message: state.messages.message };
 }
 
 export default connect(mapStateToProps, actions)(AdminDashboardCustomer);

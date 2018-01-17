@@ -73,14 +73,14 @@ module.exports = {
           upfrontPayment: 0
         }
       }
-    ]).then(customers => res.send(customers));
+    ])
+    .sort({customerName:1})    
+    .then(customers => res.send(customers));
   },
 
   searchReservationByCustomerName(req, res, next) {
     const name = req.query.name;
     const exp = new RegExp(name, "g");
-
-    console.log("name", name);
 
     Reservation.aggregate([{
         $lookup: {
@@ -114,7 +114,9 @@ module.exports = {
           upfrontPayment: 0
         }
       }
-    ]).then(customers => res.send(customers));
+    ])
+    .sort({customerName:1})
+    .then(customers => res.send(customers));
   },
 
   getTotalReservationsValue(req, res, next) {

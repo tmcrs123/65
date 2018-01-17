@@ -23,7 +23,8 @@ import {
   GET_CUSTOMER,
   EDIT_CUSTOMER_FORM_SUCCESS,
   GET_RESERVATION_LIST,
-  SEARCH_RESERVATION_BY_CUSTOMER_NAME
+  SEARCH_RESERVATION_BY_CUSTOMER_NAME,
+  DELETE_CUSTOMER_MESSAGE
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -110,9 +111,10 @@ export const searchCustomerByName = query => dispatch => {
 };
 
 export const deleteCustomer = customerId => dispatch => {
-  axios
-    .delete(`/api/customers/${customerId}`)
-    .then(() => dispatch({ type: DELETE_CUSTOMER, payload: customerId }));
+  axios.delete(`/api/customers/${customerId}`).then(() => {
+    dispatch({ type: DELETE_CUSTOMER, payload: customerId });
+    dispatch({ type: DELETE_CUSTOMER_MESSAGE });
+  });
 };
 
 export const submitCustomerForm = (customerData, resetForm) => dispatch => {
@@ -166,8 +168,8 @@ export const getReservationList = () => dispatch => {
   });
 };
 
-export const searchReservationByCustomerName = (query) => dispatch=>{
+export const searchReservationByCustomerName = query => dispatch => {
   axios.get(`/api/reservationSearch?name=${query}`).then(res => {
-    dispatch({type:SEARCH_RESERVATION_BY_CUSTOMER_NAME,payload:res.data})
-  })
-}
+    dispatch({ type: SEARCH_RESERVATION_BY_CUSTOMER_NAME, payload: res.data });
+  });
+};

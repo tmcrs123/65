@@ -15,7 +15,10 @@ import {
   CLEAR_MESSAGE,
   NO_CUSTOMER_SELECTED_MESSAGE,
   EDIT_CUSTOMER_FORM_SUCCESS,
-  DELETE_CUSTOMER_MESSAGE
+  DELETE_CUSTOMER_MESSAGE,
+  SUBMIT_DATE_INTERVAL_FORM_SUCCESS,
+  DELETE_DATE_INTERVAL_MESSAGE_SUCCESS,
+  UPDATE_DEFAULT_PRICE
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -63,6 +66,16 @@ export default function(state = { type: "", message: "" }, action) {
       return { type: SUCCESS, message: "Edited customer successfully." };
     case DELETE_CUSTOMER_MESSAGE:
       return { type: ERROR, message: "Deleted customer successfully." };
+    case SUBMIT_DATE_INTERVAL_FORM_SUCCESS:
+      return {
+        type: SUCCESS,
+        message: "New price interval added successfully."
+      };
+    case DELETE_DATE_INTERVAL_MESSAGE_SUCCESS:
+      return { type: SUCCESS, message: "Deleted price interval successfully." };
+    case UPDATE_DEFAULT_PRICE:
+      return { type: SUCCESS, message: "Default price successfully updated." };
+
     default:
       return state;
   }

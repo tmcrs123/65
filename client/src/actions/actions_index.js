@@ -209,9 +209,7 @@ export const getDefaultPrice = () => dispatch => {
 };
 
 export const updateDefaultPrice = newPrice => dispatch => {
-  console.log("action creator", newPrice);
   axios.post("/api/defaultPrice", newPrice).then(res => {
-    console.log("got res", res);
     dispatch({ type: UPDATE_DEFAULT_PRICE, payload: res.data });
     dispatch({ type: UPDATE_DEFAULT_PRICE_MESSAGE });
   });

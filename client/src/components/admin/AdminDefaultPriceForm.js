@@ -10,14 +10,10 @@ class AdminDefaultPriceForm extends Component {
     this.props.getDefaultPrice();
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("cwrp", nextProps);
-  }
-
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("form data", formData);
     formData.price = Number(formData.price);
     this.props.updateDefaultPrice(formData);
+    this.props.untouch("price");
   }
 
   render() {

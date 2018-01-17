@@ -25,8 +25,8 @@ module.exports = {
 
   updateDefaultPrice(req, res, next) {
     console.log("req", req.body);
-    DefaultPrice.findByIdAndUpdate({ _id: req.body.id }, req.body).then(res =>
-      res.send(req.body.price)
+    DefaultPrice.findOneAndUpdate({ _id: req.body._id }, req.body).then(price =>
+      res.send(price)
     );
   }
 };

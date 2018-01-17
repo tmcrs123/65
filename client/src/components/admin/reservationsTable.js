@@ -26,8 +26,8 @@ class CustomerTable extends Component {
     };
   }
 
-  deleteCustomer(event, customerId) {
-    this.props.deleteReservation(customerId);
+  deleteReservation(event, reservationId) {
+    this.props.deleteReservation(reservationId);
   }
 
   handlePageChange(value) {
@@ -78,7 +78,7 @@ class CustomerTable extends Component {
           <TableRowColumn> {reservation.price} </TableRowColumn>
           <TableRowColumn> {reservation.price_paid} </TableRowColumn>
           <TableRowColumn>
-            <Link to={`/admin/dashboard/customer/edit/${reservation._id}`}>
+            <Link to={`/admin/dashboard/reservation/edit/${reservation._id}`}>
               <IconButton iconClassName="material-icons"> edit </IconButton>
             </Link>
           </TableRowColumn>
@@ -96,7 +96,6 @@ class CustomerTable extends Component {
   }
 
   render() {
-    console.log("in reder", this);
     const totalPages = Math.ceil(
       this.props.reservations.length / ITEMS_PER_PAGE
     );

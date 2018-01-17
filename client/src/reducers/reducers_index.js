@@ -13,6 +13,7 @@ import customerReservations from "./customerReservationsReducer";
 import reservation from "./reservationReducer";
 import customer from "./customerReducer";
 import dateIntervals from "./dateIntervalsReducer";
+import defaultPrice from "./defaultPriceReducer";
 
 export default combineReducers({
   auth,
@@ -23,5 +24,6 @@ export default combineReducers({
   reservation,
   customer,
   dateIntervals,
+  defaultPrice,
   form: reduxForm
 });

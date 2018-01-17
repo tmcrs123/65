@@ -14,6 +14,7 @@ require("./models/Customer");
 require("./models/Admin");
 require("./models/Reservation");
 require("./models/DateInterval");
+require("./models/DefaultPrice");
 
 //load all passaport strategies
 require("./services/passport");

@@ -29,7 +29,10 @@ import {
   DELETE_DATE_INTERVAL,
   SUBMIT_DATE_INTERVAL_FORM_SUCCESS,
   DELETE_DATE_INTERVAL_MESSAGE_SUCCESS,
-  SAVE_DATE_INTERVAL
+  SAVE_DATE_INTERVAL,
+  GET_DEFAULT_PRICE,
+  UPDATE_DEFAULT_PRICE,
+  UPDATE_DEFAULT_PRICE_MESSAGE
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -196,5 +199,20 @@ export const saveDateInterval = dateInterval => dispatch => {
   axios.post("/api/dateIntervals", dateInterval).then(res => {
     dispatch({ type: SUBMIT_DATE_INTERVAL_FORM_SUCCESS });
     dispatch({ type: SAVE_DATE_INTERVAL, payload: res.data });
+  });
+};
+
+export const getDefaultPrice = () => dispatch => {
+  axios.get("/api/defaultPrice").then(res => {
+    dispatch({ type: GET_DEFAULT_PRICE, payload: res.data });
+  });
+};
+
+export const updateDefaultPrice = newPrice => dispatch => {
+  console.log("action creator", newPrice);
+  axios.post("/api/defaultPrice", newPrice).then(res => {
+    console.log("got res", res);
+    dispatch({ type: UPDATE_DEFAULT_PRICE, payload: res.data });
+    dispatch({ type: UPDATE_DEFAULT_PRICE_MESSAGE });
   });
 };

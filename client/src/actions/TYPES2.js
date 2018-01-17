@@ -23,6 +23,7 @@ export const NO_CUSTOMER_SELECTED_MESSAGE = "no_customer_selected_message";
 export const DELETE_RESERVATION_MESSAGE = "delete_reservation_message";
 export const DELETE_CUSTOMER_MESSAGE = "delete_customer_message";
 export const EDIT_RESERVATION_FORM_SUCCESS = "edit_reservation_form_success";
+export const UPDATE_DEFAULT_PRICE_MESSAGE = "update_default_price_message";
 
 //Customer Form
 export const SUBMIT_CUSTOMER_FORM_SUCCESS = "submit_customer_form_success";
@@ -58,3 +59,7 @@ export const SEARCH_RESERVATION_BY_CUSTOMER_NAME =
 export const GET_DATE_INTERVALS = "get_date_intervals";
 export const DELETE_DATE_INTERVAL = "delete_date_interval";
 export const SAVE_DATE_INTERVAL = "save_date_interval";
+
+//Default price
+export const GET_DEFAULT_PRICE = "get_default_price";
+export const UPDATE_DEFAULT_PRICE = "update_default_price";

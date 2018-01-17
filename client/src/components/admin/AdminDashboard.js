@@ -50,7 +50,9 @@ class AdminDashboard extends Component {
             <Route
               exact
               path="/admin/dashboard/reservation/edit/:id"
-              component={EditReservationForm}
+              render={props => (
+                <EditReservationForm isAdmin={true} {...props} />
+              )}
             />
             <Route
               exact

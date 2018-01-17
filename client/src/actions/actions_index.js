@@ -21,7 +21,8 @@ import {
   GET_RESERVATION,
   EDIT_RESERVATION_FORM_SUCCESS,
   GET_CUSTOMER,
-  EDIT_CUSTOMER_FORM_SUCCESS
+  EDIT_CUSTOMER_FORM_SUCCESS,
+  GET_RESERVATION_LIST
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -155,5 +156,11 @@ export const getCustomer = customerId => dispatch => {
 export const editCustomer = customerData => dispatch => {
   axios.put(`/api/customers/${customerData._id}`, customerData).then(() => {
     dispatch({ type: EDIT_CUSTOMER_FORM_SUCCESS });
+  });
+};
+
+export const getReservationList = () => dispatch => {
+  axios.get("/api/reservations").then(reservations => {
+    dispatch({ type: GET_RESERVATION_LIST, payload: reservations });
   });
 };

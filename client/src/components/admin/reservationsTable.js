@@ -71,9 +71,9 @@ class CustomerTable extends Component {
 
     const pagedCustomers = customers.slice(firstIndex, lastIndex);
 
-    return pagedCustomers.map((customer, index) => {
+    return pagedCustomers.map(customer => {
       return (
-        <TableRow hoverable={true} key={index}>
+        <TableRow hoverable={true} key={customer.id}>
           <TableRowColumn>{customer.name}</TableRowColumn>
           <TableRowColumn>{customer.email}</TableRowColumn>
           <TableRowColumn>{customer.phone}</TableRowColumn>

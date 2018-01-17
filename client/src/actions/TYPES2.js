@@ -37,7 +37,10 @@ export const DELETE_RESERVATION = "delete_reservation";
 //A Reservation
 export const GET_RESERVATION = "get_reservation";
 
-//A Customer List
+//Customer List
 export const GET_CUSTOMER_LIST = "get_customer_list";
 export const SEARCH_CUSTOMER_BY_NAME = "search_customer_by_name";
 export const DELETE_CUSTOMER = "delete_customer";
+
+//Reservation List
+export const GET_RESERVATION_LIST = "get_reservation_list";

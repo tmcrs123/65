@@ -37,13 +37,9 @@ module.exports = {
   },
 
   getAllCustomers(req, res, next) {
-    Customer.find()
+    Customer.aggregate([{ $project: { reservations: 0, __v: 0 } }])
       .sort({ name: 1 })
-      .then(customers => res.send(customers))
-      .catch(err => {
-        console.log(err);
-        next;
-      });
+      .then(customers => res.send(customers));
   },
 
   getCustomer(req, res, next) {
@@ -78,16 +74,13 @@ module.exports = {
 
   searchCustomers(req, res, next) {
     const name = req.query.name;
-
     const exp = new RegExp(name, "g");
 
-    Customer.find({
-      name: { $regex: exp, $options: "i" }
-    })
+    Customer.aggregate([
+      { $match: { name: { $regex: exp, $options: "i" } } },
+      { $project: { __v: 0, reservations: 0 } }
+    ])
       .sort({ name: 1 })
-      .then(customers => {
-        console.log("got customers ", customers.length);
-        res.send(customers);
-      });
+      .then(customers => res.send(customers));
   }
 };

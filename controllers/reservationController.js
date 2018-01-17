@@ -45,9 +45,43 @@ module.exports = {
   },
 
   getAllReservations(req, res, next) {
-    Reservation.find()
-      .populate("customer", "name")
-      .then(reservations => res.send(reservations));
+    Reservation.aggregate([
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      {
+        $unwind: "$customer"
+      },
+      {
+        $addFields: { customerName: "$customer.name" }
+      },
+      {
+        $project: { __v: 0, customer: 0, createdByAdmin: 0, upfrontPayment: 0 }
+      }
+    ]).then(customers => res.send(customers));
+  },
+
+  searchReservationByCustomerName(req, res, next) {
+    const name = req.query.name;
+    const exp = new RegExp(name, "g");
+
+    console.log("name", name);
+
+    Reservation.aggregate([
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "customer"
+        }
+      }
+    ]).then(customers => res.send(customers));
   },
 
   getTotalReservationsValue(req, res, next) {

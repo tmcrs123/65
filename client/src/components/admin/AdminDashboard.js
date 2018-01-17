@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-
+import { Route } from "react-router-dom";
 import Sidebar from "../shared/Sidebar";
 import AdminDashboardCustomers from "./AdminDashboardCustomers";
 import AdminDashboardPrices from "./AdminDashboardPrices";
+import AdminDashboardReservations from "./AdminDashboardReservations";
 import AdminDashboardLanding from "./AdminDashboardLanding";
 import EditCustomerForm from "../shared/EditCustomerForm";
 import CreateCustomerForm from "../shared/CreateCustomerForm";
 import CreateReservationForm from "../shared/CreateReservationForm";
-import { Route } from "react-router-dom";
 
 class AdminDashboard extends Component {
   render() {
@@ -33,6 +33,11 @@ class AdminDashboard extends Component {
             />
             <Route
               exact
+              path="/admin/dashboard/reservations"
+              component={AdminDashboardReservations}
+            />
+            <Route
+              exact
               path="/admin/dashboard/prices"
               component={AdminDashboardPrices}
             />
@@ -45,12 +50,6 @@ class AdminDashboard extends Component {
               exact
               path="/admin/dashboard/customer/add"
               component={CreateCustomerForm}
-            />
-
-            <Route
-              exact
-              path="/admin/dashboard/teste"
-              render={() => <CreateReservationForm isAdmin={false} />}
             />
           </div>
         </div>

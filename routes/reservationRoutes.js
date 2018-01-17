@@ -35,4 +35,9 @@ module.exports = app => {
     "/api/reservationsTotalValue/:status",
     reservationController.getTotalReservationsValueByStatus
   );
+
+  app.get(
+    "/api/reservationSearch",
+    reservationController.searchReservationByCustomerName
+  );
 };

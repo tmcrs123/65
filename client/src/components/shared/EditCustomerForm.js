@@ -78,7 +78,7 @@ class AddCustomerForm extends Component {
             <div className="right-align">
               <RaisedButton
                 type="Submit"
-                label="Submit"
+                label="Save"
                 disabled={pristine || submitting}
                 primary={true}
                 fullWidth={false}

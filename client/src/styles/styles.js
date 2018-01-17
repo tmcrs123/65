@@ -25,5 +25,14 @@ export const styles = {
   paper: {
     padding: "30px",
     margin: "10px"
+  },
+  adminLogin: {
+    paper: {
+      padding: "30px",
+      margin: "20px"
+    },
+    signIn: {
+      marginTop: "20px"
+    }
   }
 };

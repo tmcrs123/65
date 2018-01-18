@@ -85,8 +85,6 @@ class CreateReservationForm extends Component {
     if (this.state.hideBookingFee) {
       return null;
     } else {
-      console.log("price", this.props.price);
-      console.log("margin", this.props.margin);
       return (
         <p>Booking fee: {Math.round(this.props.price * this.props.margin)}€</p>
       );
@@ -159,7 +157,10 @@ class CreateReservationForm extends Component {
     return (
       <div className="container">
         <Paper style={styles.createReservation.paper}>
-          <h3>Create a reservation</h3>
+          <h4>
+            <strong>+ </strong>reservation
+          </h4>
+          <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
             <div className="col s6">
               {this.props.isAdmin ? this.renderSelectCustomerField() : null}

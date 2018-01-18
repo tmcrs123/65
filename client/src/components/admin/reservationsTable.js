@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/actions_index";
+import _ from "lodash";
 import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
+import IconMenu from "material-ui/IconMenu";
+import MenuItem from "material-ui/MenuItem";
 import TextField from "material-ui/TextField";
+import Chip from "material-ui/Chip";
 import { Link } from "react-router-dom";
 import {
   Table,
@@ -15,8 +19,10 @@ import {
   TableFooter
 } from "material-ui/Table";
 import Pagination from "material-ui-pagination";
-
+import { styles } from "../../styles/styles";
 import { ITEMS_PER_PAGE, PAGES_TO_SHOW } from "../../helpers/constants";
+import { red800, green800, yellow800 } from "material-ui/styles/colors";
+import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
 
 class CustomerTable extends Component {
   constructor(props) {
@@ -36,6 +42,27 @@ class CustomerTable extends Component {
     });
   }
 
+  renderChip(reservation) {
+    let backgroundColor;
+
+    switch (reservation.status) {
+      case APPROVED:
+        backgroundColor = green800;
+        break;
+      case REJECTED:
+        backgroundColor = red800;
+        break;
+      default:
+        backgroundColor = yellow800;
+    }
+
+    return (
+      <Chip style={styles.chip} backgroundColor={backgroundColor}>
+        {_.capitalize(reservation.status)}
+      </Chip>
+    );
+  }
+
   renderTableHeader() {
     return (
       <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -46,8 +73,7 @@ class CustomerTable extends Component {
           <TableHeaderColumn> Status </TableHeaderColumn>
           <TableHeaderColumn> Price </TableHeaderColumn>
           <TableHeaderColumn> Paid </TableHeaderColumn>
-          <TableHeaderColumn> Edit </TableHeaderColumn>
-          <TableHeaderColumn> Delete </TableHeaderColumn>
+          <TableHeaderColumn> More </TableHeaderColumn>
         </TableRow>
       </TableHeader>
     );
@@ -74,21 +100,34 @@ class CustomerTable extends Component {
           <TableRowColumn> {reservation.customerName} </TableRowColumn>
           <TableRowColumn> {reservation.startDate} </TableRowColumn>
           <TableRowColumn> {reservation.endDate} </TableRowColumn>
-          <TableRowColumn> {reservation.status} </TableRowColumn>
+          <TableRowColumn>{this.renderChip(reservation)}</TableRowColumn>
           <TableRowColumn> {reservation.price} </TableRowColumn>
           <TableRowColumn> {reservation.price_paid} </TableRowColumn>
+
           <TableRowColumn>
-            <Link to={`/admin/dashboard/reservation/edit/${reservation._id}`}>
-              <IconButton iconClassName="material-icons"> edit </IconButton>
-            </Link>
-          </TableRowColumn>
-          <TableRowColumn>
-            <IconButton
-              iconClassName="material-icons"
-              onClick={event => this.deleteReservation(event, reservation._id)}
+            <IconMenu
+              iconButtonElement={
+                <IconButton
+                  iconClassName="material-icons"
+                  iconStyle={styles.iconButton.smallIcon}
+                  style={styles.iconButton.small}
+                >
+                  expand_more
+                </IconButton>
+              }
+              anchorOrigin={{ horizontal: "left", vertical: "top" }}
+              targetOrigin={{ horizontal: "left", vertical: "top" }}
             >
-              delete
-            </IconButton>
+              <Link to={`/admin/dashboard/reservation/edit/${reservation._id}`}>
+                <MenuItem primaryText="Edit" />
+              </Link>
+              <MenuItem
+                onClick={event =>
+                  this.deleteReservation(event, reservation._id)
+                }
+                primaryText="Delete"
+              />
+            </IconMenu>
           </TableRowColumn>
         </TableRow>
       );

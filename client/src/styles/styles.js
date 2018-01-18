@@ -45,5 +45,22 @@ export const styles = {
   submitButton: {
     marginRight: "20px",
     marginTop: "30px"
+  },
+  table: {
+    paper: {
+      padding: "20px",
+      margin: "10px"
+    }
+  },
+  search: {
+    marginRight: "10px",
+    marginBottom: "60px",
+    fontSize: "40px",
+    textfield: {
+      fontSize: "22px"
+    }
+  },
+  chip: {
+    margin: 3
   }
 };

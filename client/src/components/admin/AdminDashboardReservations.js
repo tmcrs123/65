@@ -9,6 +9,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import { styles } from "../../styles/styles";
 
 class AdminDashboardReservations extends Component {
   constructor(props) {
@@ -43,11 +44,6 @@ class AdminDashboardReservations extends Component {
   }
 
   render() {
-    const styles = {
-      padding: "20px",
-      margin: "10px"
-    };
-
     const searchNames = _.debounce(
       (event, query) => this.handleSearchChange(event, query),
       500
@@ -57,9 +53,8 @@ class AdminDashboardReservations extends Component {
       <div className="row">
         <div className="container-fluid">
           <div className="col s12">
-            <Paper style={styles}>
+            <Paper style={styles.table.paper}>
               <div>
-                <p className="left"> Reservation List </p>
                 <Link to="/admin/dashboard/reservation/add">
                   <RaisedButton
                     className="right"
@@ -67,8 +62,14 @@ class AdminDashboardReservations extends Component {
                     primary={true}
                   />
                 </Link>
-                <br />
-                <TextField floatingLabelText="Search" onChange={searchNames} />
+                <i className="material-icons" style={styles.search}>
+                  search
+                </i>
+                <TextField
+                  hintText="Enter a name..."
+                  onChange={searchNames}
+                  style={styles.search.textfield}
+                />
               </div>
               <ReservationsTable reservations={this.props.reservations} />
             </Paper>

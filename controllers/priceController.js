@@ -4,7 +4,9 @@ const DefaultPrice = mongoose.model("defaultPrice");
 
 module.exports = {
   getDateIntervals(req, res, next) {
-    DateInterval.find().then(intervals => res.send(intervals));
+    DateInterval.find()
+      .sort({ startDate: 1 })
+      .then(intervals => res.send(intervals));
   },
 
   saveDateInterval(req, res, next) {
@@ -80,7 +82,7 @@ module.exports = {
       }
     ]).then(dbDateIntervals => {
       console.log("got from db", dbDateIntervals);
-      dbDateIntervals.length === 1 ? (availableDates = false) : availableDates;
+      dbDateIntervals.length >= 1 ? (availableDates = false) : availableDates;
       res.locals.availableDates = availableDates;
       next();
     });

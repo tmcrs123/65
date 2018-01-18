@@ -5,9 +5,15 @@ import { reduxForm, Field, formValueSelector } from "redux-form";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import * as actions from "../../actions/actions_index";
+import validate from "../../helpers/formValidation/adminDateIntervalsFormValidation";
 
 class AdminDateIntervalsForm extends Component {
   handleFormSubmit(formData, dispatchFunction, formProps) {
+    validate(
+      formData,
+      this.props.sendInvalidDatesMessage,
+      this.props.sendInvalidPriceMessage
+    );
     this.props.saveDateInterval(formData);
     formProps.reset();
   }

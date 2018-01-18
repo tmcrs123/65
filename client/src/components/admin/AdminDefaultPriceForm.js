@@ -4,6 +4,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import { reduxForm, Field, formValueSelector } from "redux-form";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import * as actions from "../../actions/actions_index";
+import validate from "../../helpers/formValidation/adminDefaultPriceFormValidation";
 
 class AdminDefaultPriceForm extends Component {
   componentDidMount() {
@@ -12,8 +13,8 @@ class AdminDefaultPriceForm extends Component {
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
     formData.price = Number(formData.price);
+    validate(formData, this.props.sendInvalidPriceMessage);
     this.props.updateDefaultPrice(formData);
-    this.props.untouch("price");
   }
 
   render() {

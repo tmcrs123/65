@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const DateInterval = mongoose.model("dateIntervals");
 const DefaultPrice = mongoose.model("defaultPrice");
+const Margin = mongoose.model("margin");
 const moment = require("moment");
 
 module.exports = {
@@ -69,12 +70,10 @@ module.exports = {
     let finalPrice = 0;
 
     if (startDate > endDate) {
-      res
-        .status(400)
-        .send({
-          price: 0,
-          error: "Start date cannot be a date after end date."
-        });
+      res.status(400).send({
+        price: 0,
+        error: "Start date cannot be a date after end date."
+      });
       return;
     }
 
@@ -108,5 +107,15 @@ module.exports = {
 
         res.status(200).send({ price: finalPrice });
       });
+  },
+
+  getMargin(req, res, next) {
+    Margin.find().then(margin => res.send(margin[0]));
+  },
+
+  updateMargin(req, res, next) {
+    Margin.findOneAndUpdate({ _id: req.body._id }, req.body).then(margin => {
+      res.send(margin);
+    });
   }
 };

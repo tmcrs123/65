@@ -11,4 +11,6 @@ module.exports = app => {
   app.get("/api/defaultPrice", priceController.getDefaultPrice);
   app.post("/api/defaultPrice", priceController.updateDefaultPrice);
   app.post("/api/calculatePrice", priceController.calculateDatesPrice);
+  app.get("/api/margin", priceController.getMargin);
+  app.post("/api/margin", priceController.updateMargin);
 };

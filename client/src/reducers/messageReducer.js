@@ -19,7 +19,9 @@ import {
   SUBMIT_DATE_INTERVAL_FORM_SUCCESS,
   DELETE_DATE_INTERVAL_MESSAGE_SUCCESS,
   UPDATE_DEFAULT_PRICE,
-  UNVAILABLE_DATE_INTERVAL_MESSAGE
+  UNVAILABLE_DATE_INTERVAL_MESSAGE,
+  UPDATE_MARGIN_MESSAGE,
+  INVALID_MARGIN_MESSAGE
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -83,6 +85,13 @@ export default function(state = { type: "", message: "" }, action) {
       return {
         type: ERROR,
         message: "The selected interval already has a price definition."
+      };
+    case UPDATE_MARGIN_MESSAGE:
+      return { type: SUCCESS, message: "Updated margin successfully." };
+    case INVALID_MARGIN_MESSAGE:
+      return {
+        type: ERROR,
+        message: "A margin must be a number between 0 and 100."
       };
     default:
       return state;

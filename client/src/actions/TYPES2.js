@@ -24,6 +24,7 @@ export const DELETE_RESERVATION_MESSAGE = "delete_reservation_message";
 export const DELETE_CUSTOMER_MESSAGE = "delete_customer_message";
 export const EDIT_RESERVATION_FORM_SUCCESS = "edit_reservation_form_success";
 export const UPDATE_DEFAULT_PRICE_MESSAGE = "update_default_price_message";
+export const UPDATE_MARGIN_MESSAGE = "update_margin_message";
 
 //Customer Form
 export const SUBMIT_CUSTOMER_FORM_SUCCESS = "submit_customer_form_success";
@@ -36,6 +37,9 @@ export const DELETE_DATE_INTERVAL_MESSAGE_SUCCESS =
   "delete_date_inteval_message_success";
 export const UNVAILABLE_DATE_INTERVAL_MESSAGE =
   "unavailble_date_interval_message";
+
+//Margin form
+export const INVALID_MARGIN_MESSAGE = "invalid_margin_message";
 
 //A Customer
 export const GET_CUSTOMER_RESERVATIONS = "get_customer_reservations";
@@ -65,3 +69,7 @@ export const SAVE_DATE_INTERVAL = "save_date_interval";
 //Default price
 export const GET_DEFAULT_PRICE = "get_default_price";
 export const UPDATE_DEFAULT_PRICE = "update_default_price";
+
+//Margin
+export const GET_MARGIN = "get_margin";
+export const UPDATE_MARGIN = "update_margin";

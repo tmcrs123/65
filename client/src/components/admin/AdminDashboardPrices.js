@@ -10,6 +10,7 @@ import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import DateIntervalsForm from "../admin/AdminDateIntervalsForm";
 import AdminDateIntervalsList from "./AdminDateIntervalsList";
 import AdminDefaultPriceForm from "./AdminDefaultPriceForm";
+import AdminMarginForm from "./AdminMarginForm";
 import * as actions from "../../actions/actions_index";
 
 class AdminDashboardPrices extends Component {
@@ -51,6 +52,7 @@ class AdminDashboardPrices extends Component {
             <div className="row">
               <div className="col s6">
                 <AdminDefaultPriceForm />
+                <AdminMarginForm />
               </div>
             </div>
           </div>

@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import MenuItem from "material-ui/MenuItem";
+import Paper from "material-ui/Paper";
 import axios from "axios";
 import * as actions from "../../actions/actions_index";
-
+import { styles } from "../../styles/styles";
 import { renderTextField } from "../../helpers/formComponents/textFields.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
@@ -25,6 +26,7 @@ class CreateReservationForm extends Component {
   componentDidMount() {
     if (this.props.isAdmin) {
       this.props.getCustomerList();
+      this.props.getMargin();
     }
   }
 
@@ -109,7 +111,7 @@ class CreateReservationForm extends Component {
 
     value
       ? this.props.change("payNow", this.props.price)
-      : this.props.change("payNow", this.props.price * 0.1);
+      : this.props.change("payNow", this.props.price * this.props.margin);
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -137,93 +139,101 @@ class CreateReservationForm extends Component {
 
     return (
       <div className="container">
-        <h3>TEST CREATE RESERVATION</h3>
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <div className="form-group">
-            {this.props.isAdmin ? this.renderSelectCustomerField() : null}
-            <Field
-              name="startDate"
-              label="Start-Date"
-              component={renderDatePicker}
-              onChange={() => this.handleDateChange()}
-            />
-            <br />
-            <Field
-              name="endDate"
-              label="End-Date"
-              component={renderDatePicker}
-              onChange={() => this.handleDateChange()}
-            />
-            <br />
-          </div>
-          <Field
-            name="price"
-            label="Price"
-            component={renderPriceField}
-            onChange={() => this.handlePriceChange()}
-            disabled={!this.props.isAdmin}
-          />
-          <br />
-          <Field
-            name="upfrontPayment"
-            label="Pay reservation total now?"
-            component={renderCheckbox}
-            onChange={(event, value) => this.handleCheckboxChange(value)}
-          />
-          <br />
+        <Paper style={styles.paper}>
+          <h3>Create a reservation</h3>
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <div className="col s6">
+              {this.props.isAdmin ? this.renderSelectCustomerField() : null}
+              <Field
+                name="startDate"
+                label="Start-Date"
+                component={renderDatePicker}
+                onChange={() => this.handleDateChange()}
+              />
+              <br />
+              <Field
+                name="endDate"
+                label="End-Date"
+                component={renderDatePicker}
+                onChange={() => this.handleDateChange()}
+              />
+              <br />
 
-          <Field
-            name="payNow"
-            label="Pay Now"
-            component={renderPriceField}
-            disabled={!this.props.isAdmin}
+              <Field
+                name="price"
+                label="Price"
+                component={renderPriceField}
+                onChange={() => this.handlePriceChange()}
+                disabled={!this.props.isAdmin}
+              />
+              <br />
+              <Field
+                name="upfrontPayment"
+                label="Pay reservation total now?"
+                component={renderCheckbox}
+                onChange={(event, value) => this.handleCheckboxChange(value)}
+              />
+            </div>
+            <br />
+            <div className="col s6">
+              <Field
+                name="payNow"
+                label="Pay Now"
+                component={renderPriceField}
+                disabled={!this.props.isAdmin}
+              />
+              <br />
+              <Field
+                name="numberAdults"
+                label="Number of Adults"
+                component={renderSelectField}
+              >
+                {this.renderMenuItems(1, 4)}
+              </Field>
+              <br />
+              <Field
+                name="numberChildrens"
+                label="Number of childrens"
+                component={renderSelectField}
+              >
+                {this.renderMenuItems(0, 3)}
+              </Field>
+              <br />
+              <Field
+                name="observations"
+                label="Observations"
+                component={renderTextField}
+                multiLine={true}
+                rows={3}
+                rowsMax={4}
+              />
+            </div>
+            <br />
+            <div className="right-align">
+              <RaisedButton
+                type="Submit"
+                label="Submit"
+                disabled={pristine || submitting}
+                primary={true}
+                fullWidth={false}
+              />
+              <RaisedButton
+                type="button"
+                label="Clear Value"
+                disabled={pristine || submitting}
+                primary={true}
+                fullWidth={false}
+                onClick={reset}
+              />
+            </div>
+          </form>
+          <Snackbar
+            open={this.state.showMessage}
+            message={this.props.message}
+            autoHideDuration={3000}
+            onRequestClose={() => this.handleRequestClose()}
           />
-          <br />
-          <Field
-            name="numberAdults"
-            label="Number of Adults"
-            component={renderSelectField}
-          >
-            {this.renderMenuItems(1, 4)}
-          </Field>
-          <br />
-          <Field
-            name="numberChildrens"
-            label="Number of childrens"
-            component={renderSelectField}
-          >
-            {this.renderMenuItems(0, 3)}
-          </Field>
-          <br />
-          <Field
-            name="observations"
-            label="Observations"
-            component={renderTextField}
-            multiline={true}
-          />
-          <br />
-          <RaisedButton
-            type="Submit"
-            label="Submit"
-            disabled={pristine || submitting}
-            primary={true}
-            fullWidth={false}
-          />
-          <RaisedButton
-            type="button"
-            label="Clear Value"
-            disabled={pristine || submitting}
-            primary={true}
-            fullWidth={false}
-            onClick={reset}
-          />
-        </form>
-        <Snackbar
-          open={this.state.showMessage}
-          message={this.props.message}
-          autoHideDuration={3000}
-          onRequestClose={() => this.handleRequestClose()}
-        />
+        </Paper>
       </div>
     );
   }
@@ -244,6 +254,7 @@ function mapStateToProps(state) {
     customers: state.customerList,
     customerInfo: state.customerInfo,
     adminInfo: state.adminAuth,
+    margin: state.margin.margin / 100,
     upfrontPayment,
     price,
     startDate,

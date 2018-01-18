@@ -33,7 +33,11 @@ import {
   GET_DEFAULT_PRICE,
   UPDATE_DEFAULT_PRICE,
   UPDATE_DEFAULT_PRICE_MESSAGE,
-  UNVAILABLE_DATE_INTERVAL_MESSAGE
+  UNVAILABLE_DATE_INTERVAL_MESSAGE,
+  GET_MARGIN,
+  UPDATE_MARGIN,
+  UPDATE_MARGIN_MESSAGE,
+  INVALID_MARGIN_MESSAGE
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -218,4 +222,22 @@ export const updateDefaultPrice = newPrice => dispatch => {
     dispatch({ type: UPDATE_DEFAULT_PRICE, payload: res.data });
     dispatch({ type: UPDATE_DEFAULT_PRICE_MESSAGE });
   });
+};
+
+export const getMargin = () => dispatch => {
+  axios.get("/api/margin").then(res => {
+    console.log("res action creator", res);
+    dispatch({ type: GET_MARGIN, payload: res.data });
+  });
+};
+
+export const updateMargin = newMargin => dispatch => {
+  axios.post("/api/margin", newMargin).then(res => {
+    dispatch({ type: UPDATE_MARGIN, payload: res.data });
+    dispatch({ type: UPDATE_MARGIN_MESSAGE });
+  });
+};
+
+export const sendInvalidMarginMessage = () => {
+  return { type: INVALID_MARGIN_MESSAGE };
 };

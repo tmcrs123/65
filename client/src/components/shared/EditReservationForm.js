@@ -25,6 +25,7 @@ class CustomerEditReservationForm extends Component {
   componentDidMount() {
     const selectedReservationId = this.props.match.params.id;
     this.props.getReservation(selectedReservationId);
+    this.props.getMargin();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,7 +82,7 @@ class CustomerEditReservationForm extends Component {
   handleCheckboxChange(value) {
     value
       ? this.props.change("price_toPay", this.props.price)
-      : this.props.change("price_toPay", this.props.price * 0.1);
+      : this.props.change("price_toPay", this.props.price * this.props.margin);
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -199,6 +200,7 @@ function mapStateToProps(state) {
   return {
     message: state.messages.message,
     initialValues: state.reservation,
+    margin: state.margin.margin / 100,
     startDate,
     endDate,
     upfrontPayment,

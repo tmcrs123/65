@@ -61,10 +61,19 @@ class CustomerEditReservationForm extends Component {
      */
     setTimeout(() => {
       if (this.props.startDate && this.props.endDate) {
-        axios.get("/api/price").then(res => {
-          this.props.change("price", res.data.price);
-          this.handleCheckboxChange(this.props.upfrontPayment);
-        });
+        if (this.props.startDate > this.props.endDate) {
+          this.props.sendInvalidDatesMessage();
+          return;
+        }
+        axios
+          .post("/api/calculatePrice", {
+            startDate: this.props.startDate,
+            endDate: this.props.endDate
+          })
+          .then(res => {
+            this.props.change("price", res.data.price);
+            this.handleCheckboxChange(this.props.upfrontPayment);
+          });
       }
     }, 500);
   }

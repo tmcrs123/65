@@ -68,6 +68,16 @@ module.exports = {
     const dates = [];
     let finalPrice = 0;
 
+    if (startDate > endDate) {
+      res
+        .status(400)
+        .send({
+          price: 0,
+          error: "Start date cannot be a date after end date."
+        });
+      return;
+    }
+
     while (startDate < endDate) {
       dates.push(moment(startDate));
       startDate.add(1, "days");

@@ -41,8 +41,8 @@ class CreateReservationForm extends Component {
     this.props.customers.map(customer => {
       customers.push(
         <MenuItem
-          key={customer.id}
-          value={customer.id}
+          key={customer._id}
+          value={customer._id}
           primaryText={`${customer.name}`}
         />
       );
@@ -91,10 +91,15 @@ class CreateReservationForm extends Component {
      */
     setTimeout(() => {
       if (this.props.startDate && this.props.endDate) {
-        axios.get("/api/price").then(res => {
-          this.props.change("price", res.data.price);
-          this.handleCheckboxChange(this.props.upfrontPayment);
-        });
+        axios
+          .post("/api/calculatePrice", {
+            startDate: this.props.startDate,
+            endDate: this.props.endDate
+          })
+          .then(res => {
+            this.props.change("price", res.data.price);
+            this.handleCheckboxChange(this.props.upfrontPayment);
+          });
       }
     }, 500);
   }

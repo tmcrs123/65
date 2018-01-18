@@ -37,7 +37,10 @@ export default function(state = { type: "", message: "" }, action) {
         message: "The dates you selected are not available."
       };
     case INVALID_DATES_MESSAGE:
-      return { type: ERROR, message: "Dates are invalid." };
+      return {
+        type: ERROR,
+        message: "Start date cannot be a date after end date."
+      };
     case DELETE_RESERVATION_MESSAGE:
       return {
         type: SUCCESS,

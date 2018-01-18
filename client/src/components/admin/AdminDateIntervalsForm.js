@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
-import { reduxForm, Field, formValueSelector } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import * as actions from "../../actions/actions_index";

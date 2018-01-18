@@ -10,4 +10,5 @@ module.exports = app => {
   app.delete("/api/dateIntervals/:id", priceController.deleteDateInterval);
   app.get("/api/defaultPrice", priceController.getDefaultPrice);
   app.post("/api/defaultPrice", priceController.updateDefaultPrice);
+  app.post("/api/calculatePrice", priceController.calculateDatesPrice);
 };

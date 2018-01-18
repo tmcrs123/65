@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const DateInterval = mongoose.model("dateIntervals");
 const DefaultPrice = mongoose.model("defaultPrice");
+const moment = require("moment");
 
 module.exports = {
   getDateIntervals(req, res, next) {
@@ -34,42 +35,16 @@ module.exports = {
   },
 
   updateDefaultPrice(req, res, next) {
-    console.log("req", req.body);
     DefaultPrice.findOneAndUpdate({ _id: req.body._id }, req.body).then(price =>
       res.send(price)
     );
   },
 
   availableDates(req, res, next) {
-    console.log("req.body", req.body);
     let availableDates = true;
     const sDate = new Date(req.body.startDate);
     const eDate = new Date(req.body.endDate);
 
-    // DateInterval.find({
-    //   $or: [
-    //     {
-    //       startDate: {
-    //         $gte: startDate,
-    //         $lte: endDate
-    //       }
-    //     },
-    //     {
-    //       endDate: {
-    //         $gte: startDate,
-    //         $lte: endDate
-    //       }
-    //     }
-    // {
-    //   startDate: {
-    //     $lt: startDate
-    //   },
-    //   endDate: {
-    //     $gt: endDate
-    //   }
-    // }
-    //   ]
-    // })
     DateInterval.aggregate([
       {
         $match: {
@@ -81,10 +56,48 @@ module.exports = {
         }
       }
     ]).then(dbDateIntervals => {
-      console.log("got from db", dbDateIntervals);
       dbDateIntervals.length >= 1 ? (availableDates = false) : availableDates;
       res.locals.availableDates = availableDates;
       next();
     });
+  },
+
+  calculateDatesPrice(req, res, next) {
+    const startDate = moment(req.body.startDate);
+    const endDate = moment(req.body.endDate);
+    const dates = [];
+    let finalPrice = 0;
+
+    while (startDate < endDate) {
+      dates.push(moment(startDate));
+      startDate.add(1, "days");
+    }
+    const defaultPricePromise = DefaultPrice.find();
+    const intervalsPromise = DateInterval.find();
+
+    Promise.all([defaultPricePromise, intervalsPromise])
+      .then(response => {
+        return response;
+      })
+      .then(response => {
+        const defaultPrice = response[0][0].price;
+        console.log("clg", defaultPrice);
+        const intervals = response[1];
+
+        dates.forEach(date => {
+          intervals.forEach(interval => {
+            if (
+              date >= moment(interval.startDate) &&
+              date < moment(interval.endDate)
+            ) {
+              finalPrice = finalPrice + interval.price;
+            } else {
+              finalPrice = finalPrice + defaultPrice;
+            }
+          });
+        });
+
+        res.status(200).send({ price: finalPrice });
+      });
   }
 };

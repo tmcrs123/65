@@ -19,15 +19,16 @@ class CreateReservationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMessage: false
+      showMessage: false,
+      hideBookingFee: true
     };
   }
 
   componentDidMount() {
     if (this.props.isAdmin) {
       this.props.getCustomerList();
-      this.props.getMargin();
     }
+    this.props.getMargin();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,6 +76,23 @@ class CreateReservationForm extends Component {
     return menuItems;
   };
 
+  clearForm() {
+    this.props.reset();
+    this.setState({ hideBookingFee: true });
+  }
+
+  renderBookingFeeText() {
+    if (this.state.hideBookingFee) {
+      return null;
+    } else {
+      console.log("price", this.props.price);
+      console.log("margin", this.props.margin);
+      return (
+        <p>Booking fee: {Math.round(this.props.price * this.props.margin)}€</p>
+      );
+    }
+  }
+
   handleRequestClose() {
     this.props.clearMessage();
   }
@@ -101,6 +119,7 @@ class CreateReservationForm extends Component {
           .then(res => {
             this.props.change("price", res.data.price);
             this.handleCheckboxChange(this.props.upfrontPayment);
+            this.setState({ hideBookingFee: false });
           });
       }
     }, 500);
@@ -165,21 +184,22 @@ class CreateReservationForm extends Component {
                 onChange={() => this.handlePriceChange()}
                 disabled={!this.props.isAdmin}
               />
+              {this.renderBookingFeeText()}
             </div>
             <div className="col s6">
-              <Field
-                name="numberChildrens"
-                label="Number of childrens"
-                component={renderSelectField}
-              >
-                {this.renderMenuItems(0, 3)}
-              </Field>
               <Field
                 name="numberAdults"
                 label="Number of Adults"
                 component={renderSelectField}
               >
                 {this.renderMenuItems(1, 4)}
+              </Field>
+              <Field
+                name="numberChildrens"
+                label="Number of childrens"
+                component={renderSelectField}
+              >
+                {this.renderMenuItems(0, 3)}
               </Field>
               <br />
               <Field
@@ -205,7 +225,9 @@ class CreateReservationForm extends Component {
                   disabled={pristine || submitting}
                   primary={true}
                   fullWidth={false}
-                  onClick={reset}
+                  onClick={() => {
+                    this.clearForm();
+                  }}
                 />
               </div>
             </div>

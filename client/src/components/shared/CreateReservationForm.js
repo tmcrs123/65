@@ -139,7 +139,7 @@ class CreateReservationForm extends Component {
 
     return (
       <div className="container">
-        <Paper style={styles.paper}>
+        <Paper style={styles.createReservation.paper}>
           <h3>Create a reservation</h3>
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
             <div className="col s6">
@@ -158,7 +158,6 @@ class CreateReservationForm extends Component {
                 onChange={() => this.handleDateChange()}
               />
               <br />
-
               <Field
                 name="price"
                 label="Price"
@@ -166,23 +165,15 @@ class CreateReservationForm extends Component {
                 onChange={() => this.handlePriceChange()}
                 disabled={!this.props.isAdmin}
               />
-              <br />
-              <Field
-                name="upfrontPayment"
-                label="Pay reservation total now?"
-                component={renderCheckbox}
-                onChange={(event, value) => this.handleCheckboxChange(value)}
-              />
             </div>
-            <br />
             <div className="col s6">
               <Field
-                name="payNow"
-                label="Pay Now"
-                component={renderPriceField}
-                disabled={!this.props.isAdmin}
-              />
-              <br />
+                name="numberChildrens"
+                label="Number of childrens"
+                component={renderSelectField}
+              >
+                {this.renderMenuItems(0, 3)}
+              </Field>
               <Field
                 name="numberAdults"
                 label="Number of Adults"
@@ -192,39 +183,31 @@ class CreateReservationForm extends Component {
               </Field>
               <br />
               <Field
-                name="numberChildrens"
-                label="Number of childrens"
-                component={renderSelectField}
-              >
-                {this.renderMenuItems(0, 3)}
-              </Field>
-              <br />
-              <Field
                 name="observations"
                 label="Observations"
                 component={renderTextField}
                 multiLine={true}
-                rows={3}
-                rowsMax={4}
+                rows={1}
+                rowsMax={2}
               />
-            </div>
-            <br />
-            <div className="right-align">
-              <RaisedButton
-                type="Submit"
-                label="Submit"
-                disabled={pristine || submitting}
-                primary={true}
-                fullWidth={false}
-              />
-              <RaisedButton
-                type="button"
-                label="Clear Value"
-                disabled={pristine || submitting}
-                primary={true}
-                fullWidth={false}
-                onClick={reset}
-              />
+              <div>
+                <RaisedButton
+                  style={styles.submitButton}
+                  type="Submit"
+                  label="Submit"
+                  disabled={pristine || submitting}
+                  primary={true}
+                  fullWidth={false}
+                />
+                <RaisedButton
+                  type="button"
+                  label="Clear Value"
+                  disabled={pristine || submitting}
+                  primary={true}
+                  fullWidth={false}
+                  onClick={reset}
+                />
+              </div>
             </div>
           </form>
           <Snackbar

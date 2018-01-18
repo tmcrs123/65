@@ -24,7 +24,7 @@ export const styles = {
   },
   paper: {
     padding: "30px",
-    margin: "10px"
+    margin: "20px"
   },
   adminLogin: {
     paper: {
@@ -34,5 +34,16 @@ export const styles = {
     signIn: {
       marginTop: "20px"
     }
+  },
+  createReservation: {
+    paper: {
+      height: "500px",
+      padding: "20px",
+      marginTop: "20px"
+    }
+  },
+  submitButton: {
+    marginRight: "20px",
+    marginTop: "30px"
   }
 };

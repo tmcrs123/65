@@ -34,6 +34,8 @@ export const SUBMIT_DATE_INTERVAL_FORM_SUCCESS =
   "Date interval successfully submited";
 export const DELETE_DATE_INTERVAL_MESSAGE_SUCCESS =
   "delete_date_inteval_message_success";
+export const UNVAILABLE_DATE_INTERVAL_MESSAGE =
+  "unavailble_date_interval_message";
 
 //A Customer
 export const GET_CUSTOMER_RESERVATIONS = "get_customer_reservations";

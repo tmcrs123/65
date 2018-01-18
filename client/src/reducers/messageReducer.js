@@ -18,7 +18,8 @@ import {
   DELETE_CUSTOMER_MESSAGE,
   SUBMIT_DATE_INTERVAL_FORM_SUCCESS,
   DELETE_DATE_INTERVAL_MESSAGE_SUCCESS,
-  UPDATE_DEFAULT_PRICE
+  UPDATE_DEFAULT_PRICE,
+  UNVAILABLE_DATE_INTERVAL_MESSAGE
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -75,7 +76,11 @@ export default function(state = { type: "", message: "" }, action) {
       return { type: SUCCESS, message: "Deleted price interval successfully." };
     case UPDATE_DEFAULT_PRICE:
       return { type: SUCCESS, message: "Default price successfully updated." };
-
+    case UNVAILABLE_DATE_INTERVAL_MESSAGE:
+      return {
+        type: ERROR,
+        message: "The selected interval already has a price definition."
+      };
     default:
       return state;
   }

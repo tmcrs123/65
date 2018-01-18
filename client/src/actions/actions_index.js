@@ -32,7 +32,8 @@ import {
   SAVE_DATE_INTERVAL,
   GET_DEFAULT_PRICE,
   UPDATE_DEFAULT_PRICE,
-  UPDATE_DEFAULT_PRICE_MESSAGE
+  UPDATE_DEFAULT_PRICE_MESSAGE,
+  UNVAILABLE_DATE_INTERVAL_MESSAGE
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -197,8 +198,12 @@ export const deleteDateInterval = dateIntervalId => dispatch => {
 
 export const saveDateInterval = dateInterval => dispatch => {
   axios.post("/api/dateIntervals", dateInterval).then(res => {
-    dispatch({ type: SUBMIT_DATE_INTERVAL_FORM_SUCCESS });
-    dispatch({ type: SAVE_DATE_INTERVAL, payload: res.data });
+    if (res.data.availableDates) {
+      dispatch({ type: SUBMIT_DATE_INTERVAL_FORM_SUCCESS });
+      dispatch({ type: SAVE_DATE_INTERVAL, payload: res.data.intervals });
+    } else {
+      dispatch({ type: UNVAILABLE_DATE_INTERVAL_MESSAGE });
+    }
   });
 };
 

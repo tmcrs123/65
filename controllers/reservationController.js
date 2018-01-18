@@ -12,11 +12,11 @@ module.exports = {
     const oneMonthFromNow = moment(new Date()).add(1, "Month");
 
     Reservation.find({
-        startDate: {
-          $gte: today,
-          $lte: oneMonthFromNow
-        }
-      })
+      startDate: {
+        $gte: today,
+        $lte: oneMonthFromNow
+      }
+    })
       .populate("customer", "name")
       .then(reservations => {
         res.send(reservations);
@@ -49,7 +49,8 @@ module.exports = {
   },
 
   getAllReservations(req, res, next) {
-    Reservation.aggregate([{
+    Reservation.aggregate([
+      {
         $lookup: {
           from: "customers",
           localField: "customer",
@@ -74,15 +75,16 @@ module.exports = {
         }
       }
     ])
-    .sort({customerName:1})    
-    .then(customers => res.send(customers));
+      .sort({ customerName: 1 })
+      .then(customers => res.send(customers));
   },
 
   searchReservationByCustomerName(req, res, next) {
     const name = req.query.name;
     const exp = new RegExp(name, "g");
 
-    Reservation.aggregate([{
+    Reservation.aggregate([
+      {
         $lookup: {
           from: "customers",
           localField: "customer",
@@ -115,30 +117,36 @@ module.exports = {
         }
       }
     ])
-    .sort({customerName:1})
-    .then(customers => res.send(customers));
+      .sort({ customerName: 1 })
+      .then(customers => res.send(customers));
   },
 
   getTotalReservationsValue(req, res, next) {
-    Reservation.aggregate({
-      $group: {
-        _id: "",
-        price: {
-          $sum: "$price"
+    Reservation.aggregate(
+      {
+        $group: {
+          _id: "",
+          price: {
+            $sum: "$price"
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          price: "$price"
         }
       }
-    }, {
-      $project: {
-        _id: 0,
-        price: "$price"
-      }
-    }).then(sum => res.send({
-      reservationsTotal: sum[0].price
-    }));
+    ).then(sum =>
+      res.send({
+        reservationsTotal: sum[0].price
+      })
+    );
   },
 
   getTotalReservationsValueByStatus(req, res, next) {
-    Reservation.aggregate([{
+    Reservation.aggregate([
+      {
         $match: {
           status: req.params.status
         }
@@ -156,35 +164,35 @@ module.exports = {
           _id: 0
         }
       }
-    ]).then(sum => res.send({
-      [req.params.status]: sum
-    }));
+    ]).then(sum =>
+      res.send({
+        [req.params.status]: sum
+      })
+    );
   },
 
   getReservation(req, res, next) {
     const reservationId = req.params.id;
     Reservation.findById({
       _id: reservationId
-    }).then(reservation =>
-      res.send(reservation)
-    );
+    }).then(reservation => res.send(reservation));
   },
 
   create(req, res, next) {
     const availableDates = res.locals.availableDates;
     let reservationCustomer;
     let reservationData;
-    let formData = { ...req.body
+    let formData = {
+      ...req.body
     };
-
-    console.log("req.body", req.body);
 
     if (req.body.createdByAdmin) {
       reservationCustomer = req.body.customer;
     } else {
       reservationCustomer = req.user.id;
     }
-    reservationData = { ...formData,
+    reservationData = {
+      ...formData,
       customer: reservationCustomer
     };
 
@@ -205,10 +213,10 @@ module.exports = {
 
   edit(req, res, next) {
     const availableDates = res.locals.availableDates;
-    console.log("got info that dates are", availableDates);
     const reservationId = req.params.id;
     const reservationProps = req.body;
-    Reservation.findByIdAndUpdate({
+    Reservation.findByIdAndUpdate(
+      {
         _id: reservationId
       },
       reservationProps
@@ -242,8 +250,8 @@ module.exports = {
     let availableDates = {
       availableDates: true
     };
-    const startDate = req.body.startDate;
-    const endDate = req.body.endDate;
+    const sDate = new Date(req.body.startDate);
+    const eDate = new Date(req.body.endDate);
     let reservationId = req.params.id ? req.params.id : null;
 
     console.log(
@@ -251,54 +259,47 @@ module.exports = {
       reservationId
     );
 
-    Reservation.find({
-      $or: [{
-          startDate: {
-            $gte: startDate,
-            $lt: endDate
-          }
-        },
-        {
-          endDate: {
-            $gt: startDate,
-            $lt: endDate
-          }
-        },
-        {
-          startDate: {
-            $lt: startDate
-          },
-          endDate: {
-            $gt: endDate
-          }
+    Reservation.aggregate([
+      {
+        $match: {
+          status: { $in: ["approved", "pending"] }
         }
-      ]
-    }).then(dbReservations => {
+      },
+      {
+        $match: {
+          $or: [
+            { startDate: { $gte: sDate, $lt: eDate } },
+            { endDate: { $gt: sDate, $lt: eDate } },
+            { startDate: { $lte: sDate }, endDate: { $gte: eDate } }
+          ]
+        }
+      }
+    ]).then(dbReservations => {
       //If i return exactly one reservation from the DB I need to check if the reservation I'm returning is not the one I'm editing
+      console.log("dbReservations", dbReservations);
       if (
         dbReservations.length === 1 &&
-        dbReservations[0].id === reservationId
+        dbReservations[0]._id == reservationId
       ) {
         console.log(
           "The id of the reservation I found is",
-          dbReservations[0].id
+          dbReservations[0]._id
         );
         res.locals.availableDates = availableDates;
         next();
         return;
-      }
-
-      // if return something that is not a reservation I'm editing then dates are unavailable
-      if (dbReservations.length > 0) {
+      } else if (dbReservations.length === 0) {
+        res.locals.availableDates = availableDates;
+        next();
+        return;
+      } else {
+        // if return something that is not a reservation I'm editing then dates are unavailable
         availableDates = {
           availableDates: false
         };
         res.send(availableDates);
         return;
       }
-
-      res.locals.availableDates = availableDates;
-      next();
     });
   }
 };

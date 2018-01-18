@@ -81,7 +81,6 @@ module.exports = {
       })
       .then(response => {
         const defaultPrice = response[0][0].price;
-        console.log("clg", defaultPrice);
         const intervals = response[1];
 
         dates.forEach(date => {

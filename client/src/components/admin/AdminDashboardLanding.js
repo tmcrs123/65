@@ -16,37 +16,44 @@ class AdminDashboardLanding extends Component {
     this.props.getAdminDashboardData();
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
+
   render() {
     return (
       <div>
         <h2>Landing</h2>
         <div className="row">
-          <div className="col s3">
-            <ApprovalList />
-          </div>
-          <div className="col s3">
-            <InfoCard />
-          </div>
-          <div className="col s3">
-            <ApprovalList />
-          </div>
-          <div className="col s3">
-            <InfoCard />
-          </div>
-        </div>
-        <div className="row">
-          <div className="container">
+          <div className="container-fluid">
             <AvailabilityCheck />
           </div>
         </div>
+        <div className="row">
+          <div className="col s3">
+            <ApprovalList nextReservations={this.props.nextReservations} />
+          </div>
+          <div className="col s3">
+            <InfoCard
+              monthReservationCount={this.props.monthReservationCount}
+            />
+          </div>
+          <div className="col s3">
+            <ApprovalList />
+          </div>
+          <div className="col s3">
+            <InfoCard />
+          </div>
+        </div>
+
         <div />
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {};
+function mapStateToProps({ AdminDashboardData }) {
+  return AdminDashboardData;
 }
 
 export default connect(mapStateToProps, actions)(AdminDashboardLanding);

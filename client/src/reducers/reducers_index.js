@@ -15,6 +15,7 @@ import customer from "./customerReducer";
 import dateIntervals from "./dateIntervalsReducer";
 import defaultPrice from "./defaultPriceReducer";
 import margin from "./marginReducer";
+import AdminDashboardData from "./adminDashboardReducer";
 
 export default combineReducers({
   auth,
@@ -27,5 +28,6 @@ export default combineReducers({
   dateIntervals,
   defaultPrice,
   margin,
+  AdminDashboardData,
   form: reduxForm
 });

@@ -123,6 +123,9 @@ export const styles = {
       fields: {
         marginRight: "10px"
       }
+    },
+    infoCard: {
+      borderLeft: "8px solid red"
     }
   }
 };

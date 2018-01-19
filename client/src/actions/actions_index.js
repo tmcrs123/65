@@ -46,7 +46,10 @@ import {
 
 export const fetchUser = () => dispatch => {
   axios.get("/api/user").then(res => {
-    dispatch({ type: FETCH_USER, payload: res.data });
+    dispatch({
+      type: FETCH_USER,
+      payload: res.data
+    });
   });
 };
 
@@ -54,16 +57,23 @@ export const loginUser = (loginInfo, history) => dispatch => {
   axios
     .post("/api/admin/login", loginInfo)
     .then(res => {
-      dispatch({ type: LOGIN_USER, payload: res.data });
+      dispatch({
+        type: LOGIN_USER,
+        payload: res.data
+      });
       history.push("/");
     })
     .catch(err => {
-      dispatch({ type: WRONG_LOGIN_MESSAGE });
+      dispatch({
+        type: WRONG_LOGIN_MESSAGE
+      });
     });
 };
 
 export const clearMessage = () => {
-  return { type: CLEAR_MESSAGE };
+  return {
+    type: CLEAR_MESSAGE
+  };
 };
 
 export const submitReservationForm = (formData, resetForm) => dispatch => {
@@ -88,49 +98,76 @@ export const submitReservationForm = (formData, resetForm) => dispatch => {
 
 export const deleteReservation = reservationId => dispatch => {
   axios.delete(`/api/reservations/${reservationId}`).then(() => {
-    dispatch({ type: DELETE_RESERVATION_MESSAGE });
-    dispatch({ type: DELETE_RESERVATION, payload: reservationId });
+    dispatch({
+      type: DELETE_RESERVATION_MESSAGE
+    });
+    dispatch({
+      type: DELETE_RESERVATION,
+      payload: reservationId
+    });
   });
 };
 
 export const getCustomerList = () => dispatch => {
   axios.get("/api/customers").then(res => {
-    dispatch({ type: GET_CUSTOMER_LIST, payload: res.data });
+    dispatch({
+      type: GET_CUSTOMER_LIST,
+      payload: res.data
+    });
   });
 };
 
 export const getCustomerReservations = () => dispatch => {
   axios.get("/api/customerReservations").then(res => {
-    dispatch({ type: GET_CUSTOMER_RESERVATIONS, payload: res.data });
+    dispatch({
+      type: GET_CUSTOMER_RESERVATIONS,
+      payload: res.data
+    });
   });
 };
 
 export const sendInvalidDatesMessage = () => {
-  return { type: INVALID_DATES_MESSAGE };
+  return {
+    type: INVALID_DATES_MESSAGE
+  };
 };
 
 export const sendInvalidPersonsMessage = () => {
-  return { type: INVALID_PERSONS_MESSAGE };
+  return {
+    type: INVALID_PERSONS_MESSAGE
+  };
 };
 
 export const sendInvalidPriceMessage = () => {
-  return { type: INVALID_PRICE_MESSAGE };
+  return {
+    type: INVALID_PRICE_MESSAGE
+  };
 };
 
 export const sendNoCustomerSelectedMessage = () => {
-  return { type: NO_CUSTOMER_SELECTED_MESSAGE };
+  return {
+    type: NO_CUSTOMER_SELECTED_MESSAGE
+  };
 };
 
 export const searchCustomerByName = query => dispatch => {
   axios.get(`/api/search?name=${query}`).then(res => {
-    dispatch({ type: SEARCH_CUSTOMER_BY_NAME, payload: res.data });
+    dispatch({
+      type: SEARCH_CUSTOMER_BY_NAME,
+      payload: res.data
+    });
   });
 };
 
 export const deleteCustomer = customerId => dispatch => {
   axios.delete(`/api/customers/${customerId}`).then(() => {
-    dispatch({ type: DELETE_CUSTOMER, payload: customerId });
-    dispatch({ type: DELETE_CUSTOMER_MESSAGE });
+    dispatch({
+      type: DELETE_CUSTOMER,
+      payload: customerId
+    });
+    dispatch({
+      type: DELETE_CUSTOMER_MESSAGE
+    });
   });
 };
 
@@ -144,7 +181,9 @@ export const submitCustomerForm = (customerData, resetForm) => dispatch => {
       });
     } else {
       resetForm();
-      dispatch({ type: SUBMIT_CUSTOMER_FORM_SUCCESS });
+      dispatch({
+        type: SUBMIT_CUSTOMER_FORM_SUCCESS
+      });
     }
   });
 };
@@ -169,95 +208,145 @@ export const updateReservation = (
         type: EDIT_RESERVATION_FORM_SUCCESS
       });
     } else {
-      dispatch({ type: RESERVATION_FORM_UNAVAILABLE_DATES });
+      dispatch({
+        type: RESERVATION_FORM_UNAVAILABLE_DATES
+      });
     }
   });
 };
 
 export const getCustomer = customerId => dispatch => {
   axios.get(`/api/customers/${customerId}`).then(res => {
-    dispatch({ type: GET_CUSTOMER, payload: res.data });
+    dispatch({
+      type: GET_CUSTOMER,
+      payload: res.data
+    });
   });
 };
 
 export const editCustomer = customerData => dispatch => {
   axios.put(`/api/customers/${customerData._id}`, customerData).then(() => {
-    dispatch({ type: EDIT_CUSTOMER_FORM_SUCCESS });
+    dispatch({
+      type: EDIT_CUSTOMER_FORM_SUCCESS
+    });
   });
 };
 
 export const getReservationList = () => dispatch => {
   axios.get("/api/reservations").then(res => {
-    dispatch({ type: GET_RESERVATION_LIST, payload: res.data });
+    dispatch({
+      type: GET_RESERVATION_LIST,
+      payload: res.data
+    });
   });
 };
 
 export const searchReservationByCustomerName = query => dispatch => {
   axios.get(`/api/reservationSearch?name=${query}`).then(res => {
-    dispatch({ type: SEARCH_RESERVATION_BY_CUSTOMER_NAME, payload: res.data });
+    dispatch({
+      type: SEARCH_RESERVATION_BY_CUSTOMER_NAME,
+      payload: res.data
+    });
   });
 };
 
 export const getDateIntervals = () => dispatch => {
   axios.get("/api/dateIntervals").then(res => {
-    dispatch({ type: GET_DATE_INTERVALS, payload: res.data });
+    dispatch({
+      type: GET_DATE_INTERVALS,
+      payload: res.data
+    });
   });
 };
 
 export const deleteDateInterval = dateIntervalId => dispatch => {
   axios.delete(`/api/dateIntervals/${dateIntervalId}`).then(() => {
-    dispatch({ type: DELETE_DATE_INTERVAL_MESSAGE_SUCCESS });
-    dispatch({ type: DELETE_DATE_INTERVAL, payload: dateIntervalId });
+    dispatch({
+      type: DELETE_DATE_INTERVAL_MESSAGE_SUCCESS
+    });
+    dispatch({
+      type: DELETE_DATE_INTERVAL,
+      payload: dateIntervalId
+    });
   });
 };
 
 export const saveDateInterval = dateInterval => dispatch => {
   axios.post("/api/dateIntervals", dateInterval).then(res => {
     if (res.data.availableDates) {
-      dispatch({ type: SUBMIT_DATE_INTERVAL_FORM_SUCCESS });
-      dispatch({ type: SAVE_DATE_INTERVAL, payload: res.data.intervals });
+      dispatch({
+        type: SUBMIT_DATE_INTERVAL_FORM_SUCCESS
+      });
+      dispatch({
+        type: SAVE_DATE_INTERVAL,
+        payload: res.data.intervals
+      });
     } else {
-      dispatch({ type: UNVAILABLE_DATE_INTERVAL_MESSAGE });
+      dispatch({
+        type: UNVAILABLE_DATE_INTERVAL_MESSAGE
+      });
     }
   });
 };
 
 export const getDefaultPrice = () => dispatch => {
   axios.get("/api/defaultPrice").then(res => {
-    dispatch({ type: GET_DEFAULT_PRICE, payload: res.data });
+    dispatch({
+      type: GET_DEFAULT_PRICE,
+      payload: res.data
+    });
   });
 };
 
 export const updateDefaultPrice = newPrice => dispatch => {
   axios.post("/api/defaultPrice", newPrice).then(res => {
-    dispatch({ type: UPDATE_DEFAULT_PRICE, payload: res.data });
-    dispatch({ type: UPDATE_DEFAULT_PRICE_MESSAGE });
+    dispatch({
+      type: UPDATE_DEFAULT_PRICE,
+      payload: res.data
+    });
+    dispatch({
+      type: UPDATE_DEFAULT_PRICE_MESSAGE
+    });
   });
 };
 
 export const getMargin = () => dispatch => {
   axios.get("/api/margin").then(res => {
-    dispatch({ type: GET_MARGIN, payload: res.data });
+    dispatch({
+      type: GET_MARGIN,
+      payload: res.data
+    });
   });
 };
 
 export const updateMargin = newMargin => dispatch => {
   axios.post("/api/margin", newMargin).then(res => {
-    dispatch({ type: UPDATE_MARGIN, payload: res.data });
-    dispatch({ type: UPDATE_MARGIN_MESSAGE });
+    dispatch({
+      type: UPDATE_MARGIN,
+      payload: res.data
+    });
+    dispatch({
+      type: UPDATE_MARGIN_MESSAGE
+    });
   });
 };
 
 export const sendInvalidMarginMessage = () => {
-  return { type: INVALID_MARGIN_MESSAGE };
+  return {
+    type: INVALID_MARGIN_MESSAGE
+  };
 };
 
 export const sendInvalidPricePaidMessage = () => {
-  return { type: INVALID_PRICE_PAID_MESSAGE };
+  return {
+    type: INVALID_PRICE_PAID_MESSAGE
+  };
 };
 
 export const sendInvalidSameDateMessage = () => {
-  return { type: INVALID_SAME_DATES_MESSAGE };
+  return {
+    type: INVALID_SAME_DATES_MESSAGE
+  };
 };
 
 export const getAdminDashboardData = () => dispatch => {
@@ -282,6 +371,16 @@ export const getAdminDashboardData = () => dispatch => {
     valuePendingReservation
   ]).then(res => {
     console.log("res data", res);
-    // dispatch({type:GET_ADMIN_DASHBOARD_DATA , payload:res.data})
+    const dashboardData = {
+      nextReservations: res[0].data,
+      monthReservationCount: res[1].data,
+      valueApprovedReservations: res[2].data,
+      valueRejectedReservation: res[3].data,
+      valuePendingReservation: res[4].data
+    };
+    dispatch({
+      type: GET_ADMIN_DASHBOARD_DATA,
+      payload: dashboardData
+    });
   });
 };

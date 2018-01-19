@@ -112,5 +112,17 @@ export const styles = {
         overflowX: "auto"
       }
     }
+  },
+  AdminDashboard: {
+    availabilityCheck: {
+      paper: {
+        padding: "20px",
+        margin: "10px",
+        height: "200px"
+      },
+      fields: {
+        marginRight: "10px"
+      }
+    }
   }
 };

@@ -76,3 +76,6 @@ export const UPDATE_DEFAULT_PRICE = "update_default_price";
 //Margin
 export const GET_MARGIN = "get_margin";
 export const UPDATE_MARGIN = "update_margin";
+
+//Admin Dashboard
+export const GET_ADMIN_DASHBOARD_DATA = "get_admin_dashboard_data";

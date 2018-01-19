@@ -1,62 +1,52 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import ApprovalList from "./landingComponents/list";
 import InfoCard from "./landingComponents/infoCard";
 import DatePicker from "material-ui/DatePicker";
 import axios from "axios";
+import AvailabilityCheck from "./landingComponents/AvailabilityCheck";
+import * as actions from "../../actions/actions_index";
 
 class AdminDashboardLanding extends Component {
   constructor(props) {
     super(props);
   }
 
-  handleDateChange(date, dateField) {
-    console.log("state", this.state);
-    this.setState({ [dateField]: date });
-
-    setTimeout(() => {
-      if (this.state.startDate && this.state.endDate) {
-        axios
-          .post("/api/calculatePrice", {
-            startDate: this.state.startDate,
-            endDate: this.state.endDate
-          })
-          .then(res => console.log(res.data));
-      }
-    });
+  componentDidMount() {
+    this.props.getAdminDashboardData();
   }
 
   render() {
     return (
       <div>
         <h2>Landing</h2>
-        <div className="col s3">
-          <ApprovalList />
+        <div className="row">
+          <div className="col s3">
+            <ApprovalList />
+          </div>
+          <div className="col s3">
+            <InfoCard />
+          </div>
+          <div className="col s3">
+            <ApprovalList />
+          </div>
+          <div className="col s3">
+            <InfoCard />
+          </div>
         </div>
-        <div className="col s3">
-          <InfoCard />
+        <div className="row">
+          <div className="container">
+            <AvailabilityCheck />
+          </div>
         </div>
-        <div className="col s3">
-          <ApprovalList />
-        </div>
-        <div className="col s3">
-          <InfoCard />
-        </div>
-        <DatePicker
-          name="startDate"
-          hintText="Start Date"
-          autoOk={true}
-          onChange={(event, date) => this.handleDateChange(date, "startDate")}
-        />
-        <DatePicker
-          name="endDate"
-          hintText="End Date"
-          autoOk={true}
-          onChange={(event, date) => this.handleDateChange(date, "endDate")}
-        />
         <div />
       </div>
     );
   }
 }
 
-export default AdminDashboardLanding;
+function mapStateToProps(state) {
+  return {};
+}
+
+export default connect(mapStateToProps, actions)(AdminDashboardLanding);

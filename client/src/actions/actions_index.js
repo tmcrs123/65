@@ -40,7 +40,8 @@ import {
   INVALID_MARGIN_MESSAGE,
   INVALID_PRICE_PAID_MESSAGE,
   SUBMIT_CUSTOMER_FORM_ERROR,
-  INVALID_SAME_DATES_MESSAGE
+  INVALID_SAME_DATES_MESSAGE,
+  GET_ADMIN_DASHBOARD_DATA
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -257,4 +258,30 @@ export const sendInvalidPricePaidMessage = () => {
 
 export const sendInvalidSameDateMessage = () => {
   return { type: INVALID_SAME_DATES_MESSAGE };
+};
+
+export const getAdminDashboardData = () => dispatch => {
+  console.log("action creator");
+  const nextReservations = axios.get("/api/nextReservations");
+  const monthReservationCount = axios.get("/api/reservationsCountMonth");
+  const valueApprovedReservation = axios.get(
+    "/api/reservationsTotalValue/approved"
+  );
+  const valueRejectedReservation = axios.get(
+    "/api/reservationsTotalValue/rejected"
+  );
+  const valuePendingReservation = axios.get(
+    "/api/reservationsTotalValue/pending"
+  );
+
+  Promise.all([
+    nextReservations,
+    monthReservationCount,
+    valueApprovedReservation,
+    valueRejectedReservation,
+    valuePendingReservation
+  ]).then(res => {
+    console.log("res data", res);
+    // dispatch({type:GET_ADMIN_DASHBOARD_DATA , payload:res.data})
+  });
 };

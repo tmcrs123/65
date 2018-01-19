@@ -159,6 +159,7 @@ module.exports = {
           }
         }
       },
+      {$unwind:"$price"},
       {
         $project: {
           _id: 0

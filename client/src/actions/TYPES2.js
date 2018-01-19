@@ -30,6 +30,7 @@ export const UPDATE_MARGIN_MESSAGE = "update_margin_message";
 //Customer Form
 export const SUBMIT_CUSTOMER_FORM_SUCCESS = "submit_customer_form_success";
 export const EDIT_CUSTOMER_FORM_SUCCESS = "edit";
+export const SUBMIT_CUSTOMER_FORM_ERROR = "submit_customer_form_error";
 
 //Date intervals form
 export const SUBMIT_DATE_INTERVAL_FORM_SUCCESS =

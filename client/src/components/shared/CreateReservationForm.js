@@ -119,6 +119,8 @@ class CreateReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
+    console.log("this on submit", this);
+
     formData["price"] = Number(formData["price"]);
     formData["payNow"] = Number(formData["payNow"]);
     validate(
@@ -136,6 +138,7 @@ class CreateReservationForm extends Component {
       },
       this.props.reset
     );
+    this.setState({ hideBookingFee: true });
   }
 
   render() {

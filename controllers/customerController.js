@@ -4,12 +4,22 @@ const Reservation = mongoose.model("reservations");
 
 module.exports = {
   create(req, res, next) {
-    Customer.create(req.body)
-      .then(customer => res.send(customer))
-      .catch(err => {
-        console.log(err);
-        next;
-      });
+    Customer.findOne({ email: req.body.email }).then(customer => {
+      if (customer) {
+        res.send({
+          customerAlreadyExistsError:
+            "A customer with that email already exists."
+        });
+        return;
+      } else {
+        Customer.create(req.body)
+          .then(customer => res.send(customer))
+          .catch(err => {
+            console.log(err);
+            next;
+          });
+      }
+    });
   },
 
   edit(req, res, next) {

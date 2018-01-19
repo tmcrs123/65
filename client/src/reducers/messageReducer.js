@@ -22,7 +22,8 @@ import {
   UNVAILABLE_DATE_INTERVAL_MESSAGE,
   UPDATE_MARGIN_MESSAGE,
   INVALID_MARGIN_MESSAGE,
-  INVALID_PRICE_PAID_MESSAGE
+  INVALID_PRICE_PAID_MESSAGE,
+  SUBMIT_CUSTOMER_FORM_ERROR
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -98,6 +99,12 @@ export default function(state = { type: "", message: "" }, action) {
       return {
         type: ERROR,
         message: "Price paid exceeds price of the reservation."
+      };
+    case SUBMIT_CUSTOMER_FORM_ERROR:
+      console.log("reducer", action.payload);
+      return {
+        type: ERROR,
+        message: action.payload
       };
 
     default:

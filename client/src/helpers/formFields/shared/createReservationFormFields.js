@@ -1,5 +1,10 @@
 export const formFields = [
   {
+    name: "customer",
+    label: "Customer",
+    required: true
+  },
+  {
     name: "startDate",
     label: "Start Date",
     required: true

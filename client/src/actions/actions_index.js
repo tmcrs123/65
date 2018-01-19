@@ -38,7 +38,8 @@ import {
   UPDATE_MARGIN,
   UPDATE_MARGIN_MESSAGE,
   INVALID_MARGIN_MESSAGE,
-  INVALID_PRICE_PAID_MESSAGE
+  INVALID_PRICE_PAID_MESSAGE,
+  SUBMIT_CUSTOMER_FORM_ERROR
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -132,9 +133,17 @@ export const deleteCustomer = customerId => dispatch => {
 };
 
 export const submitCustomerForm = (customerData, resetForm) => dispatch => {
-  axios.post("/api/customers/", customerData).then(() => {
-    resetForm();
-    dispatch({ type: SUBMIT_CUSTOMER_FORM_SUCCESS });
+  axios.post("/api/customers/", customerData).then(response => {
+    if (response.data.customerAlreadyExistsError) {
+      console.log("hereeeee");
+      dispatch({
+        type: SUBMIT_CUSTOMER_FORM_ERROR,
+        payload: response.data.customerAlreadyExistsError
+      });
+    } else {
+      resetForm();
+      dispatch({ type: SUBMIT_CUSTOMER_FORM_SUCCESS });
+    }
   });
 };
 
@@ -226,7 +235,6 @@ export const updateDefaultPrice = newPrice => dispatch => {
 
 export const getMargin = () => dispatch => {
   axios.get("/api/margin").then(res => {
-    console.log("res action creator", res);
     dispatch({ type: GET_MARGIN, payload: res.data });
   });
 };

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
+import Paper from "material-ui/Paper";
+import { styles } from "../../styles/styles";
 import { reduxForm, Field, formValueSelector } from "redux-form";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import * as actions from "../../actions/actions_index";
@@ -20,16 +22,23 @@ class AdminDefaultPriceForm extends Component {
   render() {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <Field name="price" label="Price" component={renderPriceField} />
-        <RaisedButton
-          type="Submit"
-          label="Submit"
-          disabled={pristine || submitting}
-          primary={true}
-          fullWidth={false}
-        />
-      </form>
+      <Paper style={styles.pricesDashboard.defaultPrice.paper}>
+        <h5>
+          <strong>Edit</strong> default price
+        </h5>
+        <hr />
+        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          <Field name="price" label="Price" component={renderPriceField} />
+          <RaisedButton
+            style={styles.pricesDashboard.defaultPrice.submitButton}
+            type="Submit"
+            label="Submit"
+            disabled={pristine || submitting}
+            primary={true}
+            fullWidth={false}
+          />
+        </form>
+      </Paper>
     );
   }
 }

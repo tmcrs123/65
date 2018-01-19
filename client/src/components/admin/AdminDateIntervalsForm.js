@@ -23,7 +23,7 @@ class AdminDateIntervalsForm extends Component {
   render() {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
-      <Paper style={styles.pricesDashboard.paper}>
+      <Paper style={styles.pricesDashboard.dateIntervals.paper}>
         <h5>
           <strong>+</strong> Price interval
         </h5>
@@ -39,6 +39,7 @@ class AdminDateIntervalsForm extends Component {
           <Field name="price" label="Price" component={renderPriceField} />
           <div>
             <RaisedButton
+              style={styles.pricesDashboard.dateIntervals.submitButton}
               type="Submit"
               label="Submit"
               disabled={pristine || submitting}

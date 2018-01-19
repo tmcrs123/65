@@ -38,16 +38,25 @@ class AdminDashboardPrices extends Component {
   render() {
     return (
       <div>
-        <div className="container-fluid">
-          <div className="col s6">
+        <div className="row">
+          <div className="col s4">
             <DateIntervalsForm />
+          </div>
+          <div className="col s4">
             <AdminDefaultPriceForm />
+          </div>
+
+          <div className="col s4">
             <AdminMarginForm />
           </div>
-          <div className="col s6">
+        </div>
+
+        <div className="row">
+          <div className="col s8">
             <AdminDateIntervalsList />
           </div>
         </div>
+
         <Snackbar
           open={this.state.showMessage}
           message={this.props.message}

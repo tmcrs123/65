@@ -74,10 +74,43 @@ export const styles = {
     marginBottom: "50px"
   },
   pricesDashboard: {
-    paper: {
-      padding: "20px",
-      margin: "10px",
-      width: "300px"
+    dateIntervals: {
+      paper: {
+        padding: "20px",
+        margin: "10px",
+        width: "300px"
+      },
+      submitButton: {
+        marginTop: "10px"
+      }
+    },
+    marginForm: {
+      paper: {
+        padding: "20px",
+        margin: "10px",
+        width: "300px"
+      },
+      submitButton: {
+        marginTop: "10px"
+      }
+    },
+    defaultPrice: {
+      paper: {
+        padding: "20px",
+        margin: "10px",
+        width: "300px"
+      },
+      submitButton: {
+        marginTop: "10px"
+      }
+    },
+    defaultPriceList: {
+      paper: {
+        padding: "20px",
+        margin: "10px",
+        height: "300px",
+        overflowX: "auto"
+      }
     }
   }
 };

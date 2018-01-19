@@ -26,6 +26,7 @@ export const DELETE_CUSTOMER_MESSAGE = "delete_customer_message";
 export const EDIT_RESERVATION_FORM_SUCCESS = "edit_reservation_form_success";
 export const UPDATE_DEFAULT_PRICE_MESSAGE = "update_default_price_message";
 export const UPDATE_MARGIN_MESSAGE = "update_margin_message";
+export const INVALID_SAME_DATES_MESSAGE = "invalid_same_date_message";
 
 //Customer Form
 export const SUBMIT_CUSTOMER_FORM_SUCCESS = "submit_customer_form_success";

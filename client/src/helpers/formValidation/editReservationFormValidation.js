@@ -45,7 +45,8 @@ export default function validate(
   sendInvalidPersonsMessage,
   sendInvalidPriceMessage,
   sendNoCustomerSelectedMessage,
-  sendInvalidPricePaidMessage
+  sendInvalidPricePaidMessage,
+  sendInvalidSameDateMessage
 ) {
   const validationErrors = false;
 
@@ -97,6 +98,13 @@ export default function validate(
     sendInvalidDatesMessage();
     throw new SubmissionError({
       _error: "Start date cannot be a date after the end date."
+    });
+  }
+
+  if (startDate.valueOf() == endDate.valueOf()) {
+    sendInvalidSameDateMessage();
+    throw new SubmissionError({
+      _error: "Start date cannot be the same as end date."
     });
   }
 

@@ -129,7 +129,8 @@ class CreateReservationForm extends Component {
       this.props.sendInvalidDatesMessage,
       this.props.sendInvalidPersonsMessage,
       this.props.sendInvalidPriceMessage,
-      this.props.sendNoCustomerSelectedMessage
+      this.props.sendNoCustomerSelectedMessage,
+      this.props.sendInvalidSameDateMessage
     );
     this.props.submitReservationForm(
       {
@@ -170,7 +171,6 @@ class CreateReservationForm extends Component {
                 name="price"
                 label="Price"
                 component={renderPriceField}
-                onChange={() => this.handlePriceChange()}
                 disabled={!this.props.isAdmin}
               />
               {this.renderBookingFeeText()}

@@ -23,7 +23,8 @@ import {
   UPDATE_MARGIN_MESSAGE,
   INVALID_MARGIN_MESSAGE,
   INVALID_PRICE_PAID_MESSAGE,
-  SUBMIT_CUSTOMER_FORM_ERROR
+  SUBMIT_CUSTOMER_FORM_ERROR,
+  INVALID_SAME_DATES_MESSAGE
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -101,10 +102,14 @@ export default function(state = { type: "", message: "" }, action) {
         message: "Price paid exceeds price of the reservation."
       };
     case SUBMIT_CUSTOMER_FORM_ERROR:
-      console.log("reducer", action.payload);
       return {
         type: ERROR,
         message: action.payload
+      };
+    case INVALID_SAME_DATES_MESSAGE:
+      return {
+        type: INVALID_SAME_DATES_MESSAGE,
+        message: "Start date cannot be the same as end date."
       };
 
     default:

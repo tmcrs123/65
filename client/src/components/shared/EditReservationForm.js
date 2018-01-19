@@ -135,7 +135,8 @@ class CustomerEditReservationForm extends Component {
       this.props.sendInvalidPersonsMessage,
       this.props.sendInvalidPriceMessage,
       this.props.sendNoCustomerSelectedMessage,
-      this.props.sendInvalidPricePaidMessage
+      this.props.sendInvalidPricePaidMessage,
+      this.props.sendInvalidSameDateMessage
     );
     this.props.updateReservation(
       this.props.match.params.id,

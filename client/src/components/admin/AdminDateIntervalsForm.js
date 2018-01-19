@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
+import Paper from "material-ui/Paper";
 import { reduxForm, Field } from "redux-form";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import * as actions from "../../actions/actions_index";
 import validate from "../../helpers/formValidation/adminDateIntervalsFormValidation";
+import { styles } from "../../styles/styles";
 
 class AdminDateIntervalsForm extends Component {
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -21,23 +23,31 @@ class AdminDateIntervalsForm extends Component {
   render() {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <Field
-          name="startDate"
-          label="Start-Date"
-          component={renderDatePicker}
-        />
-        <Field name="endDate" label="End-Date" component={renderDatePicker} />
+      <Paper style={styles.pricesDashboard.paper}>
+        <h5>
+          <strong>+</strong> Price interval
+        </h5>
+        <hr />
+        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          <Field
+            name="startDate"
+            label="Start-Date"
+            component={renderDatePicker}
+          />
+          <Field name="endDate" label="End-Date" component={renderDatePicker} />
 
-        <Field name="price" label="Price" component={renderPriceField} />
-        <RaisedButton
-          type="Submit"
-          label="Submit"
-          disabled={pristine || submitting}
-          primary={true}
-          fullWidth={false}
-        />
-      </form>
+          <Field name="price" label="Price" component={renderPriceField} />
+          <div>
+            <RaisedButton
+              type="Submit"
+              label="Submit"
+              disabled={pristine || submitting}
+              primary={true}
+              fullWidth={false}
+            />
+          </div>
+        </form>
+      </Paper>
     );
   }
 }

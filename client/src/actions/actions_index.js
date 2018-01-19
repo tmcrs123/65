@@ -39,7 +39,8 @@ import {
   UPDATE_MARGIN_MESSAGE,
   INVALID_MARGIN_MESSAGE,
   INVALID_PRICE_PAID_MESSAGE,
-  SUBMIT_CUSTOMER_FORM_ERROR
+  SUBMIT_CUSTOMER_FORM_ERROR,
+  INVALID_SAME_DATES_MESSAGE
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -252,4 +253,8 @@ export const sendInvalidMarginMessage = () => {
 
 export const sendInvalidPricePaidMessage = () => {
   return { type: INVALID_PRICE_PAID_MESSAGE };
+};
+
+export const sendInvalidSameDateMessage = () => {
+  return { type: INVALID_SAME_DATES_MESSAGE };
 };

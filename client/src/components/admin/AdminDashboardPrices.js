@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Paper from "material-ui/Paper";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import { Card, CardActions } from "material-ui/Card";
@@ -39,24 +38,16 @@ class AdminDashboardPrices extends Component {
   render() {
     return (
       <div>
-        <Paper>
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col s6">
-                <DateIntervalsForm />
-              </div>
-              <div className="col s6">
-                <AdminDateIntervalsList />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s6">
-                <AdminDefaultPriceForm />
-                <AdminMarginForm />
-              </div>
-            </div>
+        <div className="container-fluid">
+          <div className="col s6">
+            <DateIntervalsForm />
+            <AdminDefaultPriceForm />
+            <AdminMarginForm />
           </div>
-        </Paper>
+          <div className="col s6">
+            <AdminDateIntervalsList />
+          </div>
+        </div>
         <Snackbar
           open={this.state.showMessage}
           message={this.props.message}

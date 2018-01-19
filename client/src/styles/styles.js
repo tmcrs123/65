@@ -72,5 +72,12 @@ export const styles = {
   },
   textField: {
     marginBottom: "50px"
+  },
+  pricesDashboard: {
+    paper: {
+      padding: "20px",
+      margin: "10px",
+      width: "300px"
+    }
   }
 };

@@ -37,7 +37,8 @@ import {
   GET_MARGIN,
   UPDATE_MARGIN,
   UPDATE_MARGIN_MESSAGE,
-  INVALID_MARGIN_MESSAGE
+  INVALID_MARGIN_MESSAGE,
+  INVALID_PRICE_PAID_MESSAGE
 } from "./TYPES2";
 
 export const fetchUser = () => dispatch => {
@@ -156,7 +157,6 @@ export const updateReservation = (
       dispatch({
         type: EDIT_RESERVATION_FORM_SUCCESS
       });
-      history.push("/customer/dashboard/landing");
     } else {
       dispatch({ type: RESERVATION_FORM_UNAVAILABLE_DATES });
     }
@@ -240,4 +240,8 @@ export const updateMargin = newMargin => dispatch => {
 
 export const sendInvalidMarginMessage = () => {
   return { type: INVALID_MARGIN_MESSAGE };
+};
+
+export const sendInvalidPricePaidMessage = () => {
+  return { type: INVALID_PRICE_PAID_MESSAGE };
 };

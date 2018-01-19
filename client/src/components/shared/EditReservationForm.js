@@ -7,18 +7,22 @@ import * as actions from "../../actions/actions_index";
 import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
+import Paper from "material-ui/Paper";
+import { styles } from "../../styles/styles";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
 import { renderTextField } from "../../helpers/formComponents/textFields.js";
-import validate from "../../helpers/formValidation/createReservationFormValidation";
+import validate from "../../helpers/formValidation/editReservationFormValidation";
+import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
 
 class CustomerEditReservationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMessage: false
+      showMessage: false,
+      hideBookingFee: true
     };
   }
 
@@ -34,13 +38,15 @@ class CustomerEditReservationForm extends Component {
     } else {
       this.setState({ showMessage: false });
     }
+  }
 
-    if (
-      nextProps.initialValues.upfrontPayment !==
-        this.props.initialValues.upfrontPayment &&
-      !nextProps.initialValues.upfrontPayment
-    ) {
-      nextProps.change("price_toPay", nextProps.price * 0.1);
+  renderBookingFeeText() {
+    if (this.state.hideBookingFee) {
+      return null;
+    } else {
+      return (
+        <p>Booking fee: {Math.round(this.props.price * this.props.margin)}€</p>
+      );
     }
   }
 
@@ -52,6 +58,46 @@ class CustomerEditReservationForm extends Component {
     }
     return menuItems;
   };
+
+  renderPricePaid() {
+    if (this.props.isAdmin) {
+      return (
+        <Field
+          style={styles.textField}
+          name="price_paid"
+          label="Paid"
+          component={renderPriceField}
+        />
+      );
+    }
+  }
+
+  renderStatusDropdown() {
+    if (this.props.isAdmin) {
+      let menuItems = [];
+      let statusType = [APPROVED, PENDING, REJECTED];
+      statusType.forEach(status => {
+        let item = (
+          <MenuItem
+            key={status}
+            value={status}
+            primaryText={`${_.capitalize(status)}`}
+          />
+        );
+        menuItems.push(item);
+      });
+
+      return (
+        <Field
+          name="status"
+          label="Reservation Status"
+          component={renderSelectField}
+        >
+          {menuItems}
+        </Field>
+      );
+    }
+  }
 
   handleRequestClose() {
     this.props.clearMessage();
@@ -73,16 +119,10 @@ class CustomerEditReservationForm extends Component {
           })
           .then(res => {
             this.props.change("price", res.data.price);
-            this.handleCheckboxChange(this.props.upfrontPayment);
+            this.setState({ hideBookingFee: false });
           });
       }
     }, 500);
-  }
-
-  handleCheckboxChange(value) {
-    value
-      ? this.props.change("price_toPay", this.props.price)
-      : this.props.change("price_toPay", this.props.price * this.props.margin);
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -94,7 +134,8 @@ class CustomerEditReservationForm extends Component {
       this.props.sendInvalidDatesMessage,
       this.props.sendInvalidPersonsMessage,
       this.props.sendInvalidPriceMessage,
-      this.props.sendNoCustomerSelectedMessage
+      this.props.sendNoCustomerSelectedMessage,
+      this.props.sendInvalidPricePaidMessage
     );
     this.props.updateReservation(
       this.props.match.params.id,
@@ -107,82 +148,75 @@ class CustomerEditReservationForm extends Component {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <div className="container">
-        <h2>Edit a reservation</h2>
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Field
-            name="startDate"
-            label="Start-Date"
-            component={renderDatePicker}
-            onChange={() => this.handleDateChange()}
+        <Paper style={styles.editReservation.paper}>
+          <h4>
+            <strong>Edit </strong>reservation
+          </h4>
+          <hr />
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <div className="col s6">
+              <Field
+                name="startDate"
+                label="Start-Date"
+                component={renderDatePicker}
+                onChange={() => this.handleDateChange()}
+              />
+              <Field
+                name="endDate"
+                label="End-Date"
+                component={renderDatePicker}
+                onChange={() => this.handleDateChange()}
+              />
+              <Field
+                name="price"
+                label="Price"
+                component={renderPriceField}
+                disabled={!this.props.isAdmin}
+              />
+              {this.renderPricePaid()}
+              {this.renderBookingFeeText()}
+            </div>
+            <div className="col s6">
+              {this.renderStatusDropdown()}
+              <Field
+                name="numberAdults"
+                label="Number of Adults"
+                component={renderSelectField}
+              >
+                {this.renderMenuItems(1, 4)}
+              </Field>
+              <Field
+                name="numberChildrens"
+                label="Number of childrens"
+                component={renderSelectField}
+              >
+                {this.renderMenuItems(0, 3)}
+              </Field>
+              <Field
+                name="observations"
+                label="Observations"
+                component={renderTextField}
+                multiline={true}
+              />
+            </div>
+            <div className="right">
+              <RaisedButton
+                style={styles.submitButton}
+                type="Submit"
+                label="Submit"
+                disabled={pristine || submitting}
+                primary={true}
+                fullWidth={false}
+              />
+            </div>
+          </form>
+          <Snackbar
+            open={this.state.showMessage}
+            message={this.props.message}
+            autoHideDuration={3000}
+            onRequestClose={() => this.handleRequestClose()}
           />
-          <br />
-          <Field
-            name="endDate"
-            label="End-Date"
-            component={renderDatePicker}
-            onChange={() => this.handleDateChange()}
-          />
-          <br />
-          <Field
-            name="price"
-            label="Price"
-            component={renderPriceField}
-            disabled={!this.props.isAdmin}
-          />
-          <br />
-          <Field
-            name="upfrontPayment"
-            id="upfrontPayment"
-            label="Pay reservation total now?"
-            component={renderCheckbox}
-            onChange={(event, value) => this.handleCheckboxChange(value)}
-          />
-          <br />
-          <Field
-            name="price_toPay"
-            label="Pay Now"
-            component={renderPriceField}
-            disabled={!this.props.isAdmin}
-          />
-          <br />
-          <Field
-            name="numberAdults"
-            label="Number of Adults"
-            component={renderSelectField}
-          >
-            {this.renderMenuItems(1, 4)}
-            <br />
-          </Field>
-          <br />
-          <Field
-            name="numberChildrens"
-            label="Number of childrens"
-            component={renderSelectField}
-          >
-            {this.renderMenuItems(0, 3)}
-          </Field>
-          <br />
-          <Field
-            name="observations"
-            label="Observations"
-            component={renderTextField}
-            multiline={true}
-          />
-          <br />
-          <RaisedButton
-            type="Submit"
-            label="Submit"
-            disabled={pristine || submitting}
-            primary={true}
-            fullWidth={false}
-          />
-        </form>
-        <Snackbar
-          open={this.state.showMessage}
-          message={this.props.message}
-          autoHideDuration={3000}
-          onRequestClose={() => this.handleRequestClose()}
-        />
+        </Paper>
       </div>
     );
   }

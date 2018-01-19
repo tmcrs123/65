@@ -21,7 +21,8 @@ import {
   UPDATE_DEFAULT_PRICE,
   UNVAILABLE_DATE_INTERVAL_MESSAGE,
   UPDATE_MARGIN_MESSAGE,
-  INVALID_MARGIN_MESSAGE
+  INVALID_MARGIN_MESSAGE,
+  INVALID_PRICE_PAID_MESSAGE
 } from "../actions/TYPES2";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
@@ -93,6 +94,12 @@ export default function(state = { type: "", message: "" }, action) {
         type: ERROR,
         message: "A margin must be a number between 0 and 100."
       };
+    case INVALID_PRICE_PAID_MESSAGE:
+      return {
+        type: ERROR,
+        message: "Price paid exceeds price of the reservation."
+      };
+
     default:
       return state;
   }

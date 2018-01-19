@@ -19,6 +19,7 @@ export const RESERVATION_FORM_UNAVAILABLE_DATES =
 export const INVALID_DATES_MESSAGE = "invalid_dates_message";
 export const INVALID_PERSONS_MESSAGE = "invalid_persons_message";
 export const INVALID_PRICE_MESSAGE = "invalid_price_message";
+export const INVALID_PRICE_PAID_MESSAGE = "invalid_price_paid_message";
 export const NO_CUSTOMER_SELECTED_MESSAGE = "no_customer_selected_message";
 export const DELETE_RESERVATION_MESSAGE = "delete_reservation_message";
 export const DELETE_CUSTOMER_MESSAGE = "delete_customer_message";

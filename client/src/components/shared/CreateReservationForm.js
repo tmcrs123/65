@@ -95,20 +95,16 @@ class CreateReservationForm extends Component {
     this.props.clearMessage();
   }
 
-  handlePriceChange() {
-    setTimeout(() => {
-      this.props.upfrontPayment
-        ? this.props.change("payNow", this.props.price)
-        : this.props.change("payNow", this.props.price * 0.1);
-    }, 500);
-  }
-
   handleDateChange() {
     /**
      * Explain why set timeout
      */
     setTimeout(() => {
       if (this.props.startDate && this.props.endDate) {
+        if (this.props.startDate > this.props.endDate) {
+          this.props.sendInvalidDatesMessage();
+          return;
+        }
         axios
           .post("/api/calculatePrice", {
             startDate: this.props.startDate,
@@ -116,19 +112,10 @@ class CreateReservationForm extends Component {
           })
           .then(res => {
             this.props.change("price", res.data.price);
-            this.handleCheckboxChange(this.props.upfrontPayment);
             this.setState({ hideBookingFee: false });
           });
       }
     }, 500);
-  }
-
-  handleCheckboxChange(value) {
-    let price = "";
-
-    value
-      ? this.props.change("payNow", this.props.price)
-      : this.props.change("payNow", this.props.price * this.props.margin);
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -170,14 +157,12 @@ class CreateReservationForm extends Component {
                 component={renderDatePicker}
                 onChange={() => this.handleDateChange()}
               />
-              <br />
               <Field
                 name="endDate"
                 label="End-Date"
                 component={renderDatePicker}
                 onChange={() => this.handleDateChange()}
               />
-              <br />
               <Field
                 name="price"
                 label="Price"
@@ -202,7 +187,6 @@ class CreateReservationForm extends Component {
               >
                 {this.renderMenuItems(0, 3)}
               </Field>
-              <br />
               <Field
                 name="observations"
                 label="Observations"

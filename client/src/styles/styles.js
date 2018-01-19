@@ -42,6 +42,13 @@ export const styles = {
       marginTop: "20px"
     }
   },
+  editReservation: {
+    paper: {
+      height: "500px",
+      padding: "20px",
+      marginTop: "20px"
+    }
+  },
   submitButton: {
     marginRight: "20px",
     marginTop: "30px"
@@ -62,5 +69,8 @@ export const styles = {
   },
   chip: {
     margin: 3
+  },
+  textField: {
+    marginBottom: "50px"
   }
 };

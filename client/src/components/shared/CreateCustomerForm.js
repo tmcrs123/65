@@ -55,18 +55,17 @@ class AddCustomerForm extends Component {
                 label="Notes"
                 component={renderTextField}
                 multiLine={true}
-                rows={3}
-                rowsMax={4}
+                rows={1}
+                rowsMax={2}
               />
               <br />
               <br />
-              <br />
+
               <Field
                 name="blacklisted"
                 label="Blacklisted"
                 component={renderCheckbox}
               />
-              <br />
               <br />
               <br />
             </div>

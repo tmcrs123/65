@@ -47,7 +47,10 @@ class AddCustomerForm extends Component {
     return (
       <div className="container">
         <Paper style={styles.paper}>
-          <h3>Edit Customer</h3>
+          <h4>
+            <strong>Edit </strong>customer
+          </h4>
+          <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
             <div className="col s6">
               <Field name="name" label="Name" component={renderTextField} />
@@ -60,10 +63,9 @@ class AddCustomerForm extends Component {
                 label="Notes"
                 component={renderTextField}
                 multiLine={true}
-                rows={3}
-                rowsMax={4}
+                rows={1}
+                rowsMax={2}
               />
-              <br />
               <br />
               <br />
               <Field
@@ -71,7 +73,6 @@ class AddCustomerForm extends Component {
                 label="Blacklisted"
                 component={renderCheckbox}
               />
-              <br />
               <br />
               <br />
             </div>

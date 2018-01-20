@@ -19,7 +19,6 @@ class ApprovalList extends Component {
   }
 
   render() {
-    console.log("this props", this);
     return (
       <Paper zDepth={5}>
         <List>

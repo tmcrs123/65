@@ -47,7 +47,8 @@ class AdminDateIntervalsList extends Component {
     return (
       <Paper style={styles.pricesDashboard.defaultPriceList.paper}>
         <h5>
-          <strong>Edit</strong> default price
+          <i className="material-icons">list</i>
+          Default price list
         </h5>
         <hr />
         <div style={{ height: 200 }}>

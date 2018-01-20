@@ -151,6 +151,7 @@ class CustomerEditReservationForm extends Component {
       <div className="container">
         <Paper style={styles.editReservation.paper}>
           <h4>
+            <i className="material-icons">mode_edit</i>
             <strong>Edit </strong>reservation
           </h4>
           <hr />

@@ -48,6 +48,7 @@ class AddCustomerForm extends Component {
       <div className="container">
         <Paper style={styles.paper}>
           <h4>
+            <i className="material-icons">mode_edit</i>
             <strong>Edit </strong>customer
           </h4>
           <hr />

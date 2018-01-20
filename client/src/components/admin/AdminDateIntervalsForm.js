@@ -25,7 +25,10 @@ class AdminDateIntervalsForm extends Component {
     return (
       <Paper style={styles.pricesDashboard.dateIntervals.paper}>
         <h5>
-          <strong>+</strong> Price interval
+          <strong>
+            <i className="material-icons">add_circle_outline</i>
+          </strong>{" "}
+          Price interval
         </h5>
         <hr />
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>

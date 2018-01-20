@@ -24,6 +24,7 @@ class AdminDefaultPriceForm extends Component {
     return (
       <Paper style={styles.pricesDashboard.defaultPrice.paper}>
         <h5>
+          <i className="material-icons">euro_symbol</i>
           <strong>Edit</strong> default price
         </h5>
         <hr />

@@ -40,7 +40,9 @@ class AddCustomerForm extends Component {
       <div className="container">
         <Paper style={styles.paper}>
           <h4>
-            <strong>+ </strong>customer
+            <strong>
+              <i className="material-icons">add_circle_outline</i>
+            </strong>Add customer
           </h4>
           <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>

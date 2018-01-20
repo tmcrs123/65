@@ -24,7 +24,7 @@ class AdminMarginForm extends Component {
     return (
       <Paper style={styles.pricesDashboard.marginForm.paper}>
         <h5>
-          <strong>Edit</strong> Margin
+          <strong>% Edit</strong> Margin
         </h5>
         <hr />
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>

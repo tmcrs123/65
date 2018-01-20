@@ -23,7 +23,6 @@ class AdminDashboardLanding extends Component {
   render() {
     return (
       <div>
-        <h2>Landing</h2>
         <div className="row">
           <div className="container-fluid">
             <AvailabilityCheck />
@@ -35,7 +34,12 @@ class AdminDashboardLanding extends Component {
           </div>
           <div className="col s3">
             <InfoCard
-              monthReservationCount={this.props.monthReservationCount}
+              title={
+                this.props.monthReservationCount
+                  ? `#${this.props.monthReservationCount.count}`
+                  : ""
+              }
+              subtitle="is the number of reservations you have this month."
             />
           </div>
           <div className="col s3">

@@ -42,6 +42,7 @@ class AvailabilityCheck extends Component {
       <Paper style={styles.AdminDashboard.availabilityCheck.paper} zDepth={5}>
         <div className="row">
           <h5>
+            <i className="material-icons">date_range</i>
             <strong>Check</strong> availability
           </h5>
         </div>

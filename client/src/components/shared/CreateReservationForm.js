@@ -149,7 +149,9 @@ class CreateReservationForm extends Component {
       <div className="container">
         <Paper style={styles.createReservation.paper}>
           <h4>
-            <strong>+ </strong>reservation
+            <strong>
+              <i className="material-icons">add_circle_outline</i>
+            </strong>Add Reservation
           </h4>
           <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>

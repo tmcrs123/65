@@ -363,20 +363,26 @@ export const getAdminDashboardData = () => dispatch => {
     "/api/reservationsTotalValue/pending"
   );
 
+  const currentReservationCustomer = axios.get(
+    "/api/currentReservationCustomer"
+  );
+
   Promise.all([
     nextReservations,
     monthReservationCount,
     valueApprovedReservation,
     valueRejectedReservation,
-    valuePendingReservation
+    valuePendingReservation,
+    currentReservationCustomer
   ]).then(res => {
     console.log("res data", res);
     const dashboardData = {
       nextReservations: res[0].data,
       monthReservationCount: res[1].data,
       valueApprovedReservations: res[2].data,
-      valueRejectedReservation: res[3].data,
-      valuePendingReservation: res[4].data
+      valueRejectedReservations: res[3].data,
+      valuePendingReservations: res[4].data,
+      currentReservationCustomer: res[5].data
     };
     dispatch({
       type: GET_ADMIN_DASHBOARD_DATA,

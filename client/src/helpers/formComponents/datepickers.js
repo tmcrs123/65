@@ -1,7 +1,7 @@
 import React from "react";
 import DatePicker from "material-ui/DatePicker";
 
-function disableWeekends(date) {
+function disablePastDates(date) {
   if (date.getTime() < Date.now()) return true;
   return false;
 }
@@ -11,7 +11,7 @@ export function renderDatePicker(props) {
     <DatePicker
       name={props.name}
       floatingLabelText={props.label}
-      shouldDisableDate={disableWeekends}
+      shouldDisableDate={disablePastDates}
       autoOk={true}
       value={props.input.value ? props.input.value : {}}
       onChange={(event, value, index) => {

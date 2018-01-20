@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ApprovalList from "./landingComponents/list";
+import ApprovalList from "./landingComponents/ApprovalList";
 import InfoCard from "./landingComponents/infoCard";
 import DatePicker from "material-ui/DatePicker";
 import axios from "axios";
@@ -16,8 +16,11 @@ class AdminDashboardLanding extends Component {
     this.props.getAdminDashboardData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+  renderPriceTitles(valueReservationType) {
+    if (valueReservationType && valueReservationType != "") {
+      return `${valueReservationType.price} €`;
+    }
+    return "0 €";
   }
 
   render() {
@@ -43,10 +46,38 @@ class AdminDashboardLanding extends Component {
             />
           </div>
           <div className="col s3">
-            <ApprovalList />
+            <InfoCard
+              title={
+                this.props.currentReservationCustomer
+                  ? `${this.props.currentReservationCustomer.name}`
+                  : "Empty!"
+              }
+              subtitle={
+                this.props.currentReservationCustomer
+                  ? "is the current customer."
+                  : "Currently there is no current customer."
+              }
+            />
           </div>
           <div className="col s3">
-            <InfoCard />
+            <InfoCard
+              title={this.renderPriceTitles(
+                this.props.valueApprovedReservations
+              )}
+              subtitle={"is the money you made in approved reservations"}
+            />
+            <InfoCard
+              title={this.renderPriceTitles(
+                this.props.valuePendingReservations
+              )}
+              subtitle={"is the money you have in pending reservations"}
+            />
+            <InfoCard
+              title={this.renderPriceTitles(
+                this.props.valueRejectedReservations
+              )}
+              subtitle={"is the money you lost in rejected reservations"}
+            />
           </div>
         </div>
 

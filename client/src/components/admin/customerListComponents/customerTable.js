@@ -69,12 +69,12 @@ class CustomerTable extends Component {
     return (
       <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
         <TableRow>
-          <TableHeaderColumn>Name </TableHeaderColumn>
-          <TableHeaderColumn>Email </TableHeaderColumn>
-          <TableHeaderColumn>Phone </TableHeaderColumn>
-          <TableHeaderColumn>Blacklisted </TableHeaderColumn>
-          <TableHeaderColumn>Notes </TableHeaderColumn>
-          <TableHeaderColumn>More </TableHeaderColumn>
+          <TableHeaderColumn>Name</TableHeaderColumn>
+          <TableHeaderColumn>Email</TableHeaderColumn>
+          <TableHeaderColumn>Phone</TableHeaderColumn>
+          <TableHeaderColumn>Blacklisted</TableHeaderColumn>
+          <TableHeaderColumn># Reservations</TableHeaderColumn>
+          <TableHeaderColumn>More</TableHeaderColumn>
         </TableRow>
       </TableHeader>
     );
@@ -98,13 +98,13 @@ class CustomerTable extends Component {
     return pagedCustomers.map((customer, index) => {
       return (
         <TableRow hoverable={true} key={index}>
-          <TableRowColumn> {customer.name} </TableRowColumn>
-          <TableRowColumn> {customer.email} </TableRowColumn>
-          <TableRowColumn> {customer.phone} </TableRowColumn>
+          <TableRowColumn>{customer.name}</TableRowColumn>
+          <TableRowColumn>{customer.email}</TableRowColumn>
+          <TableRowColumn>{customer.phone}</TableRowColumn>
           <TableRowColumn>
             {this.renderBlacklistedChip(customer)}
           </TableRowColumn>
-          <TableRowColumn>{customer.notes}</TableRowColumn>
+          <TableRowColumn>{customer.reservations.length}</TableRowColumn>
           <TableRowColumn>
             <IconMenu
               iconButtonElement={

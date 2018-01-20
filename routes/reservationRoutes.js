@@ -40,4 +40,9 @@ module.exports = app => {
     "/api/reservationSearch",
     reservationController.searchReservationByCustomerName
   );
+
+  app.get(
+    "/api/currentReservationCustomer",
+    reservationController.currentReservationCustomer
+  );
 };

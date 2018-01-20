@@ -11,6 +11,11 @@ class AvailabilityCheck extends Component {
     this.state = { price: "", available: "" };
   }
 
+  disablePastDates(date) {
+    if (date.getTime() < Date.now()) return true;
+    return false;
+  }
+
   handleDateChange(date, dateField) {
     this.setState({ [dateField]: date });
 
@@ -53,6 +58,7 @@ class AvailabilityCheck extends Component {
               name="startDate"
               hintText="Start Date"
               autoOk={true}
+              shouldDisableDate={this.disablePastDates}
               onChange={(event, date) =>
                 this.handleDateChange(date, "startDate")
               }
@@ -63,6 +69,7 @@ class AvailabilityCheck extends Component {
               name="endDate"
               hintText="End Date"
               autoOk={true}
+              shouldDisableDate={this.disablePastDates}
               onChange={(event, date) => this.handleDateChange(date, "endDate")}
             />
           </div>

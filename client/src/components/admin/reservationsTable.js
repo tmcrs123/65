@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/actions_index";
 import _ from "lodash";
+import moment from "moment";
 import Paper from "material-ui/Paper";
 import IconButton from "material-ui/IconButton";
 import IconMenu from "material-ui/IconMenu";
@@ -97,12 +98,16 @@ class CustomerTable extends Component {
     return pagedReservations.map((reservation, index) => {
       return (
         <TableRow hoverable={true} key={index}>
-          <TableRowColumn> {reservation.customerName} </TableRowColumn>
-          <TableRowColumn> {reservation.startDate} </TableRowColumn>
-          <TableRowColumn> {reservation.endDate} </TableRowColumn>
+          <TableRowColumn>{reservation.customerName}</TableRowColumn>
+          <TableRowColumn>
+            {moment(reservation.startDate).format("YYYY/MM/D")}
+          </TableRowColumn>
+          <TableRowColumn>
+            {moment(reservation.endDate).format("YYYY/MM/D")}
+          </TableRowColumn>
           <TableRowColumn>{this.renderChip(reservation)}</TableRowColumn>
-          <TableRowColumn> {reservation.price} </TableRowColumn>
-          <TableRowColumn> {reservation.price_paid} </TableRowColumn>
+          <TableRowColumn>{reservation.price} €</TableRowColumn>
+          <TableRowColumn>{reservation.price_paid} €</TableRowColumn>
 
           <TableRowColumn>
             <IconMenu

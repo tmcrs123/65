@@ -7,16 +7,49 @@ const moment = require("moment");
 module.exports = {
   /**Reservations for the next month from the date i'm currently in */
 
+  currentReservationCustomer(req, res, next) {
+    const today = moment(new Date())._d;
+
+    Reservation.aggregate([
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      { $match: { status: { $in: ["pending", "approved"] } } },
+      {
+        $match: {
+          $and: [{ startDate: { $lte: today } }, { endDate: { $gt: today } }]
+        }
+      },
+      {
+        $unwind: "$customer"
+      },
+      {
+        $project: { "customer.name": 1, _id: 0 }
+      }
+    ]).then(reservation => {
+      if (reservation.length) {
+        res.send({ name: reservation[0].customer.name });
+        return;
+      }
+      res.send();
+    });
+  },
+
   getNextReservations(req, res, next) {
     const today = moment(new Date());
     const oneMonthFromNow = moment(new Date()).add(1, "Month");
 
     Reservation.find({
-        startDate: {
-          $gte: today,
-          $lte: oneMonthFromNow
-        }
-      })
+      startDate: {
+        $gte: today,
+        $lte: oneMonthFromNow
+      }
+    })
       .populate("customer", "name")
       .sort({
         startDate: 1
@@ -53,33 +86,34 @@ module.exports = {
   },
 
   getAllReservations(req, res, next) {
-    Reservation.aggregate([{
-          $lookup: {
-            from: "customers",
-            localField: "customer",
-            foreignField: "_id",
-            as: "customer"
-          }
-        },
-        {
-          $unwind: "$customer"
-        },
-        {
-          $addFields: {
-            customerName: "$customer.name"
-          }
-        },
-        {
-          $project: {
-            __v: 0,
-            customer: 0,
-            createdByAdmin: 0,
-            upfrontPayment: 0
-          }
+    Reservation.aggregate([
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "customer"
         }
-      ])
+      },
+      {
+        $unwind: "$customer"
+      },
+      {
+        $addFields: {
+          customerName: "$customer.name"
+        }
+      },
+      {
+        $project: {
+          __v: 0,
+          customer: 0,
+          createdByAdmin: 0,
+          upfrontPayment: 0
+        }
+      }
+    ])
       .sort({
-        customerName: 1
+        startDate: 1
       })
       .then(customers => res.send(customers));
   },
@@ -88,39 +122,40 @@ module.exports = {
     const name = req.query.name;
     const exp = new RegExp(name, "g");
 
-    Reservation.aggregate([{
-          $lookup: {
-            from: "customers",
-            localField: "customer",
-            foreignField: "_id",
-            as: "customer"
-          }
-        },
-        {
-          $match: {
-            "customer.name": {
-              $regex: exp,
-              $options: "i"
-            }
-          }
-        },
-        {
-          $unwind: "$customer"
-        },
-        {
-          $addFields: {
-            customerName: "$customer.name"
-          }
-        },
-        {
-          $project: {
-            __v: 0,
-            customer: 0,
-            createdByAdmin: 0,
-            upfrontPayment: 0
+    Reservation.aggregate([
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customer",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      {
+        $match: {
+          "customer.name": {
+            $regex: exp,
+            $options: "i"
           }
         }
-      ])
+      },
+      {
+        $unwind: "$customer"
+      },
+      {
+        $addFields: {
+          customerName: "$customer.name"
+        }
+      },
+      {
+        $project: {
+          __v: 0,
+          customer: 0,
+          createdByAdmin: 0,
+          upfrontPayment: 0
+        }
+      }
+    ])
       .sort({
         customerName: 1
       })
@@ -128,19 +163,22 @@ module.exports = {
   },
 
   getTotalReservationsValue(req, res, next) {
-    Reservation.aggregate({
-      $group: {
-        _id: "",
-        price: {
-          $sum: "$price"
+    Reservation.aggregate(
+      {
+        $group: {
+          _id: "",
+          price: {
+            $sum: "$price"
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          price: "$price"
         }
       }
-    }, {
-      $project: {
-        _id: 0,
-        price: "$price"
-      }
-    }).then(sum =>
+    ).then(sum =>
       res.send({
         reservationsTotal: sum[0].price
       })
@@ -148,7 +186,8 @@ module.exports = {
   },
 
   getTotalReservationsValueByStatus(req, res, next) {
-    Reservation.aggregate([{
+    Reservation.aggregate([
+      {
         $match: {
           status: req.params.status
         }
@@ -168,7 +207,7 @@ module.exports = {
       }
     ]).then(sum => {
       const parsedObject = sum[0];
-      res.send(parsedObject)
+      res.send(parsedObject);
     });
   },
 
@@ -216,7 +255,8 @@ module.exports = {
     const availableDates = res.locals.availableDates;
     const reservationId = req.params.id;
     const reservationProps = req.body;
-    Reservation.findByIdAndUpdate({
+    Reservation.findByIdAndUpdate(
+      {
         _id: reservationId
       },
       reservationProps
@@ -259,7 +299,8 @@ module.exports = {
       reservationId
     );
 
-    Reservation.aggregate([{
+    Reservation.aggregate([
+      {
         $match: {
           status: {
             $in: ["approved", "pending"]
@@ -268,7 +309,8 @@ module.exports = {
       },
       {
         $match: {
-          $or: [{
+          $or: [
+            {
               startDate: {
                 $gte: sDate,
                 $lt: eDate

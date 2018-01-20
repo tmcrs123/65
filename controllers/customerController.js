@@ -47,7 +47,7 @@ module.exports = {
   },
 
   getAllCustomers(req, res, next) {
-    Customer.aggregate([{ $project: { reservations: 0, __v: 0 } }])
+    Customer.aggregate([{ $project: { __v: 0 } }])
       .sort({ name: 1 })
       .then(customers => res.send(customers));
   },

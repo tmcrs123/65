@@ -39,6 +39,11 @@ class AdminDashboardPrices extends Component {
     return (
       <div>
         <div className="row">
+          <div className="col s12">
+            <AdminDateIntervalsList />
+          </div>
+        </div>
+        <div className="row">
           <div className="col s4">
             <DateIntervalsForm />
           </div>
@@ -48,12 +53,6 @@ class AdminDashboardPrices extends Component {
 
           <div className="col s4">
             <AdminMarginForm />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col s8">
-            <AdminDateIntervalsList />
           </div>
         </div>
 

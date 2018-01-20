@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from "moment";
 import * as actions from "../../actions/actions_index";
 import {
   Table,
@@ -11,7 +12,7 @@ import {
   TableFooter
 } from "material-ui/Table";
 import { Card, CardActions, CardText } from "material-ui/Card";
-import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
 import Paper from "material-ui/Paper";
 import { styles } from "../../styles/styles";
 
@@ -28,11 +29,15 @@ class AdminDateIntervalsList extends Component {
     return intervals.map((interval, index) => {
       return (
         <TableRow hoverable={false} key={index}>
-          <TableRowColumn>{interval.startDate}</TableRowColumn>
-          <TableRowColumn>{interval.endDate}</TableRowColumn>
+          <TableRowColumn>
+            {moment(interval.startDate).format("YYYY/MM/DD")}
+          </TableRowColumn>
+          <TableRowColumn>
+            {moment(interval.endDate).format("YYYY/MM/DD")}
+          </TableRowColumn>
           <TableRowColumn>{interval.price}</TableRowColumn>
           <TableRowColumn>
-            <FlatButton
+            <RaisedButton
               label="Delete"
               primary={true}
               onClick={event => this.deleteDateInterval(event, interval._id)}

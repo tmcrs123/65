@@ -286,6 +286,54 @@ module.exports = {
       });
   },
 
+  availability(req, res, next) {
+    const sDate = new Date(req.body.startDate);
+    const eDate = new Date(req.body.endDate);
+
+    Reservation.aggregate([
+      {
+        $match: {
+          status: {
+            $in: ["approved", "pending"]
+          }
+        }
+      },
+      {
+        $match: {
+          $or: [
+            {
+              startDate: {
+                $gte: sDate,
+                $lt: eDate
+              }
+            },
+            {
+              endDate: {
+                $gt: sDate,
+                $lt: eDate
+              }
+            },
+            {
+              startDate: {
+                $lte: sDate
+              },
+              endDate: {
+                $gte: eDate
+              }
+            }
+          ]
+        }
+      }
+    ]).then(reservations => {
+      console.log(reservations);
+      if (reservations.length === 0) {
+        res.send({ available: true });
+        return;
+      }
+      res.send({ available: false });
+    });
+  },
+
   availableDates(req, res, next) {
     let availableDates = {
       availableDates: true

@@ -19,52 +19,51 @@ class AdminDashboard extends Component {
 
     return (
       <div className="row">
-        <Sidebar />
-        <div className="row">
-          <div className="col s10" style={styles}>
-            <Route
-              exact
-              path="/admin/dashboard/landing"
-              component={AdminDashboardLanding}
-            />
-            <Route
-              exact
-              path="/admin/dashboard/customers"
-              component={AdminDashboardCustomers}
-            />
-            <Route
-              exact
-              path="/admin/dashboard/reservations"
-              component={AdminDashboardReservations}
-            />
-            <Route
-              exact
-              path="/admin/dashboard/prices"
-              component={AdminDashboardPrices}
-            />
-            <Route
-              exact
-              path="/admin/dashboard/customer/edit/:id"
-              component={EditCustomerForm}
-            />
-            <Route
-              exact
-              path="/admin/dashboard/reservation/edit/:id"
-              render={props => (
-                <EditReservationForm isAdmin={true} {...props} />
-              )}
-            />
-            <Route
-              exact
-              path="/admin/dashboard/customer/add"
-              component={CreateCustomerForm}
-            />
-            <Route
-              exact
-              path="/admin/dashboard/reservation/add"
-              render={() => <CreateReservationForm isAdmin={true} />}
-            />
-          </div>
+        <div className="col s2" style={{ padding: 0 }}>
+          <Sidebar />
+        </div>
+
+        <div className="col s10" style={styles}>
+          <Route
+            exact
+            path="/admin/dashboard/landing"
+            component={AdminDashboardLanding}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/customers"
+            component={AdminDashboardCustomers}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/reservations"
+            component={AdminDashboardReservations}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/prices"
+            component={AdminDashboardPrices}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/customer/edit/:id"
+            component={EditCustomerForm}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/reservation/edit/:id"
+            render={props => <EditReservationForm isAdmin={true} {...props} />}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/customer/add"
+            component={CreateCustomerForm}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/reservation/add"
+            render={() => <CreateReservationForm isAdmin={true} />}
+          />
         </div>
       </div>
     );

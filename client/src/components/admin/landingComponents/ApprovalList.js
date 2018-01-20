@@ -4,6 +4,7 @@ import Divider from "material-ui/Divider";
 import { List, ListItem } from "material-ui/List";
 import { Card, CardTitle } from "material-ui/Card";
 import _ from "lodash";
+import moment from "moment";
 
 class ApprovalList extends Component {
   renderReservations(reservations) {
@@ -21,7 +22,9 @@ class ApprovalList extends Component {
         <ListItem
           key={reservation._id}
           primaryText={reservation.customer.name}
-          secondaryText={`${reservation.startDate} to ${reservation.endDate}`}
+          secondaryText={`${moment(reservation.startDate).format(
+            "YYYY/MM/DD"
+          )} to ${moment(reservation.endDate).format("YYYY/MM/DD")}`}
           leftIcon={<i className="material-icons">face</i>}
           nestedItems={[
             <ListItem

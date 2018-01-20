@@ -14,10 +14,7 @@ module.exports = app => {
     reservationController.edit
   );
   app.delete("/api/reservations/:id", reservationController.delete);
-  app.post(
-    "/api/reservations/availability",
-    reservationController.availableDates
-  );
+  app.post("/api/availability", reservationController.availability);
 
   app.get("/api/price", (req, res) => res.send({ price: Math.random() * 11 }));
 

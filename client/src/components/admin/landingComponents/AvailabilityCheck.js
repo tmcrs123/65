@@ -8,7 +8,7 @@ import { styles } from "../../../styles/styles";
 class AvailabilityCheck extends Component {
   constructor(props) {
     super(props);
-    this.state = { price: "", available: "" };
+    this.state = { price: "...", available: "..." };
   }
 
   disablePastDates(date) {
@@ -28,18 +28,42 @@ class AvailabilityCheck extends Component {
 
         const pricePromise = axios.post("/api/calculatePrice", dates);
 
-        const datesPromise = axios.post(
-          "/api/reservations/availability",
-          dates
-        );
+        const datesPromise = axios.post("/api/availability", dates);
         Promise.all([pricePromise, datesPromise]).then(res => {
-          console.log(res[1].data);
-
+          console.log("avail", res[1].data.available);
           this.setState({ price: res[0].data.price });
-          this.setState({ available: res[1].data.availableDates });
+          this.setState({ available: res[1].data.available });
         });
       }
     });
+  }
+
+  renderAvailabilitySpan() {
+    if (this.state.available === "...") {
+      return (
+        <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+          is currently ...
+        </h6>
+      );
+    } else if (this.state.available) {
+      return (
+        <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+          is currently{" "}
+          <span style={styles.AdminDashboard.availableSpan}>
+            <strong>available</strong>
+          </span>
+        </h6>
+      );
+    } else {
+      return (
+        <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+          is currently{" "}
+          <span style={styles.AdminDashboard.unavailableSpan}>
+            <strong>unavailable</strong>
+          </span>
+        </h6>
+      );
+    }
   }
 
   render() {
@@ -52,42 +76,46 @@ class AvailabilityCheck extends Component {
           </h5>
         </div>
         <hr />
-        <div className="row">
-          <div className="col s2">
+        <div className="container-fluid">
+          <div className="col s12 center-align">
+            <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+              A reservation starting on
+            </h6>
+            &nbsp; &nbsp;&nbsp;
             <DatePicker
+              textFieldStyle={{ fontSize: 20 }}
+              style={{
+                display: "inline-block",
+                width: "150px"
+              }}
               name="startDate"
-              hintText="Start Date"
+              hintText="Pick a start date"
               autoOk={true}
               shouldDisableDate={this.disablePastDates}
               onChange={(event, date) =>
                 this.handleDateChange(date, "startDate")
               }
             />
-          </div>
-          <div className="col s2">
+            &nbsp; &nbsp;&nbsp;
+            <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+              and ending on
+            </h6>
+            &nbsp; &nbsp; &nbsp;
             <DatePicker
+              textFieldStyle={{ fontSize: 20, textAlign: "center" }}
+              style={{ display: "inline-block", width: "150px" }}
               name="endDate"
-              hintText="End Date"
+              hintText="Pick a end date"
               autoOk={true}
               shouldDisableDate={this.disablePastDates}
               onChange={(event, date) => this.handleDateChange(date, "endDate")}
             />
-          </div>
-          <div className="col s2">
-            <TextField
-              value={this.state.price}
-              disabled={true}
-              hintText="Price"
-              underlineDisabledStyle={{ borderBottom: " 1pt solid #E0E0E0" }}
-            />
-          </div>
-          <div className="col s2">
-            <TextField
-              value={this.state.available}
-              disabled={true}
-              hintText="Available?"
-              underlineDisabledStyle={{ borderBottom: " 1pt solid #E0E0E0" }}
-            />
+            &nbsp; &nbsp; &nbsp;
+            {this.renderAvailabilitySpan()}
+            &nbsp; &nbsp;
+            <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+              and will cost {this.state.price} €
+            </h6>
           </div>
         </div>
       </Paper>

@@ -126,6 +126,28 @@ export const styles = {
     },
     infoCard: {
       borderLeft: "8px solid red"
+    },
+    availableSpan: {
+      color: green800,
+      borderBottom: "2px solid",
+      borderColor: green800
+    },
+    unavailableSpan: {
+      color: red800,
+      borderBottom: "2px solid",
+      borderColor: red800
+    }
+  },
+  sidebar: {
+    menuItem: {
+      fontSize: "22px"
+    },
+    sidebarDiv: {
+      col: "col s3",
+      css: {
+        height: "100vh",
+        width: "auto"
+      }
     }
   }
 };

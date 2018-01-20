@@ -3,23 +3,11 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Menu from "material-ui/Menu";
 import MenuItem from "material-ui/MenuItem";
-import * as adminActions from "../../actions/admin_actions.js";
-import * as customerActions from "../../actions/customer_actions.js";
-import _ from "lodash";
 import { grey900, darkBlack } from "material-ui/styles/colors";
-
-const composedActions = { ...adminActions, ...customerActions };
-
-const styles = {
-  col: "col s2",
-  css: {
-    border: "2px solid black",
-    height: "100vh"
-  },
-  menuItem: {
-    padding: "0px 0px 0px 0px !important"
-  }
-};
+import PersonsGroup from "material-ui/svg-icons/social/group";
+import Reservations from "material-ui/svg-icons/device/storage";
+import Euro from "material-ui/svg-icons/action/euro-symbol";
+import { styles } from "../../styles/styles";
 
 class Sidebar extends Component {
   renderDrawerMenuItems() {
@@ -28,21 +16,33 @@ class Sidebar extends Component {
     } else {
       if (this.props.isAdmin) {
         return (
-          <div className={styles.col} style={styles.css}>
+          <div>
             <Link to="/admin/dashboard/customers">
-              <MenuItem style={styles.menuItem}>Customers</MenuItem>
+              <MenuItem
+                style={styles.sidebar.menuItem}
+                leftIcon={<PersonsGroup />}
+              >
+                Customers
+              </MenuItem>
             </Link>
             <Link to="/admin/dashboard/reservations">
-              <MenuItem style={styles.menuItem}>Reservations</MenuItem>
+              <MenuItem
+                style={styles.sidebar.menuItem}
+                leftIcon={<Reservations />}
+              >
+                Reservations
+              </MenuItem>
             </Link>
             <Link to="/admin/dashboard/prices">
-              <MenuItem style={styles.menuItem}>Prices</MenuItem>
+              <MenuItem style={styles.sidebar.menuItem} leftIcon={<Euro />}>
+                Prices
+              </MenuItem>
             </Link>
           </div>
         );
       } else {
         return (
-          <div className={styles.col} style={styles.css}>
+          <div>
             <Link to="/customer/dashboard/landing">
               <MenuItem onClick={this.handleClose}>My Reservations</MenuItem>
             </Link>
@@ -69,4 +69,4 @@ function mapStateToProps({ auth }) {
   return { isAdmin: auth.isAdmin };
 }
 
-export default connect(mapStateToProps, composedActions)(Sidebar);
+export default connect(mapStateToProps, null)(Sidebar);

@@ -15,6 +15,7 @@ import { Card, CardActions, CardText } from "material-ui/Card";
 import RaisedButton from "material-ui/RaisedButton";
 import Paper from "material-ui/Paper";
 import { styles } from "../../styles/styles";
+import List from "material-ui/svg-icons/action/list";
 
 class AdminDateIntervalsList extends Component {
   componentWillMount() {
@@ -29,17 +30,19 @@ class AdminDateIntervalsList extends Component {
     return intervals.map((interval, index) => {
       return (
         <TableRow hoverable={false} key={index}>
-          <TableRowColumn>
+          <TableRowColumn style={styles.pricesDashboard.dateIntervals.table}>
             {moment(interval.startDate).format("YYYY/MM/DD")}
           </TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn style={styles.pricesDashboard.dateIntervals.table}>
             {moment(interval.endDate).format("YYYY/MM/DD")}
           </TableRowColumn>
-          <TableRowColumn>{interval.price}</TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn style={styles.pricesDashboard.dateIntervals.table}>
+            {interval.price}
+          </TableRowColumn>
+          <TableRowColumn style={styles.pricesDashboard.dateIntervals.table}>
             <RaisedButton
               label="Delete"
-              primary={true}
+              secondary={true}
               onClick={event => this.deleteDateInterval(event, interval._id)}
             />
           </TableRowColumn>
@@ -50,20 +53,40 @@ class AdminDateIntervalsList extends Component {
 
   render() {
     return (
-      <Paper style={styles.pricesDashboard.defaultPriceList.paper}>
-        <h5>
-          <i className="material-icons">list</i>
-          Default price list
+      <Paper
+        style={styles.pricesDashboard.dateIntervals.dateIntervalsList.paper}
+      >
+        <h5 style={styles.pricesDashboard.dateIntervals.noMargin}>
+          <List style={styles.pricesDashboard.dateIntervals.icon} />
+          <span style={styles.pricesDashboard.dateIntervals.textSpan}>
+            Price interval list
+          </span>
         </h5>
         <hr />
         <div style={{ height: 200 }}>
           <Table>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
-                <TableHeaderColumn> Start Date </TableHeaderColumn>
-                <TableHeaderColumn> End Date </TableHeaderColumn>
-                <TableHeaderColumn> Price </TableHeaderColumn>
-                <TableHeaderColumn> Delete </TableHeaderColumn>
+                <TableHeaderColumn
+                  style={styles.pricesDashboard.dateIntervals.table}
+                >
+                  Start Date
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  style={styles.pricesDashboard.dateIntervals.table}
+                >
+                  End Date
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  style={styles.pricesDashboard.dateIntervals.table}
+                >
+                  Price
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  style={styles.pricesDashboard.dateIntervals.table}
+                >
+                  Delete
+                </TableHeaderColumn>
               </TableRow>
             </TableHeader>
 

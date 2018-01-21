@@ -9,6 +9,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import { validate } from "../../helpers/formValidation/customerFormValidation";
 import { styles } from "../../styles/styles";
+import AddCircle from "material-ui/svg-icons/content/add-circle-outline";
 
 class AddCustomerForm extends Component {
   constructor(props) {
@@ -40,9 +41,8 @@ class AddCustomerForm extends Component {
       <div className="container">
         <Paper style={styles.paper}>
           <h4>
-            <strong>
-              <i className="material-icons">add_circle_outline</i>
-            </strong>Add customer
+            <AddCircle style={styles.createReservation.icon} />
+            Add Customer
           </h4>
           <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -74,7 +74,7 @@ class AddCustomerForm extends Component {
             <div className="right-align">
               <RaisedButton
                 type="Submit"
-                label="Submit"
+                label="create customer"
                 disabled={pristine || submitting}
                 primary={true}
                 fullWidth={false}

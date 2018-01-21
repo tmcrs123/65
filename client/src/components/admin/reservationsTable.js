@@ -22,6 +22,7 @@ import {
 import Pagination from "material-ui-pagination";
 import { styles } from "../../styles/styles";
 import { ITEMS_PER_PAGE, PAGES_TO_SHOW } from "../../helpers/constants";
+import { colors } from "../../styles/styles";
 import { red800, green800, yellow800 } from "material-ui/styles/colors";
 import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
 
@@ -48,13 +49,13 @@ class CustomerTable extends Component {
 
     switch (reservation.status) {
       case APPROVED:
-        backgroundColor = green800;
+        backgroundColor = colors.green;
         break;
       case REJECTED:
-        backgroundColor = red800;
+        backgroundColor = colors.red;
         break;
       default:
-        backgroundColor = yellow800;
+        backgroundColor = colors.yellow;
     }
 
     return (
@@ -68,13 +69,30 @@ class CustomerTable extends Component {
     return (
       <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
         <TableRow>
-          <TableHeaderColumn> Customer </TableHeaderColumn>
-          <TableHeaderColumn> Start Date </TableHeaderColumn>
-          <TableHeaderColumn> End Date </TableHeaderColumn>
-          <TableHeaderColumn> Status </TableHeaderColumn>
-          <TableHeaderColumn> Price </TableHeaderColumn>
-          <TableHeaderColumn> Paid </TableHeaderColumn>
-          <TableHeaderColumn> More </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Customer
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Start Date
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            End Date
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Status
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Price
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Paid
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Observations
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            More
+          </TableHeaderColumn>
         </TableRow>
       </TableHeader>
     );
@@ -98,18 +116,29 @@ class CustomerTable extends Component {
     return pagedReservations.map((reservation, index) => {
       return (
         <TableRow hoverable={true} key={index}>
-          <TableRowColumn>{reservation.customerName}</TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {reservation.customerName}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
             {moment(reservation.startDate).format("YYYY/MM/D")}
           </TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
             {moment(reservation.endDate).format("YYYY/MM/D")}
           </TableRowColumn>
-          <TableRowColumn>{this.renderChip(reservation)}</TableRowColumn>
-          <TableRowColumn>{reservation.price} €</TableRowColumn>
-          <TableRowColumn>{reservation.price_paid} €</TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {this.renderChip(reservation)}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {reservation.price} €
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {reservation.price_paid} €
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {reservation.observations}
+          </TableRowColumn>
 
-          <TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
             <IconMenu
               iconButtonElement={
                 <IconButton

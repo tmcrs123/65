@@ -20,6 +20,7 @@ import AdminDashboardCustomers from "./components/admin/AdminDashboardCustomers.
 import AdminDashboardPrices from "./components/admin/AdminDashboardPrices.js";
 import RequireAdminAuth from "./components/hoc/requireAdminAuth.js";
 import Landing from "./components/landing.js";
+import { styles } from "./styles/styles";
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
@@ -27,7 +28,7 @@ ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider>
       <BrowserRouter>
-        <div>
+        <div className="body" style={styles.body}>
           <Route path="/" component={App} />
           <Route exact path="/" component={Landing} />
           <Route path="/customer/dashboard" component={CustomerDashboard} />

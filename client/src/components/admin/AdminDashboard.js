@@ -9,21 +9,17 @@ import EditCustomerForm from "../shared/EditCustomerForm";
 import CreateCustomerForm from "../shared/CreateCustomerForm";
 import CreateReservationForm from "../shared/CreateReservationForm";
 import EditReservationForm from "../shared/EditReservationForm";
+import { styles } from "../../styles/styles";
 
 class AdminDashboard extends Component {
   render() {
-    const styles = {
-      backgroundColor: "#BDBDBD",
-      height: "100vh"
-    };
-
     return (
-      <div className="row">
-        <div className="col s2" style={{ padding: 0 }}>
+      <div className="row" style={styles.noMargin}>
+        <div className="col s2" style={styles.sidebar.sidebarDiv}>
           <Sidebar />
         </div>
 
-        <div className="col s10" style={styles}>
+        <div className="col s10" style={styles.rightSide}>
           <Route
             exact
             path="/admin/dashboard/landing"

@@ -31,7 +31,6 @@ class CustomerTable extends Component {
   }
 
   deleteCustomer(event, customerId) {
-    console.log("click handler");
     this.props.deleteCustomer(customerId);
   }
 
@@ -69,12 +68,25 @@ class CustomerTable extends Component {
     return (
       <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
         <TableRow>
-          <TableHeaderColumn>Name</TableHeaderColumn>
-          <TableHeaderColumn>Email</TableHeaderColumn>
-          <TableHeaderColumn>Phone</TableHeaderColumn>
-          <TableHeaderColumn>Blacklisted</TableHeaderColumn>
-          <TableHeaderColumn># Reservations</TableHeaderColumn>
-          <TableHeaderColumn>More</TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Name
+          </TableHeaderColumn>
+
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Email
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Phone
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Blacklisted
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            # Reservations
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            More
+          </TableHeaderColumn>
         </TableRow>
       </TableHeader>
     );
@@ -84,7 +96,10 @@ class CustomerTable extends Component {
     if (customers.length === 0) {
       return (
         <TableRow hoverable={true}>
-          <TableRowColumn> No customers found </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {" "}
+            No customers found{" "}
+          </TableRowColumn>
         </TableRow>
       );
     }
@@ -98,14 +113,22 @@ class CustomerTable extends Component {
     return pagedCustomers.map((customer, index) => {
       return (
         <TableRow hoverable={true} key={index}>
-          <TableRowColumn>{customer.name}</TableRowColumn>
-          <TableRowColumn>{customer.email}</TableRowColumn>
-          <TableRowColumn>{customer.phone}</TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {customer.name}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {customer.email}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {customer.phone}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
             {this.renderBlacklistedChip(customer)}
           </TableRowColumn>
-          <TableRowColumn>{customer.reservations.length}</TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {customer.reservations.length}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
             <IconMenu
               iconButtonElement={
                 <IconButton
@@ -132,16 +155,6 @@ class CustomerTable extends Component {
       );
     });
   }
-
-  // <IconButton
-  //             iconClassName="material-icons"
-  //             iconStyle={styles.iconButton.smallIcon}
-  //             style={styles.iconButton.small}
-  //             onClick={event => this.deleteCustomer(event, customer._id)}
-  //           >
-  //             delete
-  //           </IconButton>
-
   render() {
     const totalPages = Math.ceil(this.props.customers.length / ITEMS_PER_PAGE);
 

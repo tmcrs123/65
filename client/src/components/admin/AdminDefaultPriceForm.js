@@ -23,10 +23,7 @@ class AdminDefaultPriceForm extends Component {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <Paper style={styles.pricesDashboard.defaultPrice.paper}>
-        <h5>
-          <i className="material-icons">euro_symbol</i>
-          <strong>Edit</strong> default price
-        </h5>
+        <h5>€ Edit default price</h5>
         <hr />
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field name="price" label="Price" component={renderPriceField} />

@@ -8,6 +8,7 @@ import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import * as actions from "../../actions/actions_index";
 import validate from "../../helpers/formValidation/adminDateIntervalsFormValidation";
 import { styles } from "../../styles/styles";
+import AddCircle from "material-ui/svg-icons/content/add-circle-outline";
 
 class AdminDateIntervalsForm extends Component {
   handleFormSubmit(formData, dispatchFunction, formProps) {
@@ -24,11 +25,11 @@ class AdminDateIntervalsForm extends Component {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <Paper style={styles.pricesDashboard.dateIntervals.paper}>
-        <h5>
-          <strong>
-            <i className="material-icons">add_circle_outline</i>
-          </strong>{" "}
-          Price interval
+        <h5 style={styles.pricesDashboard.dateIntervals.noMargin}>
+          <AddCircle style={styles.pricesDashboard.dateIntervals.icon} />
+          <span style={styles.pricesDashboard.dateIntervals.textSpan}>
+            Price interval
+          </span>
         </h5>
         <hr />
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>

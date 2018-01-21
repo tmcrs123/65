@@ -7,6 +7,15 @@ import {
   bluee500 as blue
 } from "material-ui/styles/colors";
 
+export const colors = {
+  red,
+  green,
+  pink,
+  yellow,
+  cyan,
+  blue
+};
+
 export const styles = {
   iconButton: {
     smallIconGreen: {
@@ -31,7 +40,8 @@ export const styles = {
   },
   paper: {
     padding: "30px",
-    margin: "20px"
+    margin: "20px",
+    height: "400px"
   },
   adminLogin: {
     paper: {
@@ -70,6 +80,18 @@ export const styles = {
     paper: {
       padding: "20px",
       margin: "10px"
+    },
+    tableFont: {
+      header: {
+        fontSize: 16,
+        textAlign: "center"
+      },
+      row: {
+        fontSize: 16,
+        overflow: "scroll",
+        textOverflow: "clip",
+        textAlign: "center"
+      }
     }
   },
   search: {
@@ -81,7 +103,8 @@ export const styles = {
     }
   },
   chip: {
-    margin: 3
+    margin: "auto",
+    align: "center"
   },
   textField: {
     marginBottom: "50px"
@@ -91,17 +114,47 @@ export const styles = {
       paper: {
         padding: "20px",
         margin: "10px",
-        width: "300px"
+        width: "300px",
+        borderLeft: "8px solid",
+        borderColor: cyan
+      },
+      dateIntervalsList: {
+        paper: {
+          padding: "20px",
+          margin: "10px",
+          height: "300px",
+          overflowX: "auto",
+          borderLeft: "8px solid",
+          borderColor: pink
+        }
       },
       submitButton: {
         marginTop: "10px"
+      },
+      icon: {
+        height: "30px",
+        width: "30px",
+        marginRight: "10px"
+      },
+      textSpan: {
+        verticalAlign: "top"
+      },
+      noMargin: {
+        marginBottom: "0px",
+        marginTop: "0px"
+      },
+      table: {
+        fontSize: "14px",
+        textAlign: "center"
       }
     },
     marginForm: {
       paper: {
         padding: "20px",
         margin: "10px",
-        width: "300px"
+        width: "300px",
+        borderLeft: "8px solid",
+        borderColor: cyan
       },
       submitButton: {
         marginTop: "10px"
@@ -111,18 +164,12 @@ export const styles = {
       paper: {
         padding: "20px",
         margin: "10px",
-        width: "300px"
+        width: "300px",
+        borderLeft: "8px solid",
+        borderColor: cyan
       },
       submitButton: {
         marginTop: "10px"
-      }
-    },
-    defaultPriceList: {
-      paper: {
-        padding: "20px",
-        margin: "10px",
-        height: "300px",
-        overflowX: "auto"
       }
     }
   },
@@ -187,12 +234,23 @@ export const styles = {
       fontSize: "18px"
     },
     sidebarDiv: {
-      col: "col s3",
-      css: {
-        height: "100vh",
-        width: "auto"
-      }
+      padding: 0,
+      height: "100vh",
+      border: "1px solid rgba(0,0,0,0.12)",
+      overflowY: "hidden"
     }
+  },
+  rightSide: {
+    backgroundColor: "#EDECEC",
+    height: "100vh"
+  },
+  body: {
+    overflowY: "hidden",
+    margin: 0,
+    padding: 0
+  },
+  noMargin: {
+    margin: 0
   },
   adminAvailability: {
     icon: {

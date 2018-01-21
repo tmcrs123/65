@@ -19,7 +19,7 @@ module.exports = app => {
     "/auth/google/redirect",
     passport.authenticate("google"),
     (req, res) => {
-      res.redirect("/customerDashboard");
+      res.redirect("/customer/dashboard/landing");
     }
   );
 
@@ -35,7 +35,7 @@ module.exports = app => {
     "/auth/facebook/redirect",
     passport.authenticate("facebook"),
     (req, res) => {
-      res.redirect("/customerDashboard");
+      res.redirect("/customer/dashboard/landing");
     }
   );
 

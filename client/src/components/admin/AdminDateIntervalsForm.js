@@ -45,7 +45,7 @@ class AdminDateIntervalsForm extends Component {
             <RaisedButton
               style={styles.pricesDashboard.dateIntervals.submitButton}
               type="Submit"
-              label="Submit"
+              label="Add price interval"
               disabled={pristine || submitting}
               primary={true}
               fullWidth={false}

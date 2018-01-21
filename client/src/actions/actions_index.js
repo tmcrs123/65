@@ -61,7 +61,7 @@ export const loginUser = (loginInfo, history) => dispatch => {
         type: LOGIN_USER,
         payload: res.data
       });
-      history.push("/");
+      history.push("/admin/dashboard/landing");
     })
     .catch(err => {
       dispatch({

@@ -8,6 +8,7 @@ const keys = require("./config/keys");
 const mongoose = require("mongoose");
 const path = require("path");
 const morgan = require("morgan");
+const cors = require("cors");
 
 // //register schemas with mongoose - Remember this needs to come before requiring passport
 require("./models/Customer");

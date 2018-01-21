@@ -82,6 +82,9 @@ class CustomerTable extends Component {
             Blacklisted
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
+            Notes
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
             # Reservations
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
@@ -124,6 +127,9 @@ class CustomerTable extends Component {
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
             {this.renderBlacklistedChip(customer)}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {customer.notes}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
             {customer.reservations.length}

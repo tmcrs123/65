@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import AppBar from "material-ui/AppBar";
-import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
 import * as actions from "../actions/actions_index.js";
+import { styles } from "../styles/styles";
 
 class Header extends Component {
   componentDidMount() {
@@ -15,10 +16,14 @@ class Header extends Component {
       return (
         <div>
           <Link to="/customer/login">
-            <FlatButton label="Customer Login" />
+            <RaisedButton
+              label="Customer Login"
+              secondary={true}
+              style={styles.header.button}
+            />
           </Link>
           <Link to="/admin/login">
-            <FlatButton label="Admin Login" />
+            <RaisedButton label="Admin Login" secondary={true} />
           </Link>
         </div>
       );
@@ -26,19 +31,13 @@ class Header extends Component {
       if (this.props.isAdmin) {
         return (
           <div>
-            <Link to="/admin/dashboard/landing">
-              <FlatButton label="Admin Dashboard" />
-            </Link>
-            <FlatButton href="/api/logout" label="Logout" />
+            <RaisedButton href="/api/logout" label="Logout" secondary={true} />
           </div>
         );
       } else {
         return (
           <div>
-            <Link to="/customer/dashboard/landing">
-              <FlatButton label="Customer Dashboard" />
-            </Link>
-            <FlatButton href="/api/logout" label="Logout" />
+            <RaisedButton href="/api/logout" label="Logout" secondary={true} />
           </div>
         );
       }

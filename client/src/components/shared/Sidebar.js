@@ -9,6 +9,7 @@ import Reservations from "material-ui/svg-icons/device/storage";
 import ReservationsCustomer from "material-ui/svg-icons/action/list";
 import AddReservationsCustomer from "material-ui/svg-icons/image/add-to-photos";
 import Euro from "material-ui/svg-icons/action/euro-symbol";
+import Dashboard from "material-ui/svg-icons/action/dashboard";
 import { styles } from "../../styles/styles";
 
 class Sidebar extends Component {
@@ -19,6 +20,14 @@ class Sidebar extends Component {
       if (this.props.isAdmin) {
         return (
           <div>
+            <Link to="/admin/dashboard/landing">
+              <MenuItem
+                style={styles.sidebar.menuItem}
+                leftIcon={<Dashboard />}
+              >
+                Dashboard
+              </MenuItem>
+            </Link>
             <Link to="/admin/dashboard/customers">
               <MenuItem
                 style={styles.sidebar.menuItem}
@@ -60,7 +69,7 @@ class Sidebar extends Component {
                 style={styles.sidebar.menuItem}
                 leftIcon={<AddReservationsCustomer />}
               >
-                Create Reservations
+                Create Reservation
               </MenuItem>
             </Link>
           </div>

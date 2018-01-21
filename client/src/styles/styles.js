@@ -17,6 +17,11 @@ export const colors = {
 };
 
 export const styles = {
+  header: {
+    button: {
+      marginRight: "10px"
+    }
+  },
   iconButton: {
     smallIconGreen: {
       width: 36,
@@ -42,6 +47,19 @@ export const styles = {
     padding: "30px",
     margin: "20px",
     height: "400px"
+  },
+  customerLogin: {
+    paper: {
+      padding: "30px",
+      margin: "20px",
+      height: "300px"
+    },
+    button: {
+      marginRight: "10px",
+      color: "white",
+      width: 120,
+      heigth: 40
+    }
   },
   adminLogin: {
     paper: {
@@ -125,7 +143,7 @@ export const styles = {
           height: "300px",
           overflowX: "auto",
           borderLeft: "8px solid",
-          borderColor: pink
+          borderColor: cyan
         }
       },
       submitButton: {
@@ -188,11 +206,11 @@ export const styles = {
     },
     infoCard_month: {
       borderLeft: "8px solid",
-      borderColor: pink
+      borderColor: cyan
     },
     infoCard_customer: {
       borderLeft: "8px solid",
-      borderColor: pink
+      borderColor: cyan
     },
     infoCard_approved: {
       borderLeft: "8px solid",

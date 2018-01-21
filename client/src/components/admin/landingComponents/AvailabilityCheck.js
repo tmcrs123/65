@@ -72,11 +72,9 @@ class AvailabilityCheck extends Component {
         <div className="row">
           <h4>
             <Calendar style={styles.adminAvailability.icon} />
-            <strong
-              style={styles.adminAvailability.dateCheckPhrase.checkHeader}
-            >
+            <span style={styles.adminAvailability.dateCheckPhrase.checkHeader}>
               Check availability
-            </strong>
+            </span>
           </h4>
         </div>
         <hr />

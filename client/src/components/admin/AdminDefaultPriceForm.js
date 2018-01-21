@@ -30,7 +30,7 @@ class AdminDefaultPriceForm extends Component {
           <RaisedButton
             style={styles.pricesDashboard.defaultPrice.submitButton}
             type="Submit"
-            label="Submit"
+            label="Edit default price"
             disabled={pristine || submitting}
             primary={true}
             fullWidth={false}

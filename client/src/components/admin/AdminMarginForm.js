@@ -23,9 +23,7 @@ class AdminMarginForm extends Component {
     const { handleSubmit, error, reset, pristine, submitting } = this.props;
     return (
       <Paper style={styles.pricesDashboard.marginForm.paper}>
-        <h5>
-          <strong>% Edit</strong> Margin
-        </h5>
+        <h5>% Edit Margin</h5>
         <hr />
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field
@@ -37,7 +35,7 @@ class AdminMarginForm extends Component {
             <RaisedButton
               style={styles.pricesDashboard.marginForm.submitButton}
               type="Submit"
-              label="Submit"
+              label="Edit default margin"
               disabled={pristine || submitting}
               primary={true}
               fullWidth={false}

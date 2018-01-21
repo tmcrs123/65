@@ -8,35 +8,27 @@ export const formFields = [
   },
   {
     name: "startDate",
-    label: "Start Date",
+    label: "start-date",
     required: true
   },
   {
     name: "endDate",
-    label: "End Date",
+    label: "end-date",
     required: true
   },
   {
     name: "price",
-    label: "Price",
+    label: "price",
     required: true
   },
   {
-    name: "upfrontPayment",
-    required: false
-  },
-  {
-    name: "payNow",
-    required: false
-  },
-  {
     name: "numberAdults",
-    label: "Number of Adults",
+    label: "number of adults",
     required: true
   },
   {
     name: "numberChildrens",
-    label: "Number of Children",
+    label: "number of childrens",
     required: true
   },
   {
@@ -64,20 +56,25 @@ export default function validate(
   formFields.forEach(field => {
     if (field.required && formData[field.name] === undefined) {
       const fieldName = field.name;
+      if (fieldName === "customer" && !isAdmin) return;
+      console.log(fieldName);
+      console.log("error1");
       throw new SubmissionError({
-        [fieldName]: `Plase select a ${field.label}`
+        [fieldName]: `Please select a ${field.label}`
       });
     }
   });
 
   if (isAdmin && !formData.customer) {
     sendNoCustomerSelectedMessage();
+    console.log("error2");
     throw new SubmissionError({
       _error: "A reservation must have a customer."
     });
   }
 
   if (isNaN(formData["price"])) {
+    console.log("error3");
     sendInvalidPriceMessage();
     throw new SubmissionError({
       _error: "You must insert a valid price."
@@ -85,6 +82,7 @@ export default function validate(
   }
 
   if (startDate.valueOf() == endDate.valueOf()) {
+    console.log("error4");
     sendInvalidSameDateMessage();
     throw new SubmissionError({
       _error: "Start date cannot be the same as end date."
@@ -93,12 +91,14 @@ export default function validate(
 
   if (startDate > endDate) {
     sendInvalidDatesMessage();
+    console.log("error5");
     throw new SubmissionError({
       _error: "Start date cannot be a date after the end date."
     });
   }
 
   if (totalPersons > 4) {
+    console.log("error6");
     sendInvalidPersonsMessage();
     throw new SubmissionError({
       _error: "The maximum number of persons allowed is 4"

@@ -30,7 +30,10 @@ passport.use(
             googleId: id
           })
             .save()
-            .then(() => done(null, newCustomer));
+            .then(customer => {
+              done(null, customer);
+              return;
+            });
         }
       });
     }
@@ -59,7 +62,9 @@ passport.use(
             facebookId: id
           })
             .save()
-            .then(() => done(null, newCustomer));
+            .then(customer => {
+              done(null, customer);
+            });
         }
       });
     }
@@ -116,6 +121,7 @@ passport.use(
 );
 
 passport.serializeUser((customerOrUser, done) => {
+  console.log("in serialize cistomer is", customerOrUser);
   done(null, customerOrUser.id);
 });
 

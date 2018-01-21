@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ApprovalList from "./landingComponents/ApprovalList";
+import NextReservationsList from "./landingComponents/NextReservationsList";
 import InfoCard from "./landingComponents/infoCard";
 import DatePicker from "material-ui/DatePicker";
 import axios from "axios";
 import AvailabilityCheck from "./landingComponents/AvailabilityCheck";
 import * as actions from "../../actions/actions_index";
+import { styles } from "../../styles/styles.js";
 
 class AdminDashboardLanding extends Component {
   constructor(props) {
@@ -33,10 +34,13 @@ class AdminDashboardLanding extends Component {
         </div>
         <div className="row">
           <div className="col s3">
-            <ApprovalList nextReservations={this.props.nextReservations} />
+            <NextReservationsList
+              nextReservations={this.props.nextReservations}
+            />
           </div>
           <div className="col s3">
             <InfoCard
+              styling={styles.AdminDashboard.infoCard_month}
               title={
                 this.props.monthReservationCount
                   ? `#${this.props.monthReservationCount.count}`
@@ -47,6 +51,7 @@ class AdminDashboardLanding extends Component {
           </div>
           <div className="col s3">
             <InfoCard
+              styling={styles.AdminDashboard.infoCard_customer}
               title={
                 this.props.currentReservationCustomer
                   ? `${this.props.currentReservationCustomer.name}`
@@ -61,18 +66,21 @@ class AdminDashboardLanding extends Component {
           </div>
           <div className="col s3">
             <InfoCard
+              styling={styles.AdminDashboard.infoCard_approved}
               title={this.renderPriceTitles(
                 this.props.valueApprovedReservations
               )}
               subtitle={"is the money you made in approved reservations"}
             />
             <InfoCard
+              styling={styles.AdminDashboard.infoCard_pending}
               title={this.renderPriceTitles(
                 this.props.valuePendingReservations
               )}
               subtitle={"is the money you have in pending reservations"}
             />
             <InfoCard
+              styling={styles.AdminDashboard.infoCard_rejected}
               title={this.renderPriceTitles(
                 this.props.valueRejectedReservations
               )}

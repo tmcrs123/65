@@ -1,16 +1,23 @@
-import { red800, green800 } from "material-ui/styles/colors";
+import {
+  red500 as red,
+  green500 as green,
+  pink500 as pink,
+  yellow500 as yellow,
+  cyan500 as cyan,
+  bluee500 as blue
+} from "material-ui/styles/colors";
 
 export const styles = {
   iconButton: {
     smallIconGreen: {
       width: 36,
       height: 36,
-      color: green800
+      color: green
     },
     smallIconRed: {
       width: 36,
       height: 36,
-      color: red800
+      color: red
     },
     smallIcon: {
       width: 36,
@@ -40,6 +47,12 @@ export const styles = {
       height: "500px",
       padding: "20px",
       marginTop: "20px"
+    },
+    icon: {
+      height: "40px",
+      width: "40px",
+      marginRight: "10px",
+      verticalAlign: "top"
     }
   },
   editReservation: {
@@ -118,35 +131,92 @@ export const styles = {
       paper: {
         padding: "20px",
         margin: "10px",
-        height: "200px"
+        height: "200px",
+        borderLeft: "8px solid",
+        borderColor: cyan
       },
       fields: {
         marginRight: "10px"
       }
     },
-    infoCard: {
-      borderLeft: "8px solid red"
+    infoCard_month: {
+      borderLeft: "8px solid",
+      borderColor: pink
+    },
+    infoCard_customer: {
+      borderLeft: "8px solid",
+      borderColor: pink
+    },
+    infoCard_approved: {
+      borderLeft: "8px solid",
+      borderColor: green
+    },
+    infoCard_pending: {
+      borderLeft: "8px solid",
+      borderColor: yellow
+    },
+    infoCard_rejected: {
+      borderLeft: "8px solid",
+      borderColor: red
     },
     availableSpan: {
-      color: green800,
+      color: green,
       borderBottom: "2px solid",
-      borderColor: green800
+      borderColor: green
     },
     unavailableSpan: {
-      color: red800,
+      color: red,
       borderBottom: "2px solid",
-      borderColor: red800
+      borderColor: red
+    },
+    icon: {
+      height: "40px",
+      width: "40px",
+      marginRight: "10px",
+      marginLeft: "10px",
+      paddingBottom: "10px",
+      verticalAlign: "top"
+    },
+    nextReservationList: {
+      borderLeft: "8px solid",
+      borderColor: cyan
     }
   },
   sidebar: {
     menuItem: {
-      fontSize: "22px"
+      fontSize: "18px"
     },
     sidebarDiv: {
       col: "col s3",
       css: {
         height: "100vh",
         width: "auto"
+      }
+    }
+  },
+  adminAvailability: {
+    icon: {
+      height: "40px",
+      width: "40px",
+      marginRight: "10px",
+      verticalAlign: "top"
+    },
+    dateCheckPhrase: {
+      text: {
+        display: "inline-block",
+        fontSize: "20px"
+      },
+      checkHeader: {
+        verticalAlign: "bottom"
+      },
+      datePicker: {
+        textFieldStyle: {
+          fontSize: 20
+        },
+        style: {
+          display: "inline-block",
+          width: "150px"
+        }
       }
     }
   }

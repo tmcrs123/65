@@ -12,25 +12,25 @@ export default () => {
   };
   return (
     <div className="row">
-      <Sidebar />
-      <div className="row">
-        <div className="col s10" style={styles}>
-          <Route
-            exact
-            path="/customer/dashboard/landing"
-            component={CustomerDashboardLanding}
-          />
-          <Route
-            exact
-            path="/customer/dashboard/createReservation"
-            render={() => <CreateReservationForm isAdmin={false} />}
-          />
-          <Route
-            exact
-            path="/customer/dashboard/editReservation/:id"
-            render={props => <EditReservationForm isAdmin={false} {...props} />}
-          />
-        </div>
+      <div className="col s2" style={{ padding: 0 }}>
+        <Sidebar />
+      </div>
+      <div className="col s10" style={styles}>
+        <Route
+          exact
+          path="/customer/dashboard/landing"
+          component={CustomerDashboardLanding}
+        />
+        <Route
+          exact
+          path="/customer/dashboard/createReservation"
+          render={() => <CreateReservationForm isAdmin={false} />}
+        />
+        <Route
+          exact
+          path="/customer/dashboard/editReservation/:id"
+          render={props => <EditReservationForm isAdmin={false} {...props} />}
+        />
       </div>
     </div>
   );

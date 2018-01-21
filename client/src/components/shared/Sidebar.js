@@ -6,6 +6,8 @@ import MenuItem from "material-ui/MenuItem";
 import { grey900, darkBlack } from "material-ui/styles/colors";
 import PersonsGroup from "material-ui/svg-icons/social/group";
 import Reservations from "material-ui/svg-icons/device/storage";
+import ReservationsCustomer from "material-ui/svg-icons/action/list";
+import AddReservationsCustomer from "material-ui/svg-icons/image/add-to-photos";
 import Euro from "material-ui/svg-icons/action/euro-symbol";
 import { styles } from "../../styles/styles";
 
@@ -44,15 +46,22 @@ class Sidebar extends Component {
         return (
           <div>
             <Link to="/customer/dashboard/landing">
-              <MenuItem onClick={this.handleClose}>My Reservations</MenuItem>
-            </Link>
-            <Link to="/customer/dashboard/createReservation">
-              <MenuItem onClick={this.handleClose}>
-                Create Reservations
+              <MenuItem
+                onClick={this.handleClose}
+                style={styles.sidebar.menuItem}
+                leftIcon={<Reservations />}
+              >
+                My Reservations
               </MenuItem>
             </Link>
             <Link to="/customer/dashboard/createReservation">
-              <MenuItem onClick={this.handleClose}>Contact Us</MenuItem>
+              <MenuItem
+                onClick={this.handleClose}
+                style={styles.sidebar.menuItem}
+                leftIcon={<AddReservationsCustomer />}
+              >
+                Create Reservations
+              </MenuItem>
             </Link>
           </div>
         );

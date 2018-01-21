@@ -5,6 +5,8 @@ import { List, ListItem } from "material-ui/List";
 import { Card, CardTitle } from "material-ui/Card";
 import _ from "lodash";
 import moment from "moment";
+import FastFwd from "material-ui/svg-icons/av/fast-forward";
+import { styles } from "../../../styles/styles";
 
 class ApprovalList extends Component {
   renderReservations(reservations) {
@@ -54,10 +56,12 @@ class ApprovalList extends Component {
   render() {
     return (
       <Paper zDepth={5}>
-        <List>
-          <Card zDepth={0}>
-            <CardTitle title="Next Reservations" />
-          </Card>
+        <List style={styles.AdminDashboard.nextReservationList}>
+          <div className="container-fluid">
+            <h5>
+              <FastFwd style={styles.AdminDashboard.icon} />Next Reservations
+            </h5>
+          </div>
 
           <Divider inset={false} />
           {this.renderReservations(

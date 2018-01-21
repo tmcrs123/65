@@ -4,6 +4,7 @@ import DatePicker from "material-ui/DatePicker";
 import TextField from "material-ui/TextField";
 import Paper from "material-ui/Paper";
 import { styles } from "../../../styles/styles";
+import Calendar from "material-ui/svg-icons/action/date-range";
 
 class AvailabilityCheck extends Component {
   constructor(props) {
@@ -30,7 +31,6 @@ class AvailabilityCheck extends Component {
 
         const datesPromise = axios.post("/api/availability", dates);
         Promise.all([pricePromise, datesPromise]).then(res => {
-          console.log("avail", res[1].data.available);
           this.setState({ price: res[0].data.price });
           this.setState({ available: res[1].data.available });
         });
@@ -41,13 +41,13 @@ class AvailabilityCheck extends Component {
   renderAvailabilitySpan() {
     if (this.state.available === "...") {
       return (
-        <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+        <h6 style={styles.adminAvailability.dateCheckPhrase.text}>
           is currently ...
         </h6>
       );
     } else if (this.state.available) {
       return (
-        <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+        <h6 style={styles.adminAvailability.dateCheckPhrase.text}>
           is currently{" "}
           <span style={styles.AdminDashboard.availableSpan}>
             <strong>available</strong>
@@ -56,7 +56,7 @@ class AvailabilityCheck extends Component {
       );
     } else {
       return (
-        <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+        <h6 style={styles.adminAvailability.dateCheckPhrase.text}>
           is currently{" "}
           <span style={styles.AdminDashboard.unavailableSpan}>
             <strong>unavailable</strong>
@@ -70,20 +70,27 @@ class AvailabilityCheck extends Component {
     return (
       <Paper style={styles.AdminDashboard.availabilityCheck.paper} zDepth={5}>
         <div className="row">
-          <h5>
-            <i className="material-icons">date_range</i>
-            <strong>Check</strong> availability
-          </h5>
+          <h4>
+            <Calendar style={styles.adminAvailability.icon} />
+            <strong
+              style={styles.adminAvailability.dateCheckPhrase.checkHeader}
+            >
+              Check availability
+            </strong>
+          </h4>
         </div>
         <hr />
         <div className="container-fluid">
           <div className="col s12 center-align">
-            <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+            <h6 style={styles.adminAvailability.dateCheckPhrase.text}>
               A reservation starting on
             </h6>
             &nbsp; &nbsp;&nbsp;
             <DatePicker
-              textFieldStyle={{ fontSize: 20 }}
+              textFieldStyle={
+                styles.adminAvailability.dateCheckPhrase.datePicker
+                  .textFieldStyle
+              }
               style={{
                 display: "inline-block",
                 width: "150px"
@@ -97,13 +104,16 @@ class AvailabilityCheck extends Component {
               }
             />
             &nbsp; &nbsp;&nbsp;
-            <h6 style={{ display: "inline-block", fontSize: "20px" }}>
+            <h6 style={styles.adminAvailability.dateCheckPhrase.text}>
               and ending on
             </h6>
             &nbsp; &nbsp; &nbsp;
             <DatePicker
-              textFieldStyle={{ fontSize: 20, textAlign: "center" }}
-              style={{ display: "inline-block", width: "150px" }}
+              textFieldStyle={
+                styles.adminAvailability.dateCheckPhrase.datePicker
+                  .textFieldStyle
+              }
+              style={styles.adminAvailability.dateCheckPhrase.datePicker.style}
               name="endDate"
               hintText="Pick a end date"
               autoOk={true}
@@ -113,8 +123,8 @@ class AvailabilityCheck extends Component {
             &nbsp; &nbsp; &nbsp;
             {this.renderAvailabilitySpan()}
             &nbsp; &nbsp;
-            <h6 style={{ display: "inline-block", fontSize: "20px" }}>
-              and will cost {this.state.price} €
+            <h6 style={styles.adminAvailability.dateCheckPhrase.text}>
+              and will cost {this.state.price} €.
             </h6>
           </div>
         </div>

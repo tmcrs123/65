@@ -4,7 +4,7 @@ import { styles } from "../../../styles/styles";
 
 export default props => {
   return (
-    <Card zDepth={0} style={styles.AdminDashboard.infoCard}>
+    <Card zDepth={0} style={props.styling}>
       <CardTitle>
         <h3>{props.title}</h3>
         <h6>{props.subtitle}</h6>

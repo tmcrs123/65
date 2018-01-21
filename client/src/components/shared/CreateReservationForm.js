@@ -13,6 +13,7 @@ import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
 import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
+import AddCircle from "material-ui/svg-icons/content/add-circle-outline";
 import validate from "../../helpers/formValidation/createReservationFormValidation";
 
 class CreateReservationForm extends Component {
@@ -119,8 +120,6 @@ class CreateReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("this on submit", this);
-
     formData["price"] = Number(formData["price"]);
     formData["payNow"] = Number(formData["payNow"]);
     validate(
@@ -149,9 +148,8 @@ class CreateReservationForm extends Component {
       <div className="container">
         <Paper style={styles.createReservation.paper}>
           <h4>
-            <strong>
-              <i className="material-icons">add_circle_outline</i>
-            </strong>Add Reservation
+            <AddCircle style={styles.createReservation.icon} />
+            Add Reservation
           </h4>
           <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -204,16 +202,17 @@ class CreateReservationForm extends Component {
                 <RaisedButton
                   style={styles.submitButton}
                   type="Submit"
-                  label="Submit"
+                  label="Create Reservation"
                   disabled={pristine || submitting}
                   primary={true}
                   fullWidth={false}
                 />
                 <RaisedButton
                   type="button"
-                  label="Clear Value"
+                  label="Clear"
                   disabled={pristine || submitting}
-                  primary={true}
+                  primary={false}
+                  secondary={true}
                   fullWidth={false}
                   onClick={() => {
                     this.clearForm();

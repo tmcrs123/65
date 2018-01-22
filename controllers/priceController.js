@@ -51,7 +51,7 @@ module.exports = {
         $match: {
           $or: [
             { startDate: { $gte: sDate, $lt: eDate } },
-            { endDate: { $gte: sDate, $lt: eDate } },
+            { endDate: { $gt: sDate, $lt: eDate } },
             { startDate: { $lt: sDate }, endDate: { $gt: eDate } }
           ]
         }
@@ -91,18 +91,30 @@ module.exports = {
       .then(response => {
         const defaultPrice = response[0][0].price;
         const intervals = response[1];
+        let matchedInterval = false;
 
         dates.forEach(date => {
+          console.log("date is", date);
+
           intervals.forEach(interval => {
             if (
               date >= moment(interval.startDate) &&
               date < moment(interval.endDate)
             ) {
               finalPrice = finalPrice + interval.price;
-            } else {
-              finalPrice = finalPrice + defaultPrice;
+              console.log("added interval price", interval.price);
+              matchedInterval = true;
+              return;
             }
           });
+
+          if (matchedInterval) {
+            matchedInterval = false;
+            return;
+          } else {
+            finalPrice = finalPrice + defaultPrice;
+            console.log("added default price", defaultPrice);
+          }
         });
 
         res.status(200).send({ price: finalPrice });

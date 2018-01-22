@@ -101,7 +101,7 @@ export default function validate(
     });
   }
 
-  if (startDate.valueOf() == endDate.valueOf()) {
+  if (startDate.valueOf() === endDate.valueOf()) {
     sendInvalidSameDateMessage();
     throw new SubmissionError({
       _error: "Start date cannot be the same as end date."

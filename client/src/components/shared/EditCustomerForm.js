@@ -8,6 +8,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import Paper from "material-ui/Paper";
 import { styles } from "../../styles/styles";
+import Edit from "material-ui/svg-icons/editor/mode-edit";
 
 /**
  * Same validator as admin edit customer form - Change names!
@@ -48,8 +49,8 @@ class AddCustomerForm extends Component {
       <div className="container">
         <Paper style={styles.paper}>
           <h4>
-            <i className="material-icons">mode_edit</i>
-            <strong>Edit </strong>customer
+            <Edit style={styles.createReservation.icon} />
+            Edit customer
           </h4>
           <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>

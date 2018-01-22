@@ -88,7 +88,7 @@ module.exports = {
 
     Customer.aggregate([
       { $match: { name: { $regex: exp, $options: "i" } } },
-      { $project: { __v: 0, reservations: 0 } }
+      { $project: { __v: 0 } }
     ])
       .sort({ name: 1 })
       .then(customers => res.send(customers));

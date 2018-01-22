@@ -8,8 +8,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
 import _ from "lodash";
 import moment from "moment";
-import { Route } from "react-router-dom";
-import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
+import { REJECTED, APPROVED } from "../../helpers/constants";
 import { styles, colors } from "../../styles/styles";
 import Paper from "material-ui/Paper";
 import {
@@ -18,8 +17,7 @@ import {
   TableHeader,
   TableHeaderColumn,
   TableRow,
-  TableRowColumn,
-  TableFooter
+  TableRowColumn
 } from "material-ui/Table";
 import List from "material-ui/svg-icons/action/list";
 
@@ -92,6 +90,9 @@ class CustomerDashboard extends Component {
             End Date
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
+            Adults/Childrens
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
             Status
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
@@ -128,6 +129,7 @@ class CustomerDashboard extends Component {
         <RaisedButton
           label="Delete"
           secondary={true}
+          style={styles.buttonMargin}
           onClick={() => {
             this.deleteReservation(reservation._id);
             this.handleDeleteReservationDialogClose();
@@ -149,6 +151,9 @@ class CustomerDashboard extends Component {
             {moment(reservation.endDate).format("YYYY/MM/D")}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
+            {`${reservation.numberAdults}/${reservation.numberChildrens}`}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
             {this.renderChip(reservation)}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
@@ -167,7 +172,7 @@ class CustomerDashboard extends Component {
           </TableRowColumn>
           <TableRowColumn>
             <RaisedButton
-              label="Delete Reservation"
+              label="Delete"
               onClick={this.handleDeleteReservationDialogOpen}
               secondary={true}
             >
@@ -189,35 +194,29 @@ class CustomerDashboard extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="container-fluid">
-          <div className="col s12">
-            <Paper style={styles.table.paper}>
-              <div className="row">
-                <h4>
-                  <List style={styles.adminAvailability.icon} />
-                  <span
-                    style={styles.adminAvailability.dateCheckPhrase.checkHeader}
-                  >
-                    My Reservations
-                  </span>
-                  <hr />
-                </h4>
-              </div>
-              {this.renderTableHeader()}
-              {this.props.reservations
-                ? this.renderReservations(this.props.reservations)
-                : ""}
-              <Snackbar
-                open={this.state.showMessage}
-                message={this.props.message}
-                autoHideDuration={4000}
-                onRequestClose={() => this.handleRequestClose()}
-              />
-            </Paper>
-          </div>
-        </div>
-      </div>
+      <Paper style={styles.table.paper}>
+        <h4>
+          <List style={styles.adminAvailability.icon} />
+          <span style={styles.adminAvailability.dateCheckPhrase.checkHeader}>
+            My Reservations
+          </span>
+          <hr />
+        </h4>
+        <Table>
+          {this.renderTableHeader()}
+          <TableBody displayRowCheckbox={false}>
+            {this.props.reservations
+              ? this.renderReservations(this.props.reservations)
+              : ""}
+          </TableBody>
+        </Table>
+        <Snackbar
+          open={this.state.showMessage}
+          message={this.props.message}
+          autoHideDuration={4000}
+          onRequestClose={() => this.handleRequestClose()}
+        />
+      </Paper>
     );
   }
 }

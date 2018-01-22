@@ -174,7 +174,6 @@ export const deleteCustomer = customerId => dispatch => {
 export const submitCustomerForm = (customerData, resetForm) => dispatch => {
   axios.post("/api/customers/", customerData).then(response => {
     if (response.data.customerAlreadyExistsError) {
-      console.log("hereeeee");
       dispatch({
         type: SUBMIT_CUSTOMER_FORM_ERROR,
         payload: response.data.customerAlreadyExistsError
@@ -350,7 +349,6 @@ export const sendInvalidSameDateMessage = () => {
 };
 
 export const getAdminDashboardData = () => dispatch => {
-  console.log("action creator");
   const nextReservations = axios.get("/api/nextReservations");
   const monthReservationCount = axios.get("/api/reservationsCountMonth");
   const valueApprovedReservation = axios.get(
@@ -375,7 +373,6 @@ export const getAdminDashboardData = () => dispatch => {
     valuePendingReservation,
     currentReservationCustomer
   ]).then(res => {
-    console.log("res data", res);
     const dashboardData = {
       nextReservations: res[0].data,
       monthReservationCount: res[1].data,

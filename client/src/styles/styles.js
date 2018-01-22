@@ -17,6 +17,9 @@ export const colors = {
 };
 
 export const styles = {
+  buttonMargin: {
+    marginRight: "10px"
+  },
   header: {
     button: {
       marginRight: "10px"
@@ -254,8 +257,7 @@ export const styles = {
     sidebarDiv: {
       padding: 0,
       height: "100vh",
-      border: "1px solid rgba(0,0,0,0.12)",
-      overflowY: "hidden"
+      border: "1px solid rgba(0,0,0,0.12)"
     }
   },
   rightSide: {
@@ -263,7 +265,6 @@ export const styles = {
     height: "100vh"
   },
   body: {
-    overflowY: "hidden",
     margin: 0,
     padding: 0
   },

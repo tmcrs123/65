@@ -5,10 +5,6 @@ import IconButton from "material-ui/IconButton";
 import StarBorder from "material-ui/svg-icons/toggle/star-border";
 import images from "../resources/images";
 import palmtree from "../resources/palmTree.png";
-import beach from "../resources/landscape/landscape3.jpg";
-import food from "../resources/landscape/food.jpg";
-import sand from "../resources/landscape/beach.JPG";
-import teste from "../resources/home/teste.png";
 import {
   Card,
   CardActions,

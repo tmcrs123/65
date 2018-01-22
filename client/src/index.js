@@ -16,8 +16,6 @@ import CustomerDashboard from "./components/customer/CustomerDashboard.js";
 
 import AdminLogin from "./components/admin/AdminLogin.js";
 import AdminDashboard from "./components/admin/AdminDashboard.js";
-import AdminDashboardCustomers from "./components/admin/AdminDashboardCustomers.js";
-import AdminDashboardPrices from "./components/admin/AdminDashboardPrices.js";
 import RequireAdminAuth from "./components/hoc/requireAdminAuth.js";
 import Landing from "./components/landing.js";
 import { styles } from "./styles/styles";

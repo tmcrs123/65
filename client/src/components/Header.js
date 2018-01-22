@@ -31,12 +31,23 @@ class Header extends Component {
       if (this.props.isAdmin) {
         return (
           <div>
+            <Link to="/admin/dashboard/landing">
+              <RaisedButton label="Admin area" style={styles.header.button} />
+            </Link>
+
             <RaisedButton href="/api/logout" label="Logout" secondary={true} />
           </div>
         );
       } else {
         return (
           <div>
+            <Link to="/customer/dashboard/landing">
+              <RaisedButton
+                label="Customer area"
+                style={styles.header.button}
+              />
+            </Link>
+
             <RaisedButton href="/api/logout" label="Logout" secondary={true} />
           </div>
         );

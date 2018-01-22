@@ -55,7 +55,7 @@ class ApprovalList extends Component {
 
   render() {
     return (
-      <Paper zDepth={5}>
+      <Paper>
         <List style={styles.AdminDashboard.nextReservationList}>
           <div className="container-fluid">
             <h5>

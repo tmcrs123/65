@@ -4,7 +4,7 @@ const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const PORT = process.env.PORT || 8080;
-const keys = require("./config/keys");
+// const keys = require("./config/keys");
 const mongoose = require("mongoose");
 const path = require("path");
 const morgan = require("morgan");
@@ -27,9 +27,9 @@ const app = express();
 //PP explain why I need this check here and where do I set the env variable
 mongoose.Promise = global.Promise;
 
-if (process.env.NODE_ENV != "test") {
-  mongoose.connect(keys.mongoURI);
-}
+// if (process.env.NODE_ENV != "test") {
+//   mongoose.connect(keys.mongoURI);
+// }
 
 // //middleware - PP explain this!
 app.use(morgan("tiny"));

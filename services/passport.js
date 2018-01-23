@@ -128,9 +128,11 @@ passport.serializeUser((customerOrUser, done) => {
 passport.deserializeUser((id, done) => {
   Customer.findById(id).then(customer => {
     if (customer) {
+      console.log("this req found a customer");
       return done(null, customer);
     }
     Admin.findById(id).then(user => {
+      console.log("this req found a admin");
       return done(null, user);
     });
   });

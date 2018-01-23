@@ -17,6 +17,7 @@ import CustomerDashboard from "./components/customer/CustomerDashboard.js";
 import AdminLogin from "./components/admin/AdminLogin.js";
 import AdminDashboard from "./components/admin/AdminDashboard.js";
 import RequireAdminAuth from "./components/hoc/requireAdminAuth.js";
+import RequireCustomerAuth from "./components/hoc/requireCustomerAuth.js";
 import Landing from "./components/landing.js";
 import { styles } from "./styles/styles";
 
@@ -29,11 +30,17 @@ ReactDOM.render(
         <div className="body" style={styles.body}>
           <Route path="/" component={App} />
           <Route exact path="/" component={Landing} />
-          <Route path="/customer/dashboard" component={CustomerDashboard} />
+          <Route
+            path="/customer/dashboard"
+            component={RequireCustomerAuth(CustomerDashboard)}
+          />
 
           <Route exact path="/customer/login" component={CustomerLogin} />
           <Route exact path="/admin/login" component={AdminLogin} />
-          <Route path="/admin/dashboard" component={AdminDashboard} />
+          <Route
+            path="/admin/dashboard"
+            component={RequireAdminAuth(AdminDashboard)}
+          />
         </div>
       </BrowserRouter>
     </MuiThemeProvider>

@@ -3,7 +3,9 @@ const Customer = mongoose.model("customers");
 const Admin = mongoose.model("admins");
 
 module.exports.currentUser = (req, res, next) => {
+  console.log("req user is", req.user);
   if (req.user === undefined) {
+    console.log("sending empty object");
     res.send({});
     return;
   }

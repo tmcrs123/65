@@ -11,6 +11,10 @@ class Header extends Component {
     this.props.fetchUser();
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log("cwrp header", nextProps);
+  }
+
   renderHeaderButtons() {
     if (this.props.isAdmin === undefined) {
       return (

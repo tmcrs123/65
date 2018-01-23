@@ -105,15 +105,12 @@ passport.use(
     (email, password, done) => {
       Admin.findOne({ email }).then(user => {
         if (!user) {
-          console.log("No user found");
           return done(null, false);
         }
 
         if (!user.validPassword(password, user.password)) {
-          console.log("Admin password is invalid");
           return done(null, false);
         }
-        console.log("Valid admin!");
         return done(null, user);
       });
     }
@@ -121,18 +118,15 @@ passport.use(
 );
 
 passport.serializeUser((customerOrUser, done) => {
-  console.log("in serialize cistomer is", customerOrUser);
   done(null, customerOrUser.id);
 });
 
 passport.deserializeUser((id, done) => {
   Customer.findById(id).then(customer => {
     if (customer) {
-      console.log("this req found a customer");
       return done(null, customer);
     }
     Admin.findById(id).then(user => {
-      console.log("this req found a admin");
       return done(null, user);
     });
   });

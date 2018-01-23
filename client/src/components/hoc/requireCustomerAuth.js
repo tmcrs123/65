@@ -6,7 +6,7 @@ import _ from "lodash";
 export default function(ComposedComponent) {
   class CustomerAuthentication extends Component {
     componentWillReceiveProps(nextProps) {
-      if (_.isEmpty(nextProps.auth) || nextProps.isAdmin) {
+      if (_.isEmpty(nextProps.auth) || nextProps.auth.isAdmin) {
         nextProps.history.push("/");
       }
     }

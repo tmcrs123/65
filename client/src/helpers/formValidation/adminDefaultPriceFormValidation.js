@@ -10,8 +10,6 @@ const formFields = [
 export default function validate(formData, sendInvalidPriceMessage) {
   const validationErrors = false;
 
-  console.log("form data", formData["price"] === 0);
-
   formFields.forEach(field => {
     if (field.required && formData[field.name] === undefined) {
       const fieldName = field.name;

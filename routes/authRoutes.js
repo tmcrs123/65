@@ -1,7 +1,5 @@
 const passport = require("passport");
 const path = require("path");
-const { currentAdmin } = require("../middlewares/currentAdmin.js");
-const { currentCustomer } = require("../middlewares/currentCustomer.js");
 const { isCustomer } = require("../middlewares/isCustomer.js");
 const { currentUser } = require("../middlewares/currentUser");
 const { isAdmin } = require("../middlewares/isAdmin.js");
@@ -83,18 +81,6 @@ module.exports = app => {
       res.send({ userId: req.user._id, isAdmin: req.user.isAdmin });
     }
   );
-
-  app.get("/admin/dashboard", currentAdmin, (req, res) => {
-    res.send("admin enpoint");
-  });
-
-  app.get("/customer/dashboard", isCustomer, (req, res) => {
-    res.send("customer endpoint");
-  });
-
-  app.get("/api/current_customer", currentCustomer);
-
-  app.get("/api/current_admin", currentAdmin);
 
   app.get("/api/user", currentUser);
 };

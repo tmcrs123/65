@@ -327,7 +327,6 @@ module.exports = {
         }
       }
     ]).then(reservations => {
-      console.log(reservations);
       if (reservations.length === 0) {
         res.send({ available: true });
         return;
@@ -385,15 +384,11 @@ module.exports = {
       }
     ]).then(dbReservations => {
       //If i return exactly one reservation from the DB I need to check if the reservation I'm returning is not the one I'm editing
-      console.log("dbReservations", dbReservations);
+
       if (
         dbReservations.length === 1 &&
         dbReservations[0]._id == reservationId
       ) {
-        console.log(
-          "The id of the reservation I found is",
-          dbReservations[0]._id
-        );
         res.locals.availableDates = availableDates;
         next();
         return;

@@ -94,15 +94,13 @@ module.exports = {
         let matchedInterval = false;
 
         dates.forEach(date => {
-          console.log("date is", date);
-
           intervals.forEach(interval => {
             if (
               date >= moment(interval.startDate) &&
               date < moment(interval.endDate)
             ) {
               finalPrice = finalPrice + interval.price;
-              console.log("added interval price", interval.price);
+
               matchedInterval = true;
               return;
             }
@@ -113,7 +111,6 @@ module.exports = {
             return;
           } else {
             finalPrice = finalPrice + defaultPrice;
-            console.log("added default price", defaultPrice);
           }
         });
 

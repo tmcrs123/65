@@ -5,15 +5,8 @@ import IconButton from "material-ui/IconButton";
 import StarBorder from "material-ui/svg-icons/toggle/star-border";
 import images from "../resources/images";
 import palmtree from "../resources/palmTree.png";
-import {
-  Card,
-  CardActions,
-  CardHeader,
-  CardMedia,
-  CardTitle,
-  CardText
-} from "material-ui/Card";
 import RaisedButton from "material-ui/RaisedButton/RaisedButton";
+import { Link } from "react-router-dom";
 
 class Landing extends Component {
   render() {
@@ -89,11 +82,13 @@ class Landing extends Component {
           >
             Interested? Click here and book your stay today!
           </p>
-          <RaisedButton
-            primary={true}
-            label="Get Started"
-            style={{ marginTop: "20px", marginBottom: "80px" }}
-          />
+          <Link to="/customer/login">
+            <RaisedButton
+              primary={true}
+              label="Get Started"
+              style={{ marginTop: "20px", marginBottom: "80px" }}
+            />
+          </Link>
         </div>
         <div
           className="center-align"
@@ -105,11 +100,13 @@ class Landing extends Component {
           >
             Handcrafted by Tiago Rodrigues
           </p>
-          <i
-            className="fa fa-github fa-3x"
-            style={{ color: "#EDECEC" }}
-            aria-hidden="true"
-          />
+          <a href="https://github.com/tmcrs123">
+            <i
+              className="fa fa-github fa-3x"
+              style={{ color: "#EDECEC" }}
+              aria-hidden="true"
+            />
+          </a>
         </div>
       </div>
     );

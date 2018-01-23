@@ -202,7 +202,9 @@ class CustomerEditReservationForm extends Component {
                 name="observations"
                 label="Observations"
                 component={renderTextField}
-                multiline={true}
+                multiLine={true}
+                rows={1}
+                rowsMax={2}
               />
             </div>
             <div className="right">

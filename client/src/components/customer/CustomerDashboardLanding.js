@@ -166,26 +166,40 @@ class CustomerDashboard extends Component {
             {reservation.observations}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            <Link to={`/customer/dashboard/editReservation/${reservation._id}`}>
-              <RaisedButton label="Edit" primary={true} />
-            </Link>
+            {(() => {
+              if (reservation.status === REJECTED) return null;
+              return (
+                <Link
+                  to={`/customer/dashboard/editReservation/${reservation._id}`}
+                >
+                  <RaisedButton label="Edit" primary={true} />
+                </Link>
+              );
+            })()}
           </TableRowColumn>
           <TableRowColumn>
-            <RaisedButton
-              label="Delete"
-              onClick={this.handleDeleteReservationDialogOpen}
-              secondary={true}
-            >
-              <Dialog
-                title="Delete reservation"
-                actions={dialogActions}
-                modal={false}
-                open={this.state.deleteReservationDialogOpen}
-                onRequestClose={() => this.handleDeleteReservationDialogClose()}
-              >
-                Are you sure you want to delete this reservation?
-              </Dialog>
-            </RaisedButton>
+            {(() => {
+              if (reservation.status === REJECTED) return null;
+              return (
+                <RaisedButton
+                  label="Delete"
+                  onClick={this.handleDeleteReservationDialogOpen}
+                  secondary={true}
+                >
+                  <Dialog
+                    title="Delete reservation"
+                    actions={dialogActions}
+                    modal={false}
+                    open={this.state.deleteReservationDialogOpen}
+                    onRequestClose={() =>
+                      this.handleDeleteReservationDialogClose()
+                    }
+                  >
+                    Are you sure you want to delete this reservation?
+                  </Dialog>
+                </RaisedButton>
+              );
+            })()}
           </TableRowColumn>
         </TableRow>
       );

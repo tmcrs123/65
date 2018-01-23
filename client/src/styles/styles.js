@@ -54,11 +54,13 @@ export const styles = {
   customerLogin: {
     paper: {
       padding: "30px",
-      margin: "20px",
-      height: "300px"
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop: "60px",
+      height: "400px",
+      width: "500px"
     },
     button: {
-      marginRight: "10px",
       color: "white",
       width: 120,
       heigth: 40

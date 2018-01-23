@@ -58,7 +58,11 @@ class Header extends Component {
   render() {
     return (
       <AppBar
-        title={<span style={{ cursor: "pointer" }}>65</span>}
+        title={
+          <Link to="/">
+            <span style={{ cursor: "pointer", color: "white" }}>65</span>
+          </Link>
+        }
         onTitleClick={this.rootRedirect}
         iconElementRight={this.renderHeaderButtons()}
         showMenuIconButton={false}

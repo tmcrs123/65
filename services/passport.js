@@ -17,6 +17,7 @@ passport.use(
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       callbackURL: "/auth/google/redirect",
+      proxy: true,
       session: false
     },
     (accessToken, refreshToken, { id, displayName, emails }, done) => {
@@ -47,7 +48,8 @@ passport.use(
       clientSecret: keys.facebookAppSecret,
       callbackURL: "/auth/facebook/redirect",
       profileFields: ["id", "displayName", "email"],
-      session: false
+      session: false,
+      proxy: true
     },
     (accessToken, refreshToken, { id, displayName, emails }, done) => {
       Customer.findOne({

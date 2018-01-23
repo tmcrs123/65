@@ -23,8 +23,6 @@ require("./services/passport");
 
 const app = express();
 
-app.set("views", path.join(__dirname, "static"));
-
 // //connect to mongo
 //PP explain why I need this check here and where do I set the env variable
 mongoose.Promise = global.Promise;
@@ -62,9 +60,14 @@ require("./routes/customerRoutes.js")(app);
 require("./routes/reservationRoutes.js")(app);
 require("./routes/priceRoutes.js")(app);
 
-app.get("/", (req, res) => {
-  res.send("hi there");
-});
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

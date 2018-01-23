@@ -31,10 +31,6 @@ const reservationSchema = new Schema(
       type: String,
       default: ""
     },
-    upfrontPayment: {
-      type: Boolean,
-      required: "You must select a payment type"
-    },
     numberAdults: {
       type: Number,
       min: 1,

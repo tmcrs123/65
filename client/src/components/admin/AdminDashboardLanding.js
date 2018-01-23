@@ -46,7 +46,7 @@ class AdminDashboardLanding extends Component {
                   ? `#${this.props.monthReservationCount.count}`
                   : ""
               }
-              subtitle="is the number of reservations you have this month."
+              subtitle="is the number of approved reservations you have this month."
             />
           </div>
           <div className="col s3">

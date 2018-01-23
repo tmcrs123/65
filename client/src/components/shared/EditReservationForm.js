@@ -11,11 +11,11 @@ import Paper from "material-ui/Paper";
 import { styles } from "../../styles/styles";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
-import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
 import { renderTextField } from "../../helpers/formComponents/textFields.js";
 import validate from "../../helpers/formValidation/editReservationFormValidation";
 import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
+import Edit from "material-ui/svg-icons/editor/mode-edit";
 
 class CustomerEditReservationForm extends Component {
   constructor(props) {
@@ -41,13 +41,14 @@ class CustomerEditReservationForm extends Component {
   }
 
   renderBookingFeeText() {
-    if (this.state.hideBookingFee) {
-      return null;
+    if (this.state.hideBookingFee) return;
+    let bookingFee;
+    if (this.props.price != "" && this.props.price !== undefined) {
+      bookingFee = Math.round(this.props.price * this.props.margin);
     } else {
-      return (
-        <p>Booking fee: {Math.round(this.props.price * this.props.margin)}€</p>
-      );
+      bookingFee = 0;
     }
+    return <p>Booking fee: {bookingFee}€</p>;
   }
 
   renderMenuItems = (startValue, endValue) => {
@@ -112,6 +113,10 @@ class CustomerEditReservationForm extends Component {
           this.props.sendInvalidDatesMessage();
           return;
         }
+        if (this.props.startDate.getTime() == this.props.endDate.getTime()) {
+          this.props.sendInvalidSameDateMessage();
+          return;
+        }
         axios
           .post("/api/calculatePrice", {
             startDate: this.props.startDate,
@@ -126,7 +131,6 @@ class CustomerEditReservationForm extends Component {
   }
 
   handleFormSubmit(formData, dispatchFunction, formProps) {
-    console.log("forma data", formData);
     formData["price"] = Number(formData["price"]);
     validate(
       formData,
@@ -151,8 +155,8 @@ class CustomerEditReservationForm extends Component {
       <div className="container">
         <Paper style={styles.editReservation.paper}>
           <h4>
-            <i className="material-icons">mode_edit</i>
-            <strong>Edit </strong>reservation
+            <Edit style={styles.createReservation.icon} />
+            Edit reservation
           </h4>
           <hr />
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -205,7 +209,7 @@ class CustomerEditReservationForm extends Component {
               <RaisedButton
                 style={styles.submitButton}
                 type="Submit"
-                label="Submit"
+                label="Edit"
                 disabled={pristine || submitting}
                 primary={true}
                 fullWidth={false}

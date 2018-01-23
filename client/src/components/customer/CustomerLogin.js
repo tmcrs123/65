@@ -22,7 +22,7 @@ class CustomerLogin extends Component {
               primary={true}
               style={styles.customerLogin.button}
             >
-              <i class="fa fa-google fa-2x" aria-hidden="true" />
+              <i className="fa fa-google fa-2x" aria-hidden="true" />
             </RaisedButton>
 
             <RaisedButton

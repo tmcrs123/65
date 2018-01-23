@@ -48,7 +48,8 @@ module.exports = {
       startDate: {
         $gte: today,
         $lte: oneMonthFromNow
-      }
+      },
+      status: { $in: ["approved", "pending"] }
     })
       .populate("customer", "name")
       .sort({
@@ -77,7 +78,8 @@ module.exports = {
       startDate: {
         $gte: firstDayMonth,
         $lte: lastDayMonth
-      }
+      },
+      status: "approved"
     }).then(reservations => {
       res.send({
         count: reservations.length

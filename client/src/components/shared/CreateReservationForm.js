@@ -12,7 +12,6 @@ import { renderTextField } from "../../helpers/formComponents/textFields.js";
 import { renderPriceField } from "../../helpers/formComponents/textFields.js";
 import { renderDatePicker } from "../../helpers/formComponents/datepickers.js";
 import { renderSelectField } from "../../helpers/formComponents/selectFields.js";
-import { renderCheckbox } from "../../helpers/formComponents/checkbox.js";
 import AddCircle from "material-ui/svg-icons/content/add-circle-outline";
 import validate from "../../helpers/formValidation/createReservationFormValidation";
 
@@ -83,13 +82,14 @@ class CreateReservationForm extends Component {
   }
 
   renderBookingFeeText() {
-    if (this.state.hideBookingFee) {
-      return null;
+    if (this.state.hideBookingFee) return;
+    let bookingFee;
+    if (this.props.price != "" && this.props.price !== undefined) {
+      bookingFee = Math.round(this.props.price * this.props.margin);
     } else {
-      return (
-        <p>Booking fee: {Math.round(this.props.price * this.props.margin)}€</p>
-      );
+      bookingFee = 0;
     }
+    return <p>Booking fee: {bookingFee}€</p>;
   }
 
   handleRequestClose() {
@@ -104,6 +104,10 @@ class CreateReservationForm extends Component {
       if (this.props.startDate && this.props.endDate) {
         if (this.props.startDate > this.props.endDate) {
           this.props.sendInvalidDatesMessage();
+          return;
+        }
+        if (this.props.startDate.getTime() == this.props.endDate.getTime()) {
+          this.props.sendInvalidSameDateMessage();
           return;
         }
         axios

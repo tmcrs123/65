@@ -8,35 +8,27 @@ export const formFields = [
   },
   {
     name: "startDate",
-    label: "Start Date",
+    label: "start-date",
     required: true
   },
   {
     name: "endDate",
-    label: "End Date",
+    label: "end-date",
     required: true
   },
   {
     name: "price",
-    label: "Price",
+    label: "price",
     required: true
   },
   {
-    name: "upfrontPayment",
-    required: false
-  },
-  {
-    name: "payNow",
-    required: false
-  },
-  {
     name: "numberAdults",
-    label: "Number of Adults",
+    label: "number of adults",
     required: true
   },
   {
     name: "numberChildrens",
-    label: "Number of Children",
+    label: "number of childrens",
     required: true
   },
   {
@@ -64,8 +56,9 @@ export default function validate(
   formFields.forEach(field => {
     if (field.required && formData[field.name] === undefined) {
       const fieldName = field.name;
+      if (fieldName === "customer" && !isAdmin) return;
       throw new SubmissionError({
-        [fieldName]: `Plase select a ${field.label}`
+        [fieldName]: `Please select a ${field.label}`
       });
     }
   });

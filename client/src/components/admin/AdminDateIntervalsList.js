@@ -8,10 +8,8 @@ import {
   TableHeader,
   TableHeaderColumn,
   TableRow,
-  TableRowColumn,
-  TableFooter
+  TableRowColumn
 } from "material-ui/Table";
-import { Card, CardActions, CardText } from "material-ui/Card";
 import RaisedButton from "material-ui/RaisedButton";
 import Paper from "material-ui/Paper";
 import { styles } from "../../styles/styles";
@@ -27,6 +25,16 @@ class AdminDateIntervalsList extends Component {
   }
 
   renderDateIntervalsList(intervals) {
+    if (intervals.length === 0) {
+      return (
+        <TableRow hoverable={false}>
+          <TableRowColumn>
+            {" "}
+            No date intervals created. Create one below.{" "}
+          </TableRowColumn>
+        </TableRow>
+      );
+    }
     return intervals.map((interval, index) => {
       return (
         <TableRow hoverable={false} key={index}>

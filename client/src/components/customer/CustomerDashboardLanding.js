@@ -2,16 +2,24 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions/actions_index";
-import { Card, CardActions, CardTitle, CardText } from "material-ui/Card";
 import Chip from "material-ui/Chip";
 import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
 import Snackbar from "material-ui/Snackbar";
-import { red800, green800, yellow800 } from "material-ui/styles/colors";
 import _ from "lodash";
-import { Route } from "react-router-dom";
-
-import { REJECTED, APPROVED, PENDING } from "../../helpers/constants";
+import moment from "moment";
+import { REJECTED, APPROVED } from "../../helpers/constants";
+import { styles, colors } from "../../styles/styles";
+import Paper from "material-ui/Paper";
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn
+} from "material-ui/Table";
+import List from "material-ui/svg-icons/action/list";
 
 class CustomerDashboard extends Component {
   constructor(props) {
@@ -50,114 +58,165 @@ class CustomerDashboard extends Component {
     this.setState({ deleteReservationDialogOpen: false });
   };
 
-  renderActionButtons(reservation) {
-    const actions = [
-      <FlatButton
-        label="Delete"
-        primary={true}
-        keyboardFocused={true}
-        onClick={() => {
-          this.deleteReservation(reservation.id);
-          this.handleDeleteReservationDialogClose();
-        }}
-      />,
-      <FlatButton
-        label="Back"
-        primary={true}
-        onClick={this.handleDeleteReservationDialogClose}
-      />
-    ];
-
-    if (reservation.status !== REJECTED)
-      return (
-        <CardActions>
-          <Link to={`/customer/dashboard/editReservation/${reservation.id}`}>
-            <FlatButton label="Edit" />
-          </Link>
-
-          <FlatButton
-            label="Delete Reservation"
-            onClick={this.handleDeleteReservationDialogOpen}
-          >
-            <Dialog
-              title="Delete reservation"
-              actions={actions}
-              modal={false}
-              open={this.state.deleteReservationDialogOpen}
-              onRequestClose={() => this.handleDeleteReservationDialogClose()}
-            >
-              Are you sure you want to delete this reservation?
-            </Dialog>
-          </FlatButton>
-        </CardActions>
-      );
-  }
-
-  renderStatusChip(reservation) {
+  renderChip(reservation) {
     let backgroundColor;
 
     switch (reservation.status) {
       case APPROVED:
-        backgroundColor = green800;
+        backgroundColor = colors.green;
         break;
       case REJECTED:
-        backgroundColor = red800;
+        backgroundColor = colors.red;
         break;
       default:
-        backgroundColor = yellow800;
+        backgroundColor = colors.yellow;
     }
 
     return (
-      <Chip backgroundColor={backgroundColor}>
+      <Chip style={styles.chip} backgroundColor={backgroundColor}>
         {_.capitalize(reservation.status)}
       </Chip>
     );
   }
 
-  renderReservations() {
-    return this.props.reservations.map(reservation => {
+  renderTableHeader() {
+    return (
+      <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+        <TableRow>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Start Date
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            End Date
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Adults/Childrens
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Status
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Price
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Paid
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Observations
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Edit
+          </TableHeaderColumn>
+          <TableHeaderColumn style={styles.table.tableFont.header}>
+            Delete
+          </TableHeaderColumn>
+        </TableRow>
+      </TableHeader>
+    );
+  }
+
+  renderReservations(reservations) {
+    if (reservations.length === 0) {
       return (
-        <div key={reservation.id}>
-          <br />
-          <Card>
-            <CardTitle title={`# ${reservation.reservationNumber}`} />
-            <CardText>
-              <p>
-                {`Period: From ${new Date(
-                  reservation.startDate
-                ).toLocaleString()} to ${new Date(
-                  reservation.endDate
-                ).toLocaleString()}`}
-              </p>
-              {`Observations: ${reservation.observations}`}
-              <p />
-              <p>
-                {`Adults/Children: ${reservation.numberAdults} / ${
-                  reservation.numberChildrens
-                }`}
-              </p>
-              <p>{`Price: ${reservation.price}`}</p>
-              {this.renderStatusChip(reservation)}
-            </CardText>
-            {this.renderActionButtons(reservation)}
-          </Card>
-        </div>
+        <TableRow hoverable={true}>
+          <TableRowColumn> No reservations found </TableRowColumn>
+        </TableRow>
+      );
+    }
+
+    return reservations.map((reservation, index) => {
+      let dialogActions = [
+        <RaisedButton
+          label="Delete"
+          secondary={true}
+          style={styles.buttonMargin}
+          onClick={() => {
+            this.deleteReservation(reservation._id);
+            this.handleDeleteReservationDialogClose();
+          }}
+        />,
+        <RaisedButton
+          label="Back"
+          primary={true}
+          onClick={this.handleDeleteReservationDialogClose}
+        />
+      ];
+
+      return (
+        <TableRow hoverable={true} key={index}>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {moment(reservation.startDate).format("YYYY/MM/D")}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {moment(reservation.endDate).format("YYYY/MM/D")}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {`${reservation.numberAdults}/${reservation.numberChildrens}`}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {this.renderChip(reservation)}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {reservation.price} €
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {reservation.price_paid} €
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            {reservation.observations}
+          </TableRowColumn>
+          <TableRowColumn style={styles.table.tableFont.row}>
+            <Link to={`/customer/dashboard/editReservation/${reservation._id}`}>
+              <RaisedButton label="Edit" primary={true} />
+            </Link>
+          </TableRowColumn>
+          <TableRowColumn>
+            <RaisedButton
+              label="Delete"
+              onClick={this.handleDeleteReservationDialogOpen}
+              secondary={true}
+            >
+              <Dialog
+                title="Delete reservation"
+                actions={dialogActions}
+                modal={false}
+                open={this.state.deleteReservationDialogOpen}
+                onRequestClose={() => this.handleDeleteReservationDialogClose()}
+              >
+                Are you sure you want to delete this reservation?
+              </Dialog>
+            </RaisedButton>
+          </TableRowColumn>
+        </TableRow>
       );
     });
   }
 
   render() {
     return (
-      <div className="container">
-        <h1>Customer Dashboard</h1>
-        {this.props.reservations ? this.renderReservations() : ""}
+      <Paper style={styles.table.paper}>
+        <h4>
+          <List style={styles.adminAvailability.icon} />
+          <span style={styles.adminAvailability.dateCheckPhrase.checkHeader}>
+            My Reservations
+          </span>
+          <hr />
+        </h4>
+        <Table>
+          {this.renderTableHeader()}
+          <TableBody displayRowCheckbox={false}>
+            {this.props.reservations
+              ? this.renderReservations(this.props.reservations)
+              : ""}
+          </TableBody>
+        </Table>
         <Snackbar
           open={this.state.showMessage}
           message={this.props.message}
           autoHideDuration={4000}
           onRequestClose={() => this.handleRequestClose()}
         />
-      </div>
+      </Paper>
     );
   }
 }

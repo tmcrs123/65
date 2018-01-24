@@ -8,8 +8,7 @@ module.exports = app => {
   app.get(
     "/auth/google",
     passport.authenticate("google", {
-      scope: ["profile", "email"],
-      session: false
+      scope: ["profile", "email"]
     })
   );
 
@@ -24,8 +23,7 @@ module.exports = app => {
   app.get(
     "/auth/facebook",
     passport.authenticate("facebook", {
-      scope: ["public_profile"],
-      session: false
+      scope: ["public_profile", "email"]
     })
   );
 

@@ -47,9 +47,9 @@ passport.use(
       clientID: keys.facebookAppID,
       clientSecret: keys.facebookAppSecret,
       callbackURL: "/auth/facebook/redirect",
-      profileFields: ["id", "displayName", "email"],
-      session: false,
-      proxy: true
+      profileFields: ["id", "displayName", "emails"],
+      proxy: true,
+      session: false
     },
     (accessToken, refreshToken, { id, displayName, emails }, done) => {
       Customer.findOne({

@@ -27,7 +27,8 @@ for (i = 0; i < 63; i++) {
     email: faker.internet.email(),
     phone: faker.phone.phoneNumber(),
     blacklisted: faker.random.arrayElement([true, false]),
-    notes: getNotes()
+    notes: getNotes(),
+    reservations: []
   });
 }
 

@@ -69,16 +69,7 @@ class CustomerTable extends Component {
             Email
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
-            Phone
-          </TableHeaderColumn>
-          <TableHeaderColumn style={styles.table.tableFont.header}>
             Blacklisted
-          </TableHeaderColumn>
-          <TableHeaderColumn style={styles.table.tableFont.header}>
-            Notes
-          </TableHeaderColumn>
-          <TableHeaderColumn style={styles.table.tableFont.header}>
-            # Reservations
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
             More
@@ -116,19 +107,7 @@ class CustomerTable extends Component {
             {customer.email}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            {customer.phone}
-          </TableRowColumn>
-          <TableRowColumn style={styles.table.tableFont.row}>
             {this.renderBlacklistedChip(customer)}
-          </TableRowColumn>
-          <TableRowColumn style={styles.table.tableFont.row}>
-            {(() => {
-              if (!customer.notes || customer.notes === "") return "No";
-              return "Yes";
-            })()}
-          </TableRowColumn>
-          <TableRowColumn style={styles.table.tableFont.row}>
-            {customer.reservations.length}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
             <IconMenu
@@ -146,6 +125,9 @@ class CustomerTable extends Component {
             >
               <Link to={`/admin/dashboard/customer/edit/${customer._id}`}>
                 <MenuItem primaryText="Edit" />
+              </Link>
+              <Link to={`/admin/dashboard/customer/check/${customer._id}`}>
+                <MenuItem primaryText="More Info" />
               </Link>
               <MenuItem
                 onClick={event => this.deleteCustomer(event, customer._id)}

@@ -217,7 +217,9 @@ module.exports = {
     const reservationId = req.params.id;
     Reservation.findById({
       _id: reservationId
-    }).then(reservation => res.send(reservation));
+    })
+      .populate("customer", "name")
+      .then(reservation => res.send(reservation));
   },
 
   create(req, res, next) {

@@ -82,12 +82,6 @@ class CustomerTable extends Component {
             Status
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
-            Adults / Childrens
-          </TableHeaderColumn>
-          <TableHeaderColumn style={styles.table.tableFont.header}>
-            Price / Paid
-          </TableHeaderColumn>
-          <TableHeaderColumn style={styles.table.tableFont.header}>
             Observations
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
@@ -129,12 +123,6 @@ class CustomerTable extends Component {
             {this.renderChip(reservation)}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            {reservation.numberAdults} / {reservation.numberChildrens}
-          </TableRowColumn>
-          <TableRowColumn style={styles.table.tableFont.row}>
-            {reservation.price}€ / {reservation.price_paid} €
-          </TableRowColumn>
-          <TableRowColumn style={styles.table.tableFont.row}>
             {(() => {
               if (reservation.observations === "") return "No";
               return "Yes";
@@ -157,6 +145,11 @@ class CustomerTable extends Component {
             >
               <Link to={`/admin/dashboard/reservation/edit/${reservation._id}`}>
                 <MenuItem primaryText="Edit" />
+              </Link>
+              <Link
+                to={`/admin/dashboard/reservation/check/${reservation._id}`}
+              >
+                <MenuItem primaryText="More Info" />
               </Link>
               <MenuItem
                 onClick={event =>

@@ -9,6 +9,8 @@ import EditCustomerForm from "../shared/EditCustomerForm";
 import CreateCustomerForm from "../shared/CreateCustomerForm";
 import CreateReservationForm from "../shared/CreateReservationForm";
 import EditReservationForm from "../shared/EditReservationForm";
+import ReservationInfo from "../shared/ReservationInfo";
+import CustomerInfo from "../shared/CustomerInfo";
 import { styles } from "../../styles/styles";
 
 class AdminDashboard extends Component {
@@ -44,6 +46,16 @@ class AdminDashboard extends Component {
             exact
             path="/admin/dashboard/customer/edit/:id"
             component={EditCustomerForm}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/customer/check/:id"
+            component={CustomerInfo}
+          />
+          <Route
+            exact
+            path="/admin/dashboard/reservation/check/:id"
+            component={ReservationInfo}
           />
           <Route
             exact

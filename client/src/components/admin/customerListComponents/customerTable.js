@@ -6,6 +6,7 @@ import MenuItem from "material-ui/MenuItem";
 import IconMenu from "material-ui/IconMenu";
 import Chip from "material-ui/Chip";
 import { styles } from "../../../styles/styles";
+import { colors } from "../../../styles/styles";
 import TextField from "material-ui/TextField";
 import { Link } from "react-router-dom";
 import {
@@ -43,24 +44,16 @@ class CustomerTable extends Component {
   renderBlacklistedChip(customer) {
     if (customer.blacklisted) {
       return (
-        <IconButton
-          iconClassName="material-icons"
-          iconStyle={styles.iconButton.smallIconRed}
-          style={styles.iconButton.small}
-        >
-          remove_circle
-        </IconButton>
+        <Chip style={styles.chip} backgroundColor={colors.red}>
+          Yes
+        </Chip>
       );
     }
 
     return (
-      <IconButton
-        iconClassName="material-icons"
-        iconStyle={styles.iconButton.smallIconGreen}
-        style={styles.iconButton.small}
-      >
-        check_circle
-      </IconButton>
+      <Chip style={styles.chip} backgroundColor={colors.green}>
+        No
+      </Chip>
     );
   }
 
@@ -129,7 +122,10 @@ class CustomerTable extends Component {
             {this.renderBlacklistedChip(customer)}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            {customer.notes}
+            {(() => {
+              if (!customer.notes || customer.notes === "") return "No";
+              return "Yes";
+            })()}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
             {customer.reservations.length}

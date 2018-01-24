@@ -111,8 +111,6 @@ export const styles = {
       },
       row: {
         fontSize: 16,
-        overflow: "scroll",
-        textOverflow: "clip",
         textAlign: "center"
       }
     }

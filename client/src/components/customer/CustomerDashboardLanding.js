@@ -90,16 +90,13 @@ class CustomerDashboard extends Component {
             End Date
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
-            Adults/Childrens
-          </TableHeaderColumn>
-          <TableHeaderColumn style={styles.table.tableFont.header}>
             Status
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
-            Price
+            Adults/Childrens
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
-            Paid
+            Price / Paid
           </TableHeaderColumn>
           <TableHeaderColumn style={styles.table.tableFont.header}>
             Observations
@@ -151,19 +148,19 @@ class CustomerDashboard extends Component {
             {moment(reservation.endDate).format("YYYY/MM/D")}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            {`${reservation.numberAdults}/${reservation.numberChildrens}`}
-          </TableRowColumn>
-          <TableRowColumn style={styles.table.tableFont.row}>
             {this.renderChip(reservation)}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            {reservation.price} €
+            {`${reservation.numberAdults}/${reservation.numberChildrens}`}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            {reservation.price_paid} €
+            {reservation.price}€ / {reservation.price_paid}€
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
-            {reservation.observations}
+            {(() => {
+              if (reservation.observations === "") return "No";
+              return "Yes";
+            })()}
           </TableRowColumn>
           <TableRowColumn style={styles.table.tableFont.row}>
             {(() => {

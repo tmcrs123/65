@@ -7,6 +7,7 @@ import images from "../resources/images";
 import palmtree from "../resources/palmTree.png";
 import RaisedButton from "material-ui/RaisedButton/RaisedButton";
 import { Link } from "react-router-dom";
+import { colors } from "../styles/styles";
 
 class Landing extends Component {
   render() {
@@ -50,10 +51,9 @@ class Landing extends Component {
               textJustify: "kashida"
             }}
           >
-            Bacon ipsum dolor amet cow ribeye pork loin sirloin porchetta beef
-            ground round kevin pork brisket biltong. Porchetta jerky pork loin
-            ball tip, t-bone pork belly meatloaf landjaeger fatback picanha
-            meatball swine sirloin turducken.
+            Welcome to fabulous Tavira. A place of sun, sea and great food. Are
+            you ready to be amazed? Book your stay in flat 65 today. We are
+            waiting for you.
           </p>
         </div>
         <div className="container-fluid" />

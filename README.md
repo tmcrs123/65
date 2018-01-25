@@ -32,7 +32,6 @@ Main Technologies:
 * React
 * Mongo DB
 * Mocha
-* Chai
 
 Other relevant technologies and libs:
 

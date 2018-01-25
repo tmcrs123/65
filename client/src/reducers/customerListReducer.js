@@ -2,7 +2,7 @@ import {
   GET_CUSTOMER_LIST,
   SEARCH_CUSTOMER_BY_NAME,
   DELETE_CUSTOMER
-} from "../actions/TYPES2";
+} from "../actions/types";
 
 import _ from "lodash";
 

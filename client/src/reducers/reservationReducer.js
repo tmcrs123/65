@@ -1,4 +1,4 @@
-import { GET_RESERVATION } from "../actions/TYPES2";
+import { GET_RESERVATION } from "../actions/types";
 import moment from "moment";
 
 function parseDate(string) {

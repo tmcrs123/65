@@ -1,4 +1,4 @@
-import { GET_MARGIN, UPDATE_MARGIN } from "../actions/TYPES2";
+import { GET_MARGIN, UPDATE_MARGIN } from "../actions/types";
 
 export default (state = {}, action) => {
   switch (action.type) {

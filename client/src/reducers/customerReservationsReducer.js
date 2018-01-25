@@ -1,7 +1,7 @@
 import {
   GET_CUSTOMER_RESERVATIONS,
   DELETE_RESERVATION
-} from "../actions/TYPES2";
+} from "../actions/types";
 
 import _ from "lodash";
 

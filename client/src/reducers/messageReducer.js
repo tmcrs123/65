@@ -25,7 +25,7 @@ import {
   INVALID_PRICE_PAID_MESSAGE,
   SUBMIT_CUSTOMER_FORM_ERROR,
   INVALID_SAME_DATES_MESSAGE
-} from "../actions/TYPES2";
+} from "../actions/types";
 
 import { SUCCESS, ERROR, INFO } from "../helpers/constants";
 

@@ -2,7 +2,7 @@ import {
   GET_DATE_INTERVALS,
   DELETE_DATE_INTERVAL,
   SAVE_DATE_INTERVAL
-} from "../actions/TYPES2";
+} from "../actions/types";
 import _ from "lodash";
 
 export default function(state = [], action) {

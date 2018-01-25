@@ -1,4 +1,4 @@
-import { GET_DEFAULT_PRICE, UPDATE_DEFAULT_PRICE } from "../actions/TYPES2";
+import { GET_DEFAULT_PRICE, UPDATE_DEFAULT_PRICE } from "../actions/types";
 
 export default (state = {}, action) => {
   switch (action.type) {

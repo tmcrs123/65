@@ -42,7 +42,7 @@ import {
   SUBMIT_CUSTOMER_FORM_ERROR,
   INVALID_SAME_DATES_MESSAGE,
   GET_ADMIN_DASHBOARD_DATA
-} from "./TYPES2";
+} from "./types";
 
 export const fetchUser = () => dispatch => {
   axios.get("/api/user").then(res => {

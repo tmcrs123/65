@@ -1,4 +1,4 @@
-import { GET_ADMIN_DASHBOARD_DATA } from "../actions/TYPES2";
+import { GET_ADMIN_DASHBOARD_DATA } from "../actions/types";
 
 export default (state = {}, action) => {
   switch (action.type) {

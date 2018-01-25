@@ -11,6 +11,8 @@
 
 /resources/home
 /resources/landscape
+home/
+landscape/
 
 # misc
 .DS_Store

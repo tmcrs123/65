@@ -9,7 +9,8 @@
 # production
 /build
 
-/resources
+/resources/home
+/resources/landscape
 
 # misc
 .DS_Store

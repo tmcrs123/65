@@ -187,6 +187,7 @@ class CreateReservationForm extends Component {
               >
                 {this.renderMenuItems(1, 4)}
               </Field>
+              <br />
               <Field
                 name="numberChildrens"
                 label="Number of childrens"
@@ -194,6 +195,7 @@ class CreateReservationForm extends Component {
               >
                 {this.renderMenuItems(0, 3)}
               </Field>
+              <br />
               <Field
                 name="observations"
                 label="Observations"

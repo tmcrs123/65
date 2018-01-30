@@ -90,7 +90,7 @@ export const styles = {
   },
   editReservation: {
     paper: {
-      height: "500px",
+      height: "550px",
       padding: "20px",
       marginTop: "20px"
     }

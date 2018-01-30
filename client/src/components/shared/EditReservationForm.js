@@ -179,11 +179,15 @@ class CustomerEditReservationForm extends Component {
                 component={renderPriceField}
                 disabled={!this.props.isAdmin}
               />
+              <br />
               {this.renderPricePaid()}
+              <br />
               {this.renderBookingFeeText()}
             </div>
+            <br />
             <div className="col s6">
               {this.renderStatusDropdown()}
+              <br />
               <Field
                 name="numberAdults"
                 label="Number of Adults"
@@ -191,6 +195,7 @@ class CustomerEditReservationForm extends Component {
               >
                 {this.renderMenuItems(1, 4)}
               </Field>
+              <br />
               <Field
                 name="numberChildrens"
                 label="Number of childrens"
@@ -198,6 +203,7 @@ class CustomerEditReservationForm extends Component {
               >
                 {this.renderMenuItems(0, 3)}
               </Field>
+              <br />
               <Field
                 name="observations"
                 label="Observations"

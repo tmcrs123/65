@@ -48,7 +48,9 @@ class AddCustomerForm extends Component {
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
             <div className="col s6">
               <Field name="name" label="Name" component={renderTextField} />
+              <br />
               <Field name="email" label="Email" component={renderTextField} />
+              <br />
               <Field name="phone" label="Phone" component={renderTextField} />
             </div>
             <div className="col s6">

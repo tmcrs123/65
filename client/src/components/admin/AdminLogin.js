@@ -91,6 +91,10 @@ class AdminLogin extends Component {
               />
             </form>
           </Paper>
+          <div style={{ marginTop: 50 }}>
+            <h6>Email:admin@admin.admin</h6>
+            <h6>Password:admin</h6>
+          </div>
           <div />
         </div>
       </div>

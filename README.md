@@ -1,14 +1,4 @@
-<h1>Welcome to flat 65!</h1>
-
-This app is all about managing customer bookings for a flat I usually let.
-
-You can test a live version of the app <a href="https://sixtyfivedev.herokuapp.com/"><strong>here</strong></a>
-
-Let me know what you think!
-
-Cheers,
-
-Tiago
+<h1>Manage bookings</h1>
 
 <h2>User Stories</h2>
 * A customer can login with google or facebook using Oauth.
